@@ -34,7 +34,7 @@ class LikedYouView extends GetView<LikedYouController> {
               ),
             ),
             TextCustom(
-              'Liked You',
+              'like_you'.tr,
               style: AppTheme.textStyle18.white().medium(),
             ),
             InkWell(
