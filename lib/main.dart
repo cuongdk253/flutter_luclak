@@ -28,12 +28,33 @@ void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
+  // initLocalNotification();
   await initFirebase();
 
   Get.lazyPut(() => MyHttpProvider());
 
   runApp(const MyApp());
 }
+
+// initLocalNotification() async {
+//   var initializationSettingsAndroid =
+//       const AndroidInitializationSettings('logo');
+//   var initializationSettingsIOS = IOSInitializationSettings(
+//       requestAlertPermission: true,
+//       requestBadgePermission: true,
+//       requestSoundPermission: true,
+//       onDidReceiveLocalNotification:
+//           (int? id, String? title, String? body, String? payload) async {});
+//   var initializationSettings = InitializationSettings(
+//       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
+//   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+//       onSelectNotification: (String? payload) async {
+//     if (payload != null) {
+//       debugPrint('notification payload: ' + payload);
+//     }
+//   });
+// }
 
 /// Khởi tạo firebase message
 Future initFirebase() async {
@@ -52,34 +73,31 @@ Future initFirebase() async {
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
+    // RemoteNotification? notification = message.notification;
+    // AndroidNotification? android = message.notification?.android;
 
-    // ignore: prefer_const_constructors
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'fcm_notif',
-      'fcm_notif',
-      icon: 'mipmap/launcher_icon',
-      largeIcon: const DrawableResourceAndroidBitmap('mipmap/launcher_icon'),
-    );
+    // // ignore: prefer_const_constructors
+    // var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    //   'fcm_notif',
+    //   'fcm_notif',
+    //   icon: 'mipmap/launcher_icon',
+    //   largeIcon: const DrawableResourceAndroidBitmap('mipmap/launcher_icon'),
+    // );
 
-    var iOSPlatformChannelSpecifics = const IOSNotificationDetails(
-        sound: 'notification.wav',
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true);
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
+    // var iOSPlatformChannelSpecifics = const IOSNotificationDetails(
+    //     presentAlert: true, presentBadge: true, presentSound: true);
+    // var platformChannelSpecifics = NotificationDetails(
+    //     android: androidPlatformChannelSpecifics,
+    //     iOS: iOSPlatformChannelSpecifics);
 
-    if (notification != null && android != null) {
-      flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        platformChannelSpecifics,
-      );
-    }
+    // if (notification != null && android != null) {
+    //   flutterLocalNotificationsPlugin.show(
+    //     notification.hashCode,
+    //     notification.title,
+    //     notification.body,
+    //     platformChannelSpecifics,
+    //   );
+    // }
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {

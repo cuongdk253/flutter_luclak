@@ -22,7 +22,8 @@ class OtpView extends GetView<OtpController> {
   }
 
   Widget mBody(context) {
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(gradient: AppTheme.gradient),
       child: Stack(
         children: [
           Column(
@@ -66,15 +67,18 @@ class OtpView extends GetView<OtpController> {
           Positioned(
             bottom: 32,
             right: 32,
-            child: Container(
-              width: 64,
-              height: 64,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
-                color: AppTheme.colorWhite,
+            child: InkWell(
+              child: Container(
+                width: 64,
+                height: 64,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  color: AppTheme.colorWhite,
+                ),
+                child: SvgPicture.asset('assets/svgs/next.svg'),
               ),
-              child: SvgPicture.asset('assets/svgs/next.svg'),
+              onTap: () => c.onClickVerification(),
             ),
           )
         ],
@@ -108,7 +112,7 @@ class OtpView extends GetView<OtpController> {
       enableActiveFill: true,
       onChanged: (value) {},
       onCompleted: (value) {
-        // c.onClickVerification(value);
+        c.onClickVerification();
       },
     );
   }

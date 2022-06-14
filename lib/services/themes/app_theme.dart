@@ -14,8 +14,8 @@ class AppTheme {
 
   static final Color colorBlue = HexColor('#0B7EFB');
 
-  static final Color colorPrimary = HexColor('#6667AB');
-  static final Color colorSecondary = HexColor('#5C68BE');
+  static final Color colorPrimary = HexColor('#6A82FB');
+  static final Color colorSecondary = HexColor('#FC5C7D');
   static final Color colorAccent = HexColor('#E67817');
   static final Color colorRed = HexColor('#F23053');
   static final Color colorWhite = HexColor('#FFFFFF');
@@ -36,6 +36,16 @@ class AppTheme {
       width: 0.5,
       color: colorBorderLine,
     ),
+  );
+
+  static final gradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: <Color>[
+      AppTheme.colorSecondary,
+      AppTheme.colorPrimary,
+    ],
+    tileMode: TileMode.mirror,
   );
 
   static final Border borderTopLine = Border(
