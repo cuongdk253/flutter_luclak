@@ -15,7 +15,7 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.colorPrimary,
+      // backgroundColor: AppTheme.colorPrimary,
       // appBar: AppBar(
       //   title: const SizedBox(),
       //   elevation: 0.0,
@@ -26,13 +26,15 @@ class LoginView extends GetView<LoginController> {
   }
 
   Widget mBody(context) {
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(gradient: AppTheme.gradient),
       child: Stack(
         children: [
-          SizedBox(height: Get.statusBarHeight),
+          // SizedBox(height: 100,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: Get.statusBarHeight),
               Container(
                 padding: const EdgeInsets.all(32),
                 child: TextCustom(
@@ -73,13 +75,14 @@ class LoginView extends GetView<LoginController> {
                       child: TextFormField(
                         controller: c.phone,
                         style: AppTheme.textStyle18.medium(),
-                        autofocus: true,
-                        keyboardType: const TextInputType.numberWithOptions(
-                            signed: true, decimal: false),
+                        // autofocus: true,
+                        keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                         ],
                         decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 16),
                           isDense: true,
                           border: OutlineInputBorder(
                               borderSide:
