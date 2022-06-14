@@ -33,7 +33,7 @@ class OtpView extends GetView<OtpController> {
               Container(
                 padding: const EdgeInsets.all(32),
                 child: TextCustom(
-                  "Verify your number",
+                  'verify_your_number'.tr,
                   style: AppTheme.textStyle16.white().bold().copyWith(
                         fontSize: 30,
                       ),
@@ -44,11 +44,11 @@ class OtpView extends GetView<OtpController> {
                 child: RichText(
                   text: TextSpan(
                       text:
-                          'Enter the code we’ve sent by text to +84398498960. ',
+                          '${'fill_otp'.tr } ',
                       style: AppTheme.textStyle16.white(),
                       children: [
                         TextSpan(
-                            text: 'Change',
+                            text: 'change'.tr,
                             style: AppTheme.textStyle16.white().bold().copyWith(
                                   decoration: TextDecoration.underline,
                                 ),

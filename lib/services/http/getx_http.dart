@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'cmd.dart';
 
 class MyHttpProvider extends GetConnect {
-
   Map<String, String> headerSignature = {};
 
   @override
@@ -16,6 +15,24 @@ class MyHttpProvider extends GetConnect {
 
   setToken(String token) {
     headerSignature['x-access-token'] = token;
+  }
+
+  Future<dynamic> doVerifyUser(Map _body) async {
+    Response response = await post(
+      baseUrl + verifyUser,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
+  Future<dynamic> doAutoLogin(Map _body) async {
+    Response response = await post(
+      baseUrl + autoLogin,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
   }
 
   Future<dynamic> getListUserChat(Map _body) async {

@@ -10,7 +10,7 @@ class AppTheme {
 
   static final Color colorBorderLine = HexColor('#F2F2F2');
   static final Color colorBackground = HexColor('#F5F5F5');
-  static final Color colorBackground1 = HexColor('#E0E1EE');
+  static final Color colorBackground1 = HexColor('#FDF8EE');
 
   static final Color colorBlue = HexColor('#0B7EFB');
 

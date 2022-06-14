@@ -1,4 +1,4 @@
-package com.example.appchat
+package com.luclak.luclak
 
 import io.flutter.embedding.android.FlutterActivity
 

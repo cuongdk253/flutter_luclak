@@ -15,12 +15,6 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppTheme.colorPrimary,
-      // appBar: AppBar(
-      //   title: const SizedBox(),
-      //   elevation: 0.0,
-      //   backgroundColor: AppTheme.colorPrimary,
-      // ),
       body: mBody(context),
     );
   }
@@ -30,7 +24,6 @@ class LoginView extends GetView<LoginController> {
       decoration: BoxDecoration(gradient: AppTheme.gradient),
       child: Stack(
         children: [
-          // SizedBox(height: 100,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,7 +31,7 @@ class LoginView extends GetView<LoginController> {
               Container(
                 padding: const EdgeInsets.all(32),
                 child: TextCustom(
-                  "What's your number?",
+                  'whats_your_number'.tr,
                   style: AppTheme.textStyle16.white().bold().copyWith(
                         fontSize: 30,
                       ),
@@ -47,7 +40,7 @@ class LoginView extends GetView<LoginController> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: TextCustom(
-                  "We protect out community by making sure everyone on LucLac is real",
+                  'send_otp'.tr,
                   style: AppTheme.textStyle16.white(),
                 ),
               ),
@@ -55,18 +48,25 @@ class LoginView extends GetView<LoginController> {
               Row(
                 children: [
                   const SizedBox(width: 32),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: AppTheme.colorWhite,
+                  InkWell(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: AppTheme.colorWhite,
+                      ),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      height: 40,
+                      child: Row(children: [
+                        Obx(() => TextCustom(
+                              '${c.countryCode.value} ${c.phoneCode.value}',
+                              style: AppTheme.textStyle18.medium(),
+                            )),
+                        const SizedBox(width: 4),
+                        SvgPicture.asset('assets/svgs/down.svg')
+                      ]),
                     ),
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    height: 40,
-                    child: TextCustom(
-                      'VN +84',
-                      style: AppTheme.textStyle18.medium(),
-                    ),
+                    onTap: () => c.onClickPhoneCode(),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
