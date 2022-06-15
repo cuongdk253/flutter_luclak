@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../services/themes/app_theme.dart';
 import '../like_you/like_you_view.dart';
 import '../match/match_view.dart';
+import '../personal/personal_view.dart';
 import 'tab.dart';
 
 class MyTabView extends GetView<MyTabController> {
@@ -32,7 +33,7 @@ class MyTabView extends GetView<MyTabController> {
         } else if (c.tabIndex.value == 2) {
           _bodyContent = ListChatView();
         } else if (c.tabIndex.value == 3) {
-          _bodyContent = Container();
+          _bodyContent = PersonalView();
         }
 
         return _bodyContent;

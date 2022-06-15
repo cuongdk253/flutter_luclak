@@ -1,3 +1,4 @@
+import 'package:appchat/pages/login/login_view.dart';
 import 'package:appchat/services/constant.dart';
 import 'package:appchat/services/others/local_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -22,15 +23,16 @@ class SplashController extends GetxController {
     String _fcmToken = (await FirebaseMessaging.instance.getToken())!;
     if (_phone != null) {
       Map _body = {
-        "phone": _phone,
+        "username": _phone,
         "fcm_token": _fcmToken,
       };
       var _res = await _httpProvider.doAutoLogin(_body);
       if (_res != null) {
         _httpProvider.setToken(_res['accessToken']);
         Get.put(MySocketController(_phone));
-        Get.to(() => MyTabView());
+        return Get.to(() => MyTabView());
       }
     }
+    Get.to(() => LoginView());
   }
 }

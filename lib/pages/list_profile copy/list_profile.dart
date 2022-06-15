@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../services/http/getx_http.dart';
 import '../list_chat/list_chat.dart';
 
-class ChatsController extends GetxController {
+class ListProfileController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();
   final MySocketController _socket = Get.find();
 
@@ -20,17 +20,11 @@ class ChatsController extends GetxController {
   RxBool showImageGalleryBar = false.obs;
   RxBool showChatBar = false.obs;
 
-  @override
-  onInit() async {
-    super.onInit();
+  // @override
+  // onInit() async {
+  //   super.onInit();
 
-    onSocketInit();
-
-    onLoadMessage();
-
-    scrollController = ScrollController();
-    imageScrollCtrl = ScrollController();
-  }
+  // }
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {

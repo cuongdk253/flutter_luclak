@@ -28,7 +28,7 @@ class MatchesController extends GetxController {
   }
 
   onFindMatch() async {
-    Map _body = {"phone": _user.phone};
+    Map _body = {"username": _user.username};
     var _res = await _httpProvider.getFindMatch(_body);
     if (_res != null) {
       listMatch = [];
