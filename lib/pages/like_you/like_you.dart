@@ -20,7 +20,7 @@ class LikedYouController extends GetxController {
   }
 
   onLoadData() async {
-    Map _body = {"phone": _user.phone};
+    Map _body = {"username": _user.username};
     var _res = await _httpProvider.getListLiked(_body);
     if (_res != null) {
       listData.value = _res;

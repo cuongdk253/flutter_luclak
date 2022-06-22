@@ -27,7 +27,7 @@ class ListChatController extends GetxController {
   }
 
   onLoadUserChat() async {
-    Map _body = {"phone": user.phone};
+    Map _body = {"username": user.username};
     var _res = await _httpProvider.getListUserChat(_body);
     if (_res != null) {
       for (var i in _res) {
@@ -68,7 +68,7 @@ class ListChatController extends GetxController {
     myChatWith = listUserChat[index];
 
     _socket.socket!.emit('read_message',
-        {'phone': user.phone, 'chatWith': myChatWith!.userName});
+        {'username': user.username, 'chatWith': myChatWith!.userName});
 
     if (!myChatWith!.read) {
       myChatWith!.read = true;

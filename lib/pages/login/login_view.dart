@@ -21,6 +21,7 @@ class LoginView extends GetView<LoginController> {
 
   Widget mBody(context) {
     return Container(
+      width: Get.width,
       decoration: BoxDecoration(gradient: AppTheme.gradient),
       child: Stack(
         children: [

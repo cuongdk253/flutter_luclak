@@ -2,3 +2,5 @@
 class StorageKey {
   static const phoneNumber = 'phone_number';
 }
+
+enum UserRole { kol, creator }

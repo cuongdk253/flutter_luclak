@@ -23,6 +23,7 @@ class OtpView extends GetView<OtpController> {
 
   Widget mBody(context) {
     return Container(
+      width: Get.width,
       decoration: BoxDecoration(gradient: AppTheme.gradient),
       child: Stack(
         children: [

@@ -1,3 +1,4 @@
+import 'package:appchat/pages/complete_user/complete_user_view.dart';
 import 'package:appchat/pages/login/login.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,34 +13,38 @@ class OtpController extends GetxController {
 
   TextEditingController otp = TextEditingController();
 
-  // @override
-  // onInit() async {
-  //   super.onInit();
-  // }
-
   onClickBack() {
     Get.back();
   }
 
   onClickVerification() async {
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-        verificationId: _loginController.verificationId!, smsCode: otp.text);
+    try {
+      PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+          verificationId: _loginController.verificationId!, smsCode: otp.text);
 
-    String _phone =
-        _loginController.phoneCode.value + _loginController.phone.text;
+      var authCredential = await _loginController.firebaseAuth
+          .signInWithCredential(phoneAuthCredential);
 
-    final authCredential = await _loginController.firebaseAuth
-        .signInWithCredential(phoneAuthCredential);
+      if (authCredential.user != null) {
+        Map _body = {
+          "username": _loginController.username,
+          "fcm_token": _loginController.fcmToken
+        };
 
-    if (authCredential.user != null) {
-      Map _body = {"phone": _phone, "fcm_token": _loginController.fcmToken};
-
-      var _res = await _loginController.httpProvider.doVerifyUser(_body);
-      if (_res != null) {
-        SPreferentModule().setItem(StorageKey.phoneNumber, _phone);
-        _loginController.doLogin(_res['accessToken']);
+        var _res = await _loginController.httpProvider.doVerifyUser(_body);
+        if (_res != null) {
+          if (_res['user_exits'] == true) {
+            SPreferentModule()
+                .setItem(StorageKey.phoneNumber, _loginController.username);
+            _loginController.doLogin(_res['accessToken']);
+          } else {
+            Get.to(() => CompleteUserView());
+          }
+        }
+      } else {
+        throw Exception('verify_otp_fail'.tr);
       }
-    } else {
+    } catch (error) {
       AwesomeDialog(
         context: Get.context!,
         dialogType: DialogType.ERROR,

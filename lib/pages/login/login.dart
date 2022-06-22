@@ -31,6 +31,7 @@ class LoginController extends GetxController {
   RxString countryCode = 'VN'.obs;
   RxString phoneCode = '+84'.obs;
 
+  String username = '';
   String fcmToken = '';
 
   @override
@@ -55,8 +56,9 @@ class LoginController extends GetxController {
   }
 
   onClickNext() async {
+    username = phoneCode.value + phone.text;
     await firebaseAuth.verifyPhoneNumber(
-      phoneNumber: '+84${phone.text}',
+      phoneNumber: username,
       timeout: const Duration(seconds: 120),
       verificationCompleted: (phoneAuthCredential) async {},
       verificationFailed: (verificationFailed) async {

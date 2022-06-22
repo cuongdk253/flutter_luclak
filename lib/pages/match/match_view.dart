@@ -27,12 +27,12 @@ class MatchesView extends GetView<MatchesController> {
             InkWell(
               child: SvgPicture.asset('assets/svgs/menu.svg'),
             ),
-            TextCustom(
-              'Luc•Lak',
-              style: AppTheme.textStyle18.primary().medium(),
+            SvgPicture.asset(
+              'assets/svgs/logo_text.svg',
+              height: 20,
             ),
             InkWell(
-              child: SvgPicture.asset('assets/svgs/sort.svg'),
+              child: SvgPicture.asset('assets/svgs/filter.svg'),
             )
           ],
         ),
@@ -126,7 +126,7 @@ class MatchesView extends GetView<MatchesController> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                               image: NetworkImage(
-                                  baseUrl + c.currentMatch['avatar']),
+                                  baseUrl + c.currentMatch['images'][0]),
                               fit: BoxFit.cover),
                         ),
                       ),
@@ -226,14 +226,14 @@ class MatchesView extends GetView<MatchesController> {
                                   )),
                             )),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 16, left: 16, right: 16, bottom: 20),
-                            child: TextCustom(
-                              c.currentMatch['address'],
-                              style: AppTheme.textStyle18.bold(),
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(
+                          //       top: 16, left: 16, right: 16, bottom: 20),
+                          //   child: TextCustom(
+                          //     c.currentMatch['address'],
+                          //     style: AppTheme.textStyle18.bold(),
+                          //   ),
+                          // ),
                           SizedBox(
                             height: 140,
                             width: width,

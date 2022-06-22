@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appchat/services/http/post_multipart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +16,7 @@ class MyHttpProvider extends GetConnect {
 
   setToken(String token) {
     headerSignature['x-access-token'] = token;
+    HttpPostMultipart().setToken(token);
   }
 
   Future<dynamic> doVerifyUser(Map _body) async {
@@ -26,9 +28,45 @@ class MyHttpProvider extends GetConnect {
     return _handleResponse(response);
   }
 
+  Future<dynamic> doCreateUser(Map _body) async {
+    Response response = await post(
+      baseUrl + createUser,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
+  Future<dynamic> getUserInfo() async {
+    Response response = await post(
+      baseUrl + userInfo,
+      {},
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
   Future<dynamic> doAutoLogin(Map _body) async {
     Response response = await post(
       baseUrl + autoLogin,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
+  Future<dynamic> doUpdateProfile(Map _body) async {
+    Response response = await post(
+      baseUrl + updateProfile,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
+  Future<dynamic> getDetailProfile(Map _body) async {
+    Response response = await post(
+      baseUrl + detailProfile,
       _body,
       headers: headerSignature,
     );
