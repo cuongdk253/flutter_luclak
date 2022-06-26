@@ -61,6 +61,10 @@ class MyTextStyle extends TextStyle {
     );
   }
 
+  MyTextStyle italic() {
+    return copyWith1(fontStyle: FontStyle.italic);
+  }
+
   MyTextStyle copyWith1({
     bool? inherit,
     Color? color,

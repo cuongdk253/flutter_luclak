@@ -14,7 +14,7 @@ class AppTheme {
 
   static final Color colorBlue = HexColor('#0B7EFB');
 
-  static final Color colorPrimary = HexColor('#6A82FB');
+  static final Color colorPrimary = HexColor('#6667AB');
   static final Color colorSecondary = HexColor('#FC5C7D');
   static final Color colorAccent = HexColor('#E67817');
   static final Color colorRed = HexColor('#F23053');

@@ -1,4 +1,3 @@
-import 'package:appchat/pages/login/login_view.dart';
 import 'package:appchat/services/constant.dart';
 import 'package:appchat/services/others/local_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../services/http/getx_http.dart';
 import '../../services/socket/socket.dart';
+import '../authentication/login/login_view.dart';
 import '../tab/tab_view.dart';
 
 class SplashController extends GetxController {

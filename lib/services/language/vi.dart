@@ -27,4 +27,12 @@ const Map<String, String> vi = {
   "library_image": "Thư viện ảnh",
   "take_photo": "Chụp ảnh",
   "delete_image": "Xoá ảnh",
+  "search_location": "Nhập tên mã vùng hoặc quốc gia",
+  "what_are_you_looking_for": "Bạn đang tìm kiếm điều gì?",
+  "select_your_staying_preferences": "Chọn 1 trong những vài trò dưới đây",
+  "creator": "Creator",
+  "client": "Client",
+  "what_are_your_preferences": "What are your preferences?",
+  "select_your_info_and_pudget": "Chọn một số thông tin và tiền",
+  "your_pudget": "Khoảng tiền"
 };

@@ -9,13 +9,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
-import '../../services/http/getx_http.dart';
-import '../../services/socket/socket.dart';
-import '../../services/themes/app_theme.dart';
+import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
+import '../../../services/themes/app_theme.dart';
+import '../../tab/tab_view.dart';
 import '../otp/otp_view.dart';
-import '../tab/tab_view.dart';
 
-class LoginController extends GetxController {
+class Question1Controller extends GetxController {
   final MyHttpProvider httpProvider = Get.find();
 
   TextEditingController phone = TextEditingController();
@@ -140,6 +140,7 @@ class LoginController extends GetxController {
                                   borderSide:
                                       BorderSide(color: AppTheme.colorBorder),
                                   borderRadius: BorderRadius.circular(16)),
+                              hintText: 'search_location'.tr,
                               filled: true,
                               fillColor: AppTheme.colorBackground,
                             ),

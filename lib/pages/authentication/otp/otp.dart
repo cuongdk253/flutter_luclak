@@ -1,12 +1,12 @@
 import 'package:appchat/pages/complete_user/complete_user_view.dart';
-import 'package:appchat/pages/login/login.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../services/constant.dart';
-import '../../services/others/local_storage.dart';
+import '../../../services/constant.dart';
+import '../../../services/others/local_storage.dart';
+import '../login/login.dart';
 
 class OtpController extends GetxController {
   final LoginController _loginController = Get.find();

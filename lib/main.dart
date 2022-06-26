@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:appchat/components/loading/loading_controller.dart';
-import 'package:appchat/pages/splash/splash_view.dart';
+import 'package:appchat/pages/authentication/question2/question2_view.dart';
 import 'package:appchat/services/http/getx_http.dart';
 import 'package:appchat/services/language/language.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -118,9 +117,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(fontFamily: 'Nunito'),
       debugShowCheckedModeBanner: false,
       translations: LocalizationService(),
       locale: LocalizationService.locale,
@@ -131,7 +128,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('vi'), Locale('en')],
-      home: SplashView(),
+      home: Question2View(),
     );
   }
 }
