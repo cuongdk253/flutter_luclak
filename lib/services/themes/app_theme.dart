@@ -43,8 +43,10 @@ class AppTheme {
     end: Alignment.bottomRight,
     colors: <Color>[
       AppTheme.colorSecondary,
+      HexColor('#BA4F95'),
       AppTheme.colorPrimary,
     ],
+    stops: const [0.0, 0.35, 1.0],
     tileMode: TileMode.mirror,
   );
 
@@ -181,9 +183,8 @@ class AppTheme {
   static final ButtonStyle buttonPrimary = ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(colorPrimary),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-    padding:
-        MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+    padding: MaterialStateProperty.all(EdgeInsets.zero),
     overlayColor: MaterialStateProperty.all<Color>(
         const Color.fromRGBO(255, 255, 255, 0.45)),
   );
@@ -192,8 +193,8 @@ class AppTheme {
   static final ButtonStyle buttonSecondary = ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(colorSecondary),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-    padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+    padding: MaterialStateProperty.all(EdgeInsets.zero),
     overlayColor: MaterialStateProperty.all<Color>(
         const Color.fromRGBO(255, 255, 255, 0.45)),
   );
@@ -201,26 +202,11 @@ class AppTheme {
   static final ButtonStyle roundOulineButton = ButtonStyle(
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
       RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(color: AppTheme.colorBorderLine),
       ),
     ),
-    padding: MaterialStateProperty.all(
-      const EdgeInsets.all(15),
-    ),
-    backgroundColor: MaterialStateProperty.all(Colors.white),
-  );
-
-  static final ButtonStyle roundUnactiveButton = ButtonStyle(
-    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-    ),
-    padding: MaterialStateProperty.all(
-      const EdgeInsets.all(15),
-    ),
-    backgroundColor: MaterialStateProperty.all(colorBackground),
+    padding: MaterialStateProperty.all(EdgeInsets.zero),
   );
 }
 

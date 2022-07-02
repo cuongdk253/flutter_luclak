@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:appchat/components/text.dart';
-import 'package:appchat/pages/authentication/fill_phone/fill_phone_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,13 +13,9 @@ import '../../../services/http/getx_http.dart';
 import '../../../services/socket/socket.dart';
 import '../../../services/themes/app_theme.dart';
 import '../../tab/tab_view.dart';
-import '../done_create_profile/done_create_profile_view.dart';
-import '../done_create_user/done_create_user_view.dart';
 import '../otp/otp_view.dart';
-import '../step_create_profile/step_create_profile_view.dart';
-import '../step_create_user/step_create_user_view.dart';
 
-class LoginController extends GetxController {
+class DoneCreateUserController extends GetxController {
   final MyHttpProvider httpProvider = Get.find();
 
   TextEditingController phone = TextEditingController();
@@ -213,10 +208,5 @@ class LoginController extends GetxController {
     httpProvider.setToken(accessToken);
     Get.put(MySocketController(phoneCode.value + phone.text));
     Get.to(() => MyTabView());
-  }
-
-  onClickLoginByPhone() {
-    // Get.to(() => FillPhoneView());
-    Get.to(() => StepCreateUserView());
   }
 }

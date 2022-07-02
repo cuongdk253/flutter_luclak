@@ -34,5 +34,46 @@ const Map<String, String> vi = {
   "client": "Client",
   "what_are_your_preferences": "What are your preferences?",
   "select_your_info_and_pudget": "Chọn một số thông tin và tiền",
-  "your_pudget": "Khoảng tiền"
+  "your_pudget": "Khoảng tiền",
+  "login_by_apple": "Continue with Apple",
+  "login_by_google": "Continue with Google",
+  "login_by_phone": "Use cell phone number",
+  "phone_number": "Số điện thoại",
+  "what_first_name": "Hãy cho chúng tôi biết tên của bạn",
+  "cant_change_later": "You won't be able to change this later.",
+  "add_your_first_name": "Add your first name",
+  "add_first_2_photo": "Add your first 2 photos",
+  "des_add_2_photo":
+      "2 photos are better than 1, it's dating science. You can change these later",
+  "what_your_birthday": "What's your birthday?",
+  "des_your_birthday":
+      "Chọn ngày sinh của bạn để chúng tôi tìm người phù hợp giúp bạn.",
+  "what_your_gender": "Giới tính cùa bạn là gì",
+  "des_what_your_gender":
+      "Chọn giới tính của bạn, bạn có thế ko công khai giới tính",
+  "man": "Nam",
+  "women": "Nữ",
+  "nonbinary": "Đồng tính",
+  "private": "Không tiết lộ",
+  "choose_mode_to_start": "Chọn loại user để bắt đầu sử dụng",
+  "des_choose_mode_to_start":
+      "Luclak's for making all kinds of connections! You'll be able to switch modes once you're set up",
+  "des_client": "Find that spark in an emproved communyty",
+  "des_creator": "Make new fiends at every stage of your life",
+  "you_are_here": "You're here for a relationship!",
+  "des_you_are_here":
+      "Amazing. You're more likely to find someone really special if you take the time to build your profile.",
+  "build_profile": " Build profile",
+  "add_more_about_you": "Add more about you",
+  "des_add_more_about_you":
+      "Other people looking for a relationship love to see a bio that shows who you are",
+  "your_power": "Your power",
+  "des_your_power":
+      "Pick up to 3 power you had. It'll help you match with people who want to find you.",
+  "enter_more_about_you": "Enter more about you",
+  "skip": "Bỏ qua",
+  "its_to_be_coll": "IT'S COOL TO BE KIND",
+  "des_its_to_be_coll":
+      "Welcome site visitors, reply to their questions and encourage them to take some actions.\n\nIf you want to jump straight to the welcome message templates and examples, click on the goal you'd like to achieve. To learn more about the value of welcome messages, scroll down and read on.\n\nWhile most people know that a paper clip… clips paper, few realize you can use it to pick a lock, fix a zipper, or hack a phone stand to name but a few.\n\nAnd remember: We've alway got your back!\n\nWith love, The Luclak Team",
+  "i_agree": "Tôi đồng ý"
 };

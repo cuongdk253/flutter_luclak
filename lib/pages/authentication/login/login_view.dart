@@ -28,103 +28,69 @@ class LoginView extends GetView<LoginController> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: Get.statusBarHeight),
+              SizedBox(height: Get.height * 0.25),
               Container(
                 padding: const EdgeInsets.all(32),
-                child: TextCustom(
-                  'whats_your_number'.tr,
-                  style: AppTheme.textStyle16.white().bold().copyWith(
-                        fontSize: 30,
-                      ),
+                child: SvgPicture.asset('assets/svgs/logo_ngang.svg'),
+              ),
+              const SizedBox(height: 64),
+              Container(
+                height: 48,
+                width: Get.width,
+                margin: const EdgeInsets.only(left: 46, right: 46, bottom: 16),
+                child: TextButton(
+                  style: AppTheme.buttonPrimary.copyWith(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(22))),
+                    backgroundColor: MaterialStateProperty.all(Colors.black),
+                  ),
+                  onPressed: () {},
+                  child: TextCustom(
+                    'login_by_apple'.tr,
+                    style: AppTheme.textStyle18.bold().white(),
+                  ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: TextCustom(
-                  'send_otp'.tr,
-                  style: AppTheme.textStyle16.white(),
+                height: 48,
+                width: Get.width,
+                margin: const EdgeInsets.only(left: 46, right: 46, bottom: 16),
+                child: TextButton(
+                  style: AppTheme.buttonPrimary.copyWith(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(22))),
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+                  onPressed: () {},
+                  child: TextCustom(
+                    'login_by_google'.tr,
+                    style: AppTheme.textStyle18.bold(),
+                  ),
                 ),
               ),
-              const SizedBox(height: 32),
-              Row(
-                children: [
-                  const SizedBox(width: 32),
-                  InkWell(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: AppTheme.colorWhite,
-                      ),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      height: 40,
-                      child: Row(children: [
-                        Obx(() => TextCustom(
-                              '${c.countryCode.value} ${c.phoneCode.value}',
-                              style: AppTheme.textStyle18.medium(),
-                            )),
-                        const SizedBox(width: 4),
-                        SvgPicture.asset('assets/svgs/down.svg')
-                      ]),
-                    ),
-                    onTap: () => c.onClickPhoneCode(),
+              Container(
+                height: 48,
+                width: Get.width,
+                margin: const EdgeInsets.only(left: 46, right: 46, bottom: 16),
+                child: TextButton(
+                  style: AppTheme.roundOulineButton.copyWith(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22),
+                      side: BorderSide(color: AppTheme.colorWhite, width: 2),
+                    )),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: SizedBox(
-                      height: 40,
-                      child: TextFormField(
-                        controller: c.phone,
-                        style: AppTheme.textStyle18.medium(),
-                        // autofocus: true,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                        ],
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 16),
-                          isDense: true,
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: AppTheme.colorBorder),
-                              borderRadius: BorderRadius.circular(6)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: AppTheme.colorBorder),
-                              borderRadius: BorderRadius.circular(6)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: AppTheme.colorBorder),
-                              borderRadius: BorderRadius.circular(6)),
-                          filled: true,
-                          fillColor: AppTheme.colorWhite,
-                        ),
-                      ),
-                    ),
+                  onPressed: () => c.onClickLoginByPhone(),
+                  child: TextCustom(
+                    'login_by_phone'.tr,
+                    style: AppTheme.textStyle18.bold().white(),
                   ),
-                  const SizedBox(width: 32),
-                ],
-              )
+                ),
+              ),
             ],
           ),
-          Positioned(
-            bottom: 32,
-            right: 32,
-            child: InkWell(
-              child: Container(
-                width: 64,
-                height: 64,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  color: AppTheme.colorWhite,
-                ),
-                child: SvgPicture.asset('assets/svgs/next.svg'),
-              ),
-              onTap: () => c.onClickNext(),
-            ),
-          )
         ],
       ),
     );

@@ -15,7 +15,7 @@ import '../../../services/themes/app_theme.dart';
 import '../../tab/tab_view.dart';
 import '../otp/otp_view.dart';
 
-class Question2Controller extends GetxController {
+class DoneCreateProfileController extends GetxController {
   final MyHttpProvider httpProvider = Get.find();
 
   TextEditingController phone = TextEditingController();
@@ -33,9 +33,6 @@ class Question2Controller extends GetxController {
 
   String username = '';
   String fcmToken = '';
-
-  RxDouble minPudget = 0.0.obs;
-  RxDouble maxPudget = 80.0.obs;
 
   @override
   onInit() async {

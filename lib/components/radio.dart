@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 class MyRadiobox extends StatelessWidget {
   final bool isChecked;
-  final Color color;
+  final Color unSelectedColor;
+  final Color selectedColor;
+  final double size;
 
   const MyRadiobox({
     Key? key,
     this.isChecked = false,
-    this.color = Colors.white,
+    this.unSelectedColor = Colors.grey,
+    this.selectedColor = Colors.blue,
+    this.size = 20,
   }) : super(key: key);
 
   @override
@@ -19,15 +23,15 @@ class MyRadiobox extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(
-              color: color,
+              color: unSelectedColor,
               width: 2.0,
             )),
-        width: 18,
-        height: 18,
+        width: size,
+        height: size,
         child: Container(
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: isChecked ? color : Colors.transparent,
+            color: isChecked ? selectedColor : Colors.transparent,
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),

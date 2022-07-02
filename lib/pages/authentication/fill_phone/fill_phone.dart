@@ -15,7 +15,7 @@ import '../../../services/themes/app_theme.dart';
 import '../../tab/tab_view.dart';
 import '../otp/otp_view.dart';
 
-class Question1Controller extends GetxController {
+class FillPhoneController extends GetxController {
   final MyHttpProvider httpProvider = Get.find();
 
   TextEditingController phone = TextEditingController();

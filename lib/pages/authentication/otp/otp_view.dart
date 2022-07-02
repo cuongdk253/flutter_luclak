@@ -44,8 +44,7 @@ class OtpView extends GetView<OtpController> {
                 padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: RichText(
                   text: TextSpan(
-                      text:
-                          '${'fill_otp'.tr } ',
+                      text: '${'fill_otp'.tr} ',
                       style: AppTheme.textStyle16.white(),
                       children: [
                         TextSpan(
@@ -98,7 +97,7 @@ class OtpView extends GetView<OtpController> {
           const TextInputType.numberWithOptions(signed: true, decimal: false),
       pinTheme: PinTheme(
         shape: PinCodeFieldShape.box,
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(12),
         fieldHeight: 50,
         fieldWidth: 40,
         activeFillColor: AppTheme.colorWhite,
