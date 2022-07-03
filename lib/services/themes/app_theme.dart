@@ -5,8 +5,9 @@ import 'text_style.dart';
 class AppTheme {
   AppTheme._();
 
-  static final Color colorText = HexColor('#333333');
-  static final Color colorGreyText = HexColor('#727171');
+  static final Color colorText = HexColor('#FFFFFF');
+  static final Color colorGreyText = HexColor('#A1A1A1');
+  static final Color colorGreyText1 = HexColor('#555555');
 
   static final Color colorBorderLine = HexColor('#F2F2F2');
   static final Color colorBackground = HexColor('#F5F5F5');

@@ -75,5 +75,7 @@ const Map<String, String> vi = {
   "its_to_be_coll": "IT'S COOL TO BE KIND",
   "des_its_to_be_coll":
       "Welcome site visitors, reply to their questions and encourage them to take some actions.\n\nIf you want to jump straight to the welcome message templates and examples, click on the goal you'd like to achieve. To learn more about the value of welcome messages, scroll down and read on.\n\nWhile most people know that a paper clip… clips paper, few realize you can use it to pick a lock, fix a zipper, or hack a phone stand to name but a few.\n\nAnd remember: We've alway got your back!\n\nWith love, The Luclak Team",
-  "i_agree": "Tôi đồng ý"
+  "i_agree": "Tôi đồng ý",
+  "description": "Mô tả",
+  "power": "Thế mạnh",
 };
