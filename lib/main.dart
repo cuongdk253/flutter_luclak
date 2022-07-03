@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:appchat/components/loading/loading_controller.dart';
-import 'package:appchat/pages/authentication/login/login_view.dart';
+import 'package:appchat/pages/splash/splash_view.dart';
 import 'package:appchat/services/http/getx_http.dart';
 import 'package:appchat/services/language/language.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -128,7 +128,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('vi'), Locale('en')],
-      home: LoginView(),
+      home: SplashView(),
     );
   }
 }

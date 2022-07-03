@@ -55,6 +55,24 @@ class MyHttpProvider extends GetConnect {
     return _handleResponse(response);
   }
 
+  Future<dynamic> doUpdateUser(Map _body) async {
+    Response response = await post(
+      baseUrl + updateUser,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
+  Future<dynamic> doCreateProfile(Map _body) async {
+    Response response = await post(
+      baseUrl + createProfile,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
   Future<dynamic> doUpdateProfile(Map _body) async {
     Response response = await post(
       baseUrl + updateProfile,

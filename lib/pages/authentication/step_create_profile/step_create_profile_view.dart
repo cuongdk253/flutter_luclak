@@ -1,12 +1,10 @@
-import 'package:appchat/components/check.dart';
 import 'package:appchat/components/text.dart';
 import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../components/radio.dart';
+import '../../../services/http/cmd.dart';
 import 'step_create_profile.dart';
 
 class StepCreateProfileView extends GetView<StepCreateProfileController> {
@@ -16,8 +14,11 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: mBody(context),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: mBody(context),
+      ),
     );
   }
 
@@ -46,33 +47,36 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                       color: Colors.white),
                 )),
           ),
-          // _step1(),
-          _step2(),
+          SlideTransition(
+            position: c.offsetAnimation,
+            child: Obx(() {
+              if (c.step.value == 1) {
+                return _step1();
+              } else if (c.step.value == 2) {
+                return _step2();
+              } else if (c.step.value == 3) {
+                return _step3();
+              }
+              return Container();
+            }),
+          ),
           Positioned(
             bottom: 32,
             right: 32,
             child: InkWell(
-              child: Container(
-                width: 64,
-                height: 64,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  color: AppTheme.colorWhite,
-                ),
-                child: SvgPicture.asset('assets/svgs/next.svg'),
-              ),
-              onTap: () => c.onClickNext(),
-            ),
-          ),
-          Positioned(
-            bottom: 48,
-            left: 32,
-            child: InkWell(
-              child: TextCustom(
-                'skip'.tr,
-                style: AppTheme.textStyle16.bold().white(),
-              ),
+              child: Obx(() => Opacity(
+                    opacity: c.canNext.value ? 1.0 : 0.5,
+                    child: Container(
+                      width: 64,
+                      height: 64,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(32),
+                        color: AppTheme.colorWhite,
+                      ),
+                      child: SvgPicture.asset('assets/svgs/next.svg'),
+                    ),
+                  )),
               onTap: () => c.onClickNext(),
             ),
           )
@@ -126,6 +130,7 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                     fillColor: AppTheme.colorWhite,
                     hintText: 'add_your_first_name'.tr,
                   ),
+                  onChanged: (value) => c.onChangeAbout(),
                 ),
               ),
             ),
@@ -137,6 +142,106 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
   }
 
   Widget _step2() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: Get.statusBarHeight),
+        Container(
+          padding: const EdgeInsets.all(32),
+          child: TextCustom(
+            'add_first_2_photo'.tr,
+            style: AppTheme.textStyle16.white().bold().copyWith(
+                  fontSize: 30,
+                ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: TextCustom(
+            'des_add_2_photo'.tr,
+            style: AppTheme.textStyle16.white(),
+          ),
+        ),
+        const SizedBox(height: 64),
+        Expanded(
+          child: GetBuilder<StepCreateProfileController>(
+            id: c.idUpdateImage,
+            builder: (_) => Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(width: 32),
+                Expanded(child: _step2Image(0)),
+                const SizedBox(width: 16),
+                Expanded(child: _step2Image(1)),
+                const SizedBox(width: 32),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _step2Image(index) {
+    var item = c.listImage[index];
+    return InkWell(
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          Container(
+            height: (Get.width - 80) * 0.6,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppTheme.colorBackground),
+                color: AppTheme.colorBackground,
+                image: item['image_url'] != ''
+                    ? DecorationImage(
+                        image: NetworkImage(baseUrlIP + item['image_url']),
+                        fit: BoxFit.cover,
+                      )
+                    : null),
+          ),
+          Positioned(
+            top: 0,
+            child: Obx(() => item['uploading'].value == true
+                ? Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      Container(
+                        height: (Get.width - 80) * 0.6,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black.withOpacity(0.3),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: CircularProgressIndicator(
+                          backgroundColor: AppTheme.colorWhite.withOpacity(0.3),
+                          color: AppTheme.colorPrimary,
+                          value: item['process'].value,
+                        ),
+                      ),
+                    ],
+                  )
+                : item['image_url'] == ''
+                    ? SizedBox(
+                        height: (Get.width - 80) * 0.6,
+                        child: SvgPicture.asset(
+                          'assets/svgs/plus.svg',
+                          color: AppTheme.colorGreyText,
+                        ),
+                      )
+                    : const SizedBox()),
+          )
+        ],
+      ),
+      onTap: () => c.onClickImage(index),
+    );
+  }
+
+  Widget _step3() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

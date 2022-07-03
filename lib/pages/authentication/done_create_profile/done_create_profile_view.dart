@@ -1,8 +1,6 @@
 import 'package:appchat/components/text.dart';
 import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'done_create_profile.dart';

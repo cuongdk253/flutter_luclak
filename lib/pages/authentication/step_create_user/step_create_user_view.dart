@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -15,8 +14,11 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: mBody(context),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: mBody(context),
+      ),
     );
   }
 
@@ -57,8 +59,6 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
                 return _step3();
               } else if (c.step.value == 4) {
                 return _step4();
-              } else if (c.step.value == 5) {
-                return _step5();
               }
               return Container();
             }),
@@ -152,63 +152,6 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
         Container(
           padding: const EdgeInsets.all(32),
           child: TextCustom(
-            'add_first_2_photo'.tr,
-            style: AppTheme.textStyle16.white().bold().copyWith(
-                  fontSize: 30,
-                ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: TextCustom(
-            'des_add_2_photo'.tr,
-            style: AppTheme.textStyle16.white(),
-          ),
-        ),
-        const SizedBox(height: 64),
-        Row(
-          children: [
-            const SizedBox(width: 32),
-            Expanded(
-              child: Container(
-                height: (Get.width - 80) * 0.6,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppTheme.colorWhite,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                alignment: Alignment.center,
-                child: SvgPicture.asset('assets/svgs/plus.svg'),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Container(
-                height: (Get.width - 80) * 0.6,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppTheme.colorWhite,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                alignment: Alignment.center,
-                child: SvgPicture.asset('assets/svgs/plus.svg'),
-              ),
-            ),
-            const SizedBox(width: 32),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _step3() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: Get.statusBarHeight),
-        Container(
-          padding: const EdgeInsets.all(32),
-          child: TextCustom(
             'what_your_birthday'.tr,
             style: AppTheme.textStyle16.white().bold().copyWith(
                   fontSize: 30,
@@ -223,57 +166,61 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
           ),
         ),
         const SizedBox(height: 64),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 44,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppTheme.colorWhite,
+        InkWell(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 44,
+                width: 54,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorWhite,
+                ),
+                alignment: Alignment.center,
+                child: Obx(() => TextCustom(
+                      c.birthDay.value,
+                      style: AppTheme.textStyle18.bold(),
+                    )),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              alignment: Alignment.center,
-              child: TextCustom(
-                '25',
-                style: AppTheme.textStyle18.bold(),
+              const SizedBox(width: 20),
+              Container(
+                height: 44,
+                width: 54,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorWhite,
+                ),
+                alignment: Alignment.center,
+                child: Obx(() => TextCustom(
+                      c.birthMonth.value,
+                      style: AppTheme.textStyle18.bold(),
+                    )),
               ),
-            ),
-            const SizedBox(width: 20),
-            Container(
-              height: 44,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppTheme.colorWhite,
+              const SizedBox(width: 20),
+              Container(
+                height: 44,
+                width: 76,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorWhite,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                alignment: Alignment.center,
+                child: Obx(() => TextCustom(
+                      c.birthYear.value,
+                      style: AppTheme.textStyle18.bold(),
+                    )),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              alignment: Alignment.center,
-              child: TextCustom(
-                '03',
-                style: AppTheme.textStyle18.bold(),
-              ),
-            ),
-            const SizedBox(width: 20),
-            Container(
-              height: 44,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppTheme.colorWhite,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              alignment: Alignment.center,
-              child: TextCustom(
-                '1995',
-                style: AppTheme.textStyle18.bold(),
-              ),
-            ),
-          ],
+            ],
+          ),
+          onTap: () => c.onClickBirthday(),
         )
       ],
     );
   }
 
-  Widget _step4() {
+  Widget _step3() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -333,7 +280,7 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
     );
   }
 
-  Widget _step5() {
+  Widget _step4() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

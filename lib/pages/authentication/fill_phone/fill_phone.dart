@@ -2,28 +2,20 @@ import 'dart:convert';
 
 import 'package:appchat/components/text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
-import '../../../services/http/getx_http.dart';
-import '../../../services/socket/socket.dart';
 import '../../../services/themes/app_theme.dart';
-import '../../tab/tab_view.dart';
+import '../login/login.dart';
 import '../otp/otp_view.dart';
 
 class FillPhoneController extends GetxController {
-  final MyHttpProvider httpProvider = Get.find();
+  final LoginController _loginController = Get.find();
 
   TextEditingController phone = TextEditingController();
   TextEditingController countrySearch = TextEditingController();
-
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
-  String? verificationId;
 
   List listPhoneCode = [];
   RxList listPhoneCodeShow = [].obs;
@@ -31,19 +23,11 @@ class FillPhoneController extends GetxController {
   RxString countryCode = 'VN'.obs;
   RxString phoneCode = '+84'.obs;
 
-  String username = '';
-  String fcmToken = '';
-
   @override
   onInit() async {
     super.onInit();
 
-    loadData();
     loadPhoneCode();
-  }
-
-  loadData() async {
-    fcmToken = (await FirebaseMessaging.instance.getToken())!;
   }
 
   loadPhoneCode() async {
@@ -56,12 +40,13 @@ class FillPhoneController extends GetxController {
   }
 
   onClickNext() async {
-    username = phoneCode.value + phone.text;
-    await firebaseAuth.verifyPhoneNumber(
-      phoneNumber: username,
+    _loginController.username = phoneCode.value + phone.text;
+    await _loginController.firebaseAuth.verifyPhoneNumber(
+      phoneNumber: _loginController.username,
       timeout: const Duration(seconds: 120),
       verificationCompleted: (phoneAuthCredential) async {},
       verificationFailed: (verificationFailed) async {
+        debugPrint(verificationFailed.toString());
         AwesomeDialog(
           context: Get.context!,
           dialogType: DialogType.WARNING,
@@ -72,7 +57,7 @@ class FillPhoneController extends GetxController {
         ).show();
       },
       codeSent: (_verificationId, resendingToken) async {
-        verificationId = _verificationId;
+        _loginController.verificationId = _verificationId;
         Get.to(() => OtpView());
       },
       codeAutoRetrievalTimeout: (verificationId) async {
@@ -202,11 +187,5 @@ class FillPhoneController extends GetxController {
       ),
       isScrollControlled: true,
     );
-  }
-
-  doLogin(String accessToken) {
-    httpProvider.setToken(accessToken);
-    Get.put(MySocketController(phoneCode.value + phone.text));
-    Get.to(() => MyTabView());
   }
 }

@@ -1,7 +1,6 @@
 import 'package:appchat/components/text.dart';
 import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -14,8 +13,11 @@ class DoneCreateUserView extends GetView<DoneCreateUserController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: mBody(context),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: mBody(context),
+      ),
     );
   }
 

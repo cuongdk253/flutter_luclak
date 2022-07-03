@@ -1,27 +1,19 @@
-import 'dart:convert';
-
 import 'package:appchat/components/text.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:appchat/pages/authentication/done_create_user/done_create_user_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:tiengviet/tiengviet.dart';
 
 import '../../../services/http/getx_http.dart';
-import '../../../services/socket/socket.dart';
 import '../../../services/themes/app_theme.dart';
-import '../../tab/tab_view.dart';
-import '../otp/otp_view.dart';
 
 class StepCreateUserController extends GetxController
     with GetTickerProviderStateMixin {
-  final MyHttpProvider httpProvider = Get.find();
+  final MyHttpProvider _httpProvider = Get.find();
 
   TextEditingController fullName = TextEditingController();
 
-  RxDouble processStep = 0.2.obs;
+  RxDouble processStep = 0.25.obs;
 
   List listGender = [
     {'code': 'male', 'name': 'man'.tr, 'checked': false},
@@ -52,6 +44,12 @@ class StepCreateUserController extends GetxController
 
   RxBool canNext = false.obs;
 
+  int idUpdateImage = 1;
+
+  RxString birthDay = 'DD'.obs;
+  RxString birthMonth = 'MM'.obs;
+  RxString birthYear = 'YYYY'.obs;
+
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 300),
     vsync: this,
@@ -65,135 +63,104 @@ class StepCreateUserController extends GetxController
     curve: Curves.linear,
   ));
 
-  @override
-  onInit() async {
-    super.onInit();
-
-    loadData();
-  }
-
-  loadData() async {}
-
   onClickNext() async {
     if (canNext.value) {
-      canNext.value = false;
+      if (step.value < 4) {
+        canNext.value = false;
 
-      _controller.forward();
+        _controller.forward();
 
-      await Future.delayed(const Duration(milliseconds: 300));
-      step.value += 1;
-      processStep.value += 0.2;
+        await Future.delayed(const Duration(milliseconds: 300));
+        step.value += 1;
+        processStep.value += 0.25;
 
-      _controller.reset();
+        _controller.reset();
+      } else {
+        doUpdateUserAndNext();
+      }
     }
   }
 
-  onClickPhoneCode() {
-    // Get.bottomSheet(
-    //   SafeArea(
-    //     child: Container(
-    //       margin: EdgeInsets.only(
-    //           top: MediaQuery.of(Get.context!).padding.top + 16),
-    //       child: ClipRRect(
-    //         borderRadius: const BorderRadius.only(
-    //           topLeft: Radius.circular(12),
-    //           topRight: Radius.circular(12),
-    //         ),
-    //         child: Container(
-    //           color: AppTheme.colorWhite,
-    //           child: SizedBox(
-    //             height: Get.height,
-    //             width: Get.width,
-    //             child: Column(children: [
-    //               Container(
-    //                 padding: const EdgeInsets.all(16),
-    //                 decoration:
-    //                     BoxDecoration(border: AppTheme.borderBottomLine),
-    //                 child: Row(children: [
-    //                   Expanded(
-    //                     child: SizedBox(
-    //                       height: 40,
-    //                       child: TextFormField(
-    //                         controller: countrySearch,
-    //                         style: AppTheme.textStyle,
-    //                         decoration: InputDecoration(
-    //                           contentPadding: const EdgeInsets.symmetric(
-    //                               vertical: 12, horizontal: 16),
-    //                           isDense: true,
-    //                           border: OutlineInputBorder(
-    //                               borderSide:
-    //                                   BorderSide(color: AppTheme.colorBorder),
-    //                               borderRadius: BorderRadius.circular(16)),
-    //                           enabledBorder: OutlineInputBorder(
-    //                               borderSide:
-    //                                   BorderSide(color: AppTheme.colorBorder),
-    //                               borderRadius: BorderRadius.circular(16)),
-    //                           focusedBorder: OutlineInputBorder(
-    //                               borderSide:
-    //                                   BorderSide(color: AppTheme.colorBorder),
-    //                               borderRadius: BorderRadius.circular(16)),
-    //                           hintText: 'search_location'.tr,
-    //                           filled: true,
-    //                           fillColor: AppTheme.colorBackground,
-    //                         ),
-    //                         onChanged: (value) => onListPhoneCodeChange(),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                   const SizedBox(width: 16),
-    //                   TextButton(
-    //                       onPressed: () => Get.back(),
-    //                       child: TextCustom(
-    //                         'Cancel',
-    //                         style: AppTheme.textStyle16.medium(),
-    //                       ))
-    //                 ]),
-    //               ),
-    //               Expanded(
-    //                 child: Obx(() => ListView(
-    //                       children: List.generate(
-    //                         listPhoneCodeShow.length,
-    //                         (index) => InkWell(
-    //                           child: Container(
-    //                             padding: const EdgeInsets.symmetric(
-    //                                 vertical: 12, horizontal: 16),
-    //                             decoration: BoxDecoration(
-    //                                 border: AppTheme.borderBottomLine),
-    //                             child: Row(
-    //                               mainAxisAlignment:
-    //                                   MainAxisAlignment.spaceBetween,
-    //                               children: [
-    //                                 TextCustom(
-    //                                   listPhoneCodeShow[index]['name'],
-    //                                   style: AppTheme.textStyle16.medium(),
-    //                                 ),
-    //                                 TextCustom(
-    //                                   listPhoneCodeShow[index]['phone_code'],
-    //                                   style: AppTheme.textStyle16.medium(),
-    //                                 )
-    //                               ],
-    //                             ),
-    //                           ),
-    //                           onTap: () {
-    //                             Get.back();
-    //                             var _obj = listPhoneCodeShow[index];
-    //                             if (_obj != null) {
-    //                               countryCode.value = _obj['country_code'];
-    //                               phoneCode.value = _obj['phone_code'];
-    //                             }
-    //                           },
-    //                         ),
-    //                       ),
-    //                     )),
-    //               )
-    //             ]),
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    //   isScrollControlled: true,
-    // );
+  onClickBirthday() async {
+    DateTime _myBirth = DateTime(
+      int.tryParse(birthYear.value) ?? 1995,
+      int.tryParse(birthMonth.value) ?? 1,
+      int.tryParse(birthDay.value) ?? 1,
+    );
+    await Get.bottomSheet(
+      SizedBox(
+        height: 220,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Container(
+                  height: 52,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom:
+                          BorderSide(width: 1, color: AppTheme.colorDisable),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: Get.width,
+                        child: TextCustom(
+                          'birth'.tr,
+                          style: AppTheme.textStyle16.medium(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: InkWell(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: TextCustom(
+                              'Xong',
+                              style: AppTheme.textStyle16.medium().secondary(),
+                            ),
+                          ),
+                          onTap: () => Get.back(),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: CupertinoDatePicker(
+                    key: UniqueKey(),
+                    onDateTimeChanged: (DateTime value) => _myBirth = value,
+                    initialDateTime: _myBirth,
+                    mode: CupertinoDatePickerMode.date,
+                    maximumDate: DateTime(DateTime.now().year,
+                        DateTime.now().month, DateTime.now().day, 23, 59, 59),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    birthDay.value = _myBirth.day > 9
+        ? _myBirth.day.toString()
+        : '0${_myBirth.day.toString()}';
+    birthMonth.value = _myBirth.month > 9
+        ? _myBirth.month.toString()
+        : '0${_myBirth.month.toString()}';
+    birthYear.value = _myBirth.year.toString();
+
+    canNext.value = true;
   }
 
   onClickGender(String _genderCode) {
@@ -205,6 +172,7 @@ class StepCreateUserController extends GetxController
         i['checked'] = false;
       }
     }
+    canNext.value = true;
   }
 
   onClickUserType(String _userTypeCode) {
@@ -216,11 +184,27 @@ class StepCreateUserController extends GetxController
         i['checked'] = false;
       }
     }
+
+    canNext.value = true;
   }
 
   onChangeName() {
     if (fullName.text != '') {
       canNext.value = true;
+    }
+  }
+
+  doUpdateUserAndNext() async {
+    Map _body = {
+      "name": fullName.text,
+      "birth": "${birthDay.value}-${birthMonth.value}-${birthYear.value}",
+      "gender": genderCode.value,
+      "type": userTypeCode.value
+    };
+
+    var _res = await _httpProvider.doUpdateUser(_body);
+    if (_res != null) {
+      Get.to(() => DoneCreateUserView());
     }
   }
 }

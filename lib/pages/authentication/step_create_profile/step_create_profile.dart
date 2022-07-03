@@ -1,26 +1,36 @@
-import 'dart:convert';
-
 import 'package:appchat/components/text.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:appchat/pages/authentication/done_create_profile/done_create_profile_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:tiengviet/tiengviet.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../services/http/getx_http.dart';
-import '../../../services/socket/socket.dart';
+import '../../../services/http/post_multipart.dart';
 import '../../../services/themes/app_theme.dart';
-import '../../tab/tab_view.dart';
-import '../otp/otp_view.dart';
 
-class StepCreateProfileController extends GetxController {
-  final MyHttpProvider httpProvider = Get.find();
+class StepCreateProfileController extends GetxController
+    with GetTickerProviderStateMixin {
+  final MyHttpProvider _httpProvider = Get.find();
+  final ImagePicker _imagePicker = ImagePicker();
 
   TextEditingController aboutYou = TextEditingController();
 
-  RxDouble processStep = 0.3.obs;
+  RxDouble processStep = 0.34.obs;
+
+  List listImage = [
+    {
+      'image_url': '',
+      'uploading': false.obs,
+      'process': 0.0.obs,
+    },
+    {
+      'image_url': '',
+      'uploading': false.obs,
+      'process': 0.0.obs,
+    },
+  ].obs;
+
+  List listUrlImage = [];
 
   List listPower = [
     {'name': 'Photograp', 'checked': false},
@@ -37,127 +47,206 @@ class StepCreateProfileController extends GetxController {
 
   RxString power = ''.obs;
 
-  @override
-  onInit() async {
-    super.onInit();
+  RxBool canNext = false.obs;
 
-    loadData();
+  int idUpdateImage = 2;
+
+  RxInt step = 1.obs;
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(milliseconds: 300),
+    vsync: this,
+  );
+
+  late final Animation<Offset> offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(-1.5, 0.0),
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.linear,
+  ));
+
+  onClickNext() async {
+    if (canNext.value) {
+      if (step.value < 3) {
+        canNext.value = false;
+
+        _controller.forward();
+
+        await Future.delayed(const Duration(milliseconds: 300));
+        step.value += 1;
+        processStep.value += 0.33;
+
+        _controller.reset();
+      } else {
+        doUpdateProfileAndNext();
+      }
+    }
   }
 
-  loadData() async {}
+  onClickImage(int index) {
+    if (listImage[index]['image_url'] != '') {
+      Get.bottomSheet(
+        SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                child: Container(
+                  height: 48,
+                  width: Get.width,
+                  alignment: Alignment.center,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: AppTheme.gradient),
+                  child: TextCustom(
+                    'delete_image'.tr,
+                    style: AppTheme.textStyle16.medium().white(),
+                  ),
+                ),
+                onTap: () async {
+                  Get.back();
 
-  onClickNext() async {}
+                  listImage[index]['image_url'] = '';
+                  canNext.value = false;
+                  update([idUpdateImage]);
+                },
+              ),
+              const SizedBox(height: 16)
+            ],
+          ),
+        ),
+      );
+    } else {
+      Get.bottomSheet(
+        SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                child: Container(
+                  height: 48,
+                  width: Get.width,
+                  alignment: Alignment.center,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: AppTheme.gradient),
+                  child: TextCustom(
+                    'library_image'.tr,
+                    style: AppTheme.textStyle16.medium().white(),
+                  ),
+                ),
+                onTap: () async {
+                  Get.back();
+                  uploadImage(ImageSource.gallery, index);
+                },
+              ),
+              InkWell(
+                child: Container(
+                  height: 48,
+                  width: Get.width,
+                  alignment: Alignment.center,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: AppTheme.gradient),
+                  child: TextCustom(
+                    'take_photo'.tr,
+                    style: AppTheme.textStyle16.medium().white(),
+                  ),
+                ),
+                onTap: () async {
+                  Get.back();
+                  uploadImage(ImageSource.camera, index);
+                },
+              ),
+              const SizedBox(height: 16)
+            ],
+          ),
+        ),
+      );
+    }
+  }
 
-  onClickPhoneCode() {
-    // Get.bottomSheet(
-    //   SafeArea(
-    //     child: Container(
-    //       margin: EdgeInsets.only(
-    //           top: MediaQuery.of(Get.context!).padding.top + 16),
-    //       child: ClipRRect(
-    //         borderRadius: const BorderRadius.only(
-    //           topLeft: Radius.circular(12),
-    //           topRight: Radius.circular(12),
-    //         ),
-    //         child: Container(
-    //           color: AppTheme.colorWhite,
-    //           child: SizedBox(
-    //             height: Get.height,
-    //             width: Get.width,
-    //             child: Column(children: [
-    //               Container(
-    //                 padding: const EdgeInsets.all(16),
-    //                 decoration:
-    //                     BoxDecoration(border: AppTheme.borderBottomLine),
-    //                 child: Row(children: [
-    //                   Expanded(
-    //                     child: SizedBox(
-    //                       height: 40,
-    //                       child: TextFormField(
-    //                         controller: countrySearch,
-    //                         style: AppTheme.textStyle,
-    //                         decoration: InputDecoration(
-    //                           contentPadding: const EdgeInsets.symmetric(
-    //                               vertical: 12, horizontal: 16),
-    //                           isDense: true,
-    //                           border: OutlineInputBorder(
-    //                               borderSide:
-    //                                   BorderSide(color: AppTheme.colorBorder),
-    //                               borderRadius: BorderRadius.circular(16)),
-    //                           enabledBorder: OutlineInputBorder(
-    //                               borderSide:
-    //                                   BorderSide(color: AppTheme.colorBorder),
-    //                               borderRadius: BorderRadius.circular(16)),
-    //                           focusedBorder: OutlineInputBorder(
-    //                               borderSide:
-    //                                   BorderSide(color: AppTheme.colorBorder),
-    //                               borderRadius: BorderRadius.circular(16)),
-    //                           hintText: 'search_location'.tr,
-    //                           filled: true,
-    //                           fillColor: AppTheme.colorBackground,
-    //                         ),
-    //                         onChanged: (value) => onListPhoneCodeChange(),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                   const SizedBox(width: 16),
-    //                   TextButton(
-    //                       onPressed: () => Get.back(),
-    //                       child: TextCustom(
-    //                         'Cancel',
-    //                         style: AppTheme.textStyle16.medium(),
-    //                       ))
-    //                 ]),
-    //               ),
-    //               Expanded(
-    //                 child: Obx(() => ListView(
-    //                       children: List.generate(
-    //                         listPhoneCodeShow.length,
-    //                         (index) => InkWell(
-    //                           child: Container(
-    //                             padding: const EdgeInsets.symmetric(
-    //                                 vertical: 12, horizontal: 16),
-    //                             decoration: BoxDecoration(
-    //                                 border: AppTheme.borderBottomLine),
-    //                             child: Row(
-    //                               mainAxisAlignment:
-    //                                   MainAxisAlignment.spaceBetween,
-    //                               children: [
-    //                                 TextCustom(
-    //                                   listPhoneCodeShow[index]['name'],
-    //                                   style: AppTheme.textStyle16.medium(),
-    //                                 ),
-    //                                 TextCustom(
-    //                                   listPhoneCodeShow[index]['phone_code'],
-    //                                   style: AppTheme.textStyle16.medium(),
-    //                                 )
-    //                               ],
-    //                             ),
-    //                           ),
-    //                           onTap: () {
-    //                             Get.back();
-    //                             var _obj = listPhoneCodeShow[index];
-    //                             if (_obj != null) {
-    //                               countryCode.value = _obj['country_code'];
-    //                               phoneCode.value = _obj['phone_code'];
-    //                             }
-    //                           },
-    //                         ),
-    //                       ),
-    //                     )),
-    //               )
-    //             ]),
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    //   isScrollControlled: true,
-    // );
+  uploadImage(ImageSource source, int index) async {
+    final pickedFile = await _imagePicker.pickImage(source: source);
+
+    listImage[index]['uploading'].value = true;
+
+    var _res = await HttpPostMultipart().doUploadImage(
+        path: pickedFile!.path,
+        onUploadProgress: (value) {
+          listImage[index]['process'].value = value;
+        });
+
+    listImage[index]['uploading'].value = false;
+
+    if (_res != null) {
+      listImage[index]['image_url'] = _res['path'];
+    }
+
+    update([idUpdateImage]);
+
+    listUrlImage = [];
+
+    for (var i in listImage) {
+      if (i['image_url'] != '') {
+        listUrlImage.add(i['image_url']);
+      }
+    }
+
+    if (listUrlImage.length > 1) {
+      canNext.value = true;
+    }
   }
 
   onClickPower(int index) {
     listPower[index]['checked'] = !listPower[index]['checked'];
+
+    int _powerCount = 0;
+
+    for (var i in listPower) {
+      if (i['checked'] == true) {
+        _powerCount++;
+      }
+    }
+    if (_powerCount > 2) {
+      canNext.value = true;
+    } else {
+      canNext.value = false;
+    }
     update();
+  }
+
+  onChangeAbout() {
+    if (aboutYou.text != '') {
+      canNext.value = true;
+    }
+  }
+
+  doUpdateProfileAndNext() async {
+    List<String> _listPower = [];
+    for (var i in listPower) {
+      if (i['checked'] == true) {
+        _listPower.add(i['name']);
+      }
+    }
+    Map _body = {
+      "about": aboutYou.text,
+      "images": listUrlImage,
+      "powers": _listPower
+    };
+
+    debugPrint(_body.toString());
+
+    var _res = await _httpProvider.doCreateProfile(_body);
+    if (_res != null) {
+      Get.to(() => DoneCreateProfileView());
+    }
   }
 }
