@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../services/constant.dart';
 import '../../services/others/local_storage.dart';
-import '../login/login.dart';
+import '../authentication/login/login.dart';
 
 class CompleteUserController extends GetxController {
   final LoginController _loginController = Get.find();

@@ -5,8 +5,9 @@ import 'text_style.dart';
 class AppTheme {
   AppTheme._();
 
-  static final Color colorText = HexColor('#333333');
-  static final Color colorGreyText = HexColor('#727171');
+  static final Color colorText = HexColor('#FFFFFF');
+  static final Color colorGreyText = HexColor('#A1A1A1');
+  static final Color colorGreyText1 = HexColor('#555555');
 
   static final Color colorBorderLine = HexColor('#F2F2F2');
   static final Color colorBackground = HexColor('#F5F5F5');
@@ -14,7 +15,7 @@ class AppTheme {
 
   static final Color colorBlue = HexColor('#0B7EFB');
 
-  static final Color colorPrimary = HexColor('#6A82FB');
+  static final Color colorPrimary = HexColor('#6667AB');
   static final Color colorSecondary = HexColor('#FC5C7D');
   static final Color colorAccent = HexColor('#E67817');
   static final Color colorRed = HexColor('#F23053');
@@ -43,8 +44,10 @@ class AppTheme {
     end: Alignment.bottomRight,
     colors: <Color>[
       AppTheme.colorSecondary,
+      HexColor('#BA4F95'),
       AppTheme.colorPrimary,
     ],
+    stops: const [0.0, 0.35, 1.0],
     tileMode: TileMode.mirror,
   );
 
@@ -181,9 +184,8 @@ class AppTheme {
   static final ButtonStyle buttonPrimary = ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(colorPrimary),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-    padding:
-        MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+    padding: MaterialStateProperty.all(EdgeInsets.zero),
     overlayColor: MaterialStateProperty.all<Color>(
         const Color.fromRGBO(255, 255, 255, 0.45)),
   );
@@ -192,8 +194,8 @@ class AppTheme {
   static final ButtonStyle buttonSecondary = ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(colorSecondary),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-    padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+    padding: MaterialStateProperty.all(EdgeInsets.zero),
     overlayColor: MaterialStateProperty.all<Color>(
         const Color.fromRGBO(255, 255, 255, 0.45)),
   );
@@ -201,26 +203,11 @@ class AppTheme {
   static final ButtonStyle roundOulineButton = ButtonStyle(
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
       RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(color: AppTheme.colorBorderLine),
       ),
     ),
-    padding: MaterialStateProperty.all(
-      const EdgeInsets.all(15),
-    ),
-    backgroundColor: MaterialStateProperty.all(Colors.white),
-  );
-
-  static final ButtonStyle roundUnactiveButton = ButtonStyle(
-    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-    ),
-    padding: MaterialStateProperty.all(
-      const EdgeInsets.all(15),
-    ),
-    backgroundColor: MaterialStateProperty.all(colorBackground),
+    padding: MaterialStateProperty.all(EdgeInsets.zero),
   );
 }
 

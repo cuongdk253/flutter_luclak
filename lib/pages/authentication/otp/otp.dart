@@ -1,12 +1,11 @@
-import 'package:appchat/pages/complete_user/complete_user_view.dart';
-import 'package:appchat/pages/login/login.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../services/constant.dart';
-import '../../services/others/local_storage.dart';
+import '../../../services/constant.dart';
+import '../../../services/others/local_storage.dart';
+import '../login/login.dart';
 
 class OtpController extends GetxController {
   final LoginController _loginController = Get.find();
@@ -33,13 +32,9 @@ class OtpController extends GetxController {
 
         var _res = await _loginController.httpProvider.doVerifyUser(_body);
         if (_res != null) {
-          if (_res['user_exits'] == true) {
-            SPreferentModule()
-                .setItem(StorageKey.phoneNumber, _loginController.username);
-            _loginController.doLogin(_res['accessToken']);
-          } else {
-            Get.to(() => CompleteUserView());
-          }
+          SPreferentModule()
+              .setItem(StorageKey.phoneNumber, _loginController.username);
+          _loginController.doLogin(_res);
         }
       } else {
         throw Exception('verify_otp_fail'.tr);

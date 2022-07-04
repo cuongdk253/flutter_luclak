@@ -1,9 +1,12 @@
+import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../models/user.dart';
 import '../../services/http/getx_http.dart';
 
-class MatchesController extends GetxController {
+class MatchesController extends GetxController
+    with GetTickerProviderStateMixin {
   final MyHttpProvider _httpProvider = Get.find();
 
   final User _user = User();
@@ -20,9 +23,47 @@ class MatchesController extends GetxController {
 
   RxBool loaded = false.obs;
 
+  RxBool menuClose = true.obs;
+
+  RxInt imageSlideIndex = 0.obs;
+
+  RxDouble scrollBarPercentHeight = 0.0.obs;
+  RxDouble scrollBarPercentHeightPosition = 0.0.obs;
+
+  ScrollController scrollController = ScrollController();
+  ScrollController imageSlideController = ScrollController();
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(milliseconds: 200),
+    vsync: this,
+  );
+  late final Animation<double> animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOut,
+  );
+
   @override
   onReady() async {
     super.onReady();
+
+    scrollController.addListener(() {
+      double _cardHeight =
+          Get.height - Get.statusBarHeight - Get.bottomBarHeight;
+      double _maxScroll = scrollController.position.maxScrollExtent;
+
+      if (scrollBarPercentHeight.value == 0.0) {
+        scrollBarPercentHeight.value = _cardHeight / (_maxScroll + _cardHeight);
+      }
+
+      scrollBarPercentHeightPosition.value =
+          scrollController.offset / _maxScroll;
+    });
+
+    imageSlideController.addListener(() {
+      final extentAfter = imageSlideController.position.extentAfter;
+
+      debugPrint(extentAfter.toString());
+    });
 
     onFindMatch();
   }
@@ -68,5 +109,36 @@ class MatchesController extends GetxController {
 
   onClickDecline() {
     handleDrag(Get.width);
+  }
+
+  onClickCloseMenu() async {
+    menuClose.value = !menuClose.value;
+
+    if (menuClose.value) {
+      _controller.reset();
+      _controller.forward();
+    } else {
+      _controller.reset();
+    }
+  }
+
+  onSlideImage() {
+    double _imageWidth = Get.width - 60;
+    int _index = (imageSlideController.offset / _imageWidth).round();
+    // imageSlideIndex.value = _index;
+
+    // debugPrint((_imageWidth * _index).toString());
+
+    // imageSlideController.animateTo(1000,
+    //     duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+
+    return onSlideToIndexImage(_index);
+  }
+
+  onSlideToIndexImage(index) {
+    imageSlideIndex.value = index;
+    double _imageWidth = Get.width - 60;
+    imageSlideController.animateTo(_imageWidth * index,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 }

@@ -5,12 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import 'login.dart';
+import 'fill_phone.dart';
 
-class LoginView extends GetView<LoginController> {
-  final LoginController c = Get.put(LoginController());
+class FillPhoneView extends GetView<FillPhoneController> {
+  final FillPhoneController c = Get.put(FillPhoneController());
 
-  LoginView({Key? key}) : super(key: key);
+  FillPhoneView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,53 +52,50 @@ class LoginView extends GetView<LoginController> {
                   InkWell(
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(12),
                         color: AppTheme.colorWhite,
                       ),
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      height: 40,
+                      height: 44,
                       child: Row(children: [
                         Obx(() => TextCustom(
                               '${c.countryCode.value} ${c.phoneCode.value}',
                               style: AppTheme.textStyle18.medium(),
                             )),
                         const SizedBox(width: 4),
-                        SvgPicture.asset('assets/svgs/down.svg')
+                        SvgPicture.asset(
+                          'assets/svgs/down.svg',
+                          color: AppTheme.colorText,
+                        )
                       ]),
                     ),
                     onTap: () => c.onClickPhoneCode(),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: SizedBox(
-                      height: 40,
+                    child: Container(
+                      height: 44,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: AppTheme.colorWhite,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      alignment: Alignment.center,
                       child: TextFormField(
                         controller: c.phone,
                         style: AppTheme.textStyle18.medium(),
-                        // autofocus: true,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                         ],
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 16),
+                          contentPadding: EdgeInsets.zero,
                           isDense: true,
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: AppTheme.colorBorder),
-                              borderRadius: BorderRadius.circular(6)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: AppTheme.colorBorder),
-                              borderRadius: BorderRadius.circular(6)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: AppTheme.colorBorder),
-                              borderRadius: BorderRadius.circular(6)),
+                          border: InputBorder.none,
                           filled: true,
                           fillColor: AppTheme.colorWhite,
+                          hintText: 'phone_number'.tr,
                         ),
                       ),
                     ),
