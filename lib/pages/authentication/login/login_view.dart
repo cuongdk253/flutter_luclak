@@ -65,7 +65,7 @@ class LoginView extends GetView<LoginController> {
                   onPressed: () {},
                   child: TextCustom(
                     'login_by_google'.tr,
-                    style: AppTheme.textStyle18.bold(),
+                    style: AppTheme.textStyle18.bold().blue(),
                   ),
                 ),
               ),

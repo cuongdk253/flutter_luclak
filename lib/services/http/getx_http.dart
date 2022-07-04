@@ -109,6 +109,15 @@ class MyHttpProvider extends GetConnect {
     return _handleResponse(response);
   }
 
+  Future<dynamic> getListReview(Map _body) async {
+    Response response = await post(
+      baseUrl + listReview,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
   Future<dynamic> getListLiked(Map _body) async {
     Response response = await post(
       baseUrl + listLiked,

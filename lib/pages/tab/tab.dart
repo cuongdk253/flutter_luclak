@@ -5,8 +5,11 @@ class MyTabController extends GetxController {
   // final MyHttpProvider _httpProvider = Get.find();
 
   final myTab = [
-    {'icon': 'assets/svgs/swipe.svg'},
-    {'icon': 'assets/svgs/history.svg'},
+    {
+      'icon': 'assets/svgs/search_tab.svg',
+      'icon_active': 'assets/svgs/search_tab_active.svg'
+    },
+    {'icon': 'assets/svgs/heart.svg'},
     {'icon': 'assets/svgs/chat.svg'},
     {'icon': 'assets/svgs/user.svg'},
   ];

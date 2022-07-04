@@ -78,4 +78,21 @@ const Map<String, String> vi = {
   "i_agree": "Tôi đồng ý",
   "description": "Mô tả",
   "power": "Thế mạnh",
+  "time_to_catch": "Time to catch feelings",
+  "des_time_to_catch":
+      "Exciting! People will be able to see your profile once you start swiping. We hope you have fun finding your person.",
+  "start_swiping": "Start swiping",
+  "push_time": "Lượt tăng tốc",
+  "des_push_time":
+      "Đẩy hồ sơ của bạn lên top đầu khu vực trong 30 phút để được tương hợp nhiều hơn",
+  "popular": "Phổ biến",
+  "turn": "lượt",
+  "OR": "HOẶC",
+  "buy_luclak_premium": "MUA LUCLAK PREMIUM",
+  "one_free_push_per_month": "1 lượt tăng tốc miễn phí mỗi 1 tháng",
+  "review": "Reviews",
+  "no_review": "Chưa có lượt review nào! :(",
+  "minute_ago": "phút trước",
+  "hour_ago": "giờ trước",
+  "now_ago": "vừa xong",
 };

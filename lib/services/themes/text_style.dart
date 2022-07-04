@@ -19,6 +19,12 @@ class MyTextStyle extends TextStyle {
     );
   }
 
+  MyTextStyle textDark() {
+    return copyWith1(
+      color: AppTheme.colorTextDark,
+    );
+  }
+
   MyTextStyle green() {
     return copyWith1(
       color: AppTheme.colorGreen,

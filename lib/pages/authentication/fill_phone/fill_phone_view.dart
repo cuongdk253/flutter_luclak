@@ -61,12 +61,12 @@ class FillPhoneView extends GetView<FillPhoneController> {
                       child: Row(children: [
                         Obx(() => TextCustom(
                               '${c.countryCode.value} ${c.phoneCode.value}',
-                              style: AppTheme.textStyle18.medium(),
+                              style: AppTheme.textStyle18.medium().textDark(),
                             )),
                         const SizedBox(width: 4),
                         SvgPicture.asset(
                           'assets/svgs/down.svg',
-                          color: AppTheme.colorText,
+                          color: AppTheme.colorTextDark,
                         )
                       ]),
                     ),
@@ -84,7 +84,7 @@ class FillPhoneView extends GetView<FillPhoneController> {
                       alignment: Alignment.center,
                       child: TextFormField(
                         controller: c.phone,
-                        style: AppTheme.textStyle18.medium(),
+                        style: AppTheme.textStyle18.medium().textDark(),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))

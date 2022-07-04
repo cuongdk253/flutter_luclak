@@ -1,5 +1,4 @@
 import 'package:appchat/components/check.dart';
-import 'package:appchat/components/currency.dart';
 import 'package:appchat/components/image_decoration.dart';
 import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/material.dart';
@@ -20,29 +19,73 @@ class MatchesView extends GetView<MatchesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.colorWhite,
-      appBar: AppBar(
-        backgroundColor: AppTheme.colorWhite,
-        centerTitle: true,
-        leadingWidth: 0,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              child: SvgPicture.asset('assets/svgs/menu.svg'),
-            ),
-            SvgPicture.asset(
-              'assets/svgs/logo_text.svg',
-              height: 20,
-            ),
-            InkWell(
-              child: SvgPicture.asset('assets/svgs/filter.svg'),
-            )
-          ],
-        ),
-      ),
+      backgroundColor: AppTheme.colorBackgroundHeader,
+      appBar: mAppBar(),
       body: mBody(context),
+    );
+  }
+
+  AppBar mAppBar() {
+    return AppBar(
+      backgroundColor: AppTheme.colorBackgroundHeader,
+      centerTitle: true,
+      leadingWidth: 0,
+      elevation: 0,
+      leading: const SizedBox(),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 60,
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              child: SvgPicture.asset('assets/svgs/flash.svg'),
+            ),
+          ),
+          InkWell(
+            child: ShaderMask(
+              shaderCallback: (bounds) {
+                return AppTheme.gradient.createShader(bounds);
+              },
+              child: SvgPicture.asset(
+                'assets/svgs/logo_text.svg',
+                height: 30,
+                color: AppTheme.colorWhite,
+              ),
+            ),
+            onTap: () => c.onClickLogo(),
+          ),
+          InkWell(
+            // child: SvgPicture.asset('assets/svgs/filter.svg'),
+            child: Container(
+              height: 32,
+              width: 60,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: AppTheme.colorGreyText)),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: AppTheme.colorBackgroundCard),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svgs/coin.svg',
+                      height: 14,
+                    ),
+                    const SizedBox(width: 3),
+                    TextCustom(
+                      '10',
+                      style: AppTheme.textStyle.bold(),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -89,8 +132,10 @@ class MatchesView extends GetView<MatchesController> {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        stops: const [0.0, 0.8, 1.0],
+                        stops: const [0.0, 0.2, 0.5, 0.8, 1.0],
                         colors: [
+                          Colors.black.withOpacity(0.6),
+                          Colors.black.withOpacity(0.2),
                           Colors.black.withOpacity(0.0),
                           Colors.black.withOpacity(0.2),
                           Colors.black.withOpacity(0.6),
@@ -144,8 +189,10 @@ class MatchesView extends GetView<MatchesController> {
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                stops: const [0.0, 0.7, 1.0],
+                                stops: const [0.0, 0.15, 0.4, 0.7, 1.0],
                                 colors: [
+                                  Colors.black.withOpacity(0.6),
+                                  Colors.black.withOpacity(0.3),
                                   Colors.black.withOpacity(0.0),
                                   Colors.black.withOpacity(0.2),
                                   Colors.black.withOpacity(0.8),
@@ -156,30 +203,34 @@ class MatchesView extends GetView<MatchesController> {
                           Positioned(
                             top: 16,
                             left: 18,
-                            child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      TextCustom(
-                                        c.currentMatch['name'],
-                                        style:
-                                            AppTheme.textStyle20.bold().white(),
-                                      ),
-                                      const SizedBox(height: 2),
-                                      myStarRate(14, c.currentMatch['rate'])
-                                    ],
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Container(
-                                    padding: const EdgeInsets.only(top: 4),
-                                    child: MyCheckbox(
-                                        isChecked: true,
-                                        selectedColor: AppTheme.colorBlue),
-                                  )
-                                ]),
+                            child: InkWell(
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextCustom(
+                                          c.currentMatch['name'],
+                                          style: AppTheme.textStyle20
+                                              .bold()
+                                              .white(),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        myStarRate(14, c.currentMatch['rate'])
+                                      ],
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.only(top: 4),
+                                      child: MyCheckbox(
+                                          isChecked: true,
+                                          selectedColor: AppTheme.colorBlue),
+                                    )
+                                  ]),
+                              onTap: () => c.onClickReview(),
+                            ),
                           ),
                           Positioned(
                             top: 16,
@@ -202,12 +253,11 @@ class MatchesView extends GetView<MatchesController> {
                                               ),
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
-                                                    image: myImageDecoration(
-                                                        c.currentMatch[
-                                                            'avatar'])),
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
+                                                  image: myImageDecoration(
+                                                      c.currentMatch['avatar']),
+                                                ),
                                               ),
                                             ),
                                             Positioned(
@@ -233,7 +283,7 @@ class MatchesView extends GetView<MatchesController> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(25),
-                                              color: AppTheme.colorText,
+                                              color: AppTheme.colorTextDark,
                                             ),
                                             child: SvgPicture.asset(
                                               'assets/svgs/close.svg',
@@ -256,7 +306,7 @@ class MatchesView extends GetView<MatchesController> {
                                     ),
                                     child: SvgPicture.asset(
                                       'assets/svgs/chat1.svg',
-                                      color: AppTheme.colorText,
+                                      color: AppTheme.colorTextDark,
                                     ),
                                   ),
                                 ),
@@ -273,7 +323,7 @@ class MatchesView extends GetView<MatchesController> {
                                     ),
                                     child: SvgPicture.asset(
                                       'assets/svgs/phone.svg',
-                                      color: AppTheme.colorText,
+                                      color: AppTheme.colorTextDark,
                                     ),
                                   ),
                                 ),
@@ -290,7 +340,7 @@ class MatchesView extends GetView<MatchesController> {
                                     ),
                                     child: SvgPicture.asset(
                                       'assets/svgs/mail.svg',
-                                      color: AppTheme.colorText,
+                                      color: AppTheme.colorTextDark,
                                     ),
                                   ),
                                 ),

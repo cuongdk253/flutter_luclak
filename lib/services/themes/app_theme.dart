@@ -6,11 +6,15 @@ class AppTheme {
   AppTheme._();
 
   static final Color colorText = HexColor('#FFFFFF');
+  static final Color colorTextDark = HexColor('#333333');
   static final Color colorGreyText = HexColor('#A1A1A1');
   static final Color colorGreyText1 = HexColor('#555555');
 
   static final Color colorBorderLine = HexColor('#F2F2F2');
   static final Color colorBackground = HexColor('#F5F5F5');
+  static final Color colorBackgroundDark = HexColor('#292929');
+  static final Color colorBackgroundHeader = HexColor('#1A1A1A');
+  static final Color colorBackgroundCard = HexColor('#343434');
   static final Color colorBackground1 = HexColor('#FDF8EE');
 
   static final Color colorBlue = HexColor('#0B7EFB');

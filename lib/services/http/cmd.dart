@@ -18,5 +18,6 @@ const String listUserChat = 'list_match';
 const String listMessage = 'list_message';
 const String listLiked = 'list_liked';
 const String listUserFind = 'find_match';
+const String listReview = 'list_review';
 
 const String uploadImage = 'upload_image';
