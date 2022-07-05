@@ -30,7 +30,7 @@ class TextCustom extends StatelessWidget {
     return Text(
       title,
       textAlign: textAlign,
-      style: style ?? AppTheme.textStyle,
+      style: style ?? AppTheme.textStyleDark,
       overflow: textOverflow,
       maxLines: maxLine,
     );

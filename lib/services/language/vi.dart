@@ -95,4 +95,8 @@ const Map<String, String> vi = {
   "minute_ago": "phút trước",
   "hour_ago": "giờ trước",
   "now_ago": "vừa xong",
+  "add_your_description": "Mô tả qua về con người của bạn!!!",
+  "des_like_you": "You've got no likes right now. See how to get more!",
+  "you_liked": "Bạn thích",
+  "see_who_like_you": "Xem ai thích bạn",
 };

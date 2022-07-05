@@ -1,3 +1,4 @@
+import 'package:appchat/pages/authentication/step_create_user/step_create_user_view.dart';
 import 'package:appchat/services/constant.dart';
 import 'package:appchat/services/others/local_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -30,7 +31,11 @@ class SplashController extends GetxController {
       if (_res != null) {
         _httpProvider.setToken(_res['accessToken']);
         Get.put(MySocketController(_phone));
-        return Get.to(() => MyTabView());
+        if (_res['user_validate'] == true) {
+          return Get.to(() => MyTabView());
+        } else {
+          return Get.to(() => StepCreateUserView());
+        }
       }
     }
     Get.to(() => LoginView());

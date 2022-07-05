@@ -124,7 +124,7 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
                 alignment: Alignment.center,
                 child: TextFormField(
                   controller: c.fullName,
-                  style: AppTheme.textStyle18.medium(),
+                  style: AppTheme.textStyle18.medium().textDark(),
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.zero,
                     isDense: true,
@@ -180,7 +180,7 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
                 alignment: Alignment.center,
                 child: Obx(() => TextCustom(
                       c.birthDay.value,
-                      style: AppTheme.textStyle18.bold(),
+                      style: AppTheme.textStyle18.bold().textDark(),
                     )),
               ),
               const SizedBox(width: 20),
@@ -194,7 +194,7 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
                 alignment: Alignment.center,
                 child: Obx(() => TextCustom(
                       c.birthMonth.value,
-                      style: AppTheme.textStyle18.bold(),
+                      style: AppTheme.textStyle18.bold().textDark(),
                     )),
               ),
               const SizedBox(width: 20),
@@ -209,7 +209,7 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
                 alignment: Alignment.center,
                 child: Obx(() => TextCustom(
                       c.birthYear.value,
-                      style: AppTheme.textStyle18.bold(),
+                      style: AppTheme.textStyle18.bold().textDark(),
                     )),
               ),
             ],
@@ -260,7 +260,7 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
                               Expanded(
                                 child: TextCustom(
                                   c.listGender[index]['name'],
-                                  style: AppTheme.textStyle18.bold(),
+                                  style: AppTheme.textStyle18.bold().textDark(),
                                 ),
                               ),
                               MyCheckbox(
@@ -324,12 +324,12 @@ class StepCreateUserView extends GetView<StepCreateUserController> {
                           children: [
                             TextCustom(
                               c.listUserType[index]['name'],
-                              style: AppTheme.textStyle18.bold(),
+                              style: AppTheme.textStyle18.bold().textDark(),
                             ),
                             const SizedBox(height: 4),
                             TextCustom(
                               c.listUserType[index]['description'],
-                              style: AppTheme.textStyle16,
+                              style: AppTheme.textStyle16.textDark(),
                             )
                           ],
                         ),

@@ -19,16 +19,14 @@ class SplashView extends GetView<SplashController> {
   }
 
   Widget mBody() {
-    return SizedBox(
-      child: Stack(
-        children: [
-          Center(
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 48),
-              child: SvgPicture.asset('assets/svgs/logo_doc.svg'),
-            ),
-          ),
-        ],
+    return Container(
+      width: Get.width,
+      height: Get.height,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(gradient: AppTheme.gradient),
+      child: SvgPicture.asset(
+        'assets/svgs/logo_doc.svg',
+        color: AppTheme.colorWhite,
       ),
     );
   }
