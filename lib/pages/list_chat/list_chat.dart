@@ -19,6 +19,9 @@ class ListChatController extends GetxController {
   ChatUserModel? myChatWith;
   int currentIndexChatUser = -1;
 
+  RxList listData = [].obs;
+  RxList listDataMatchQueue = [].obs;
+
   @override
   onReady() {
     super.onReady();
@@ -29,13 +32,18 @@ class ListChatController extends GetxController {
   onLoadUserChat() async {
     Map _body = {"username": user.username};
     var _res = await _httpProvider.getListUserChat(_body);
-    if (_res != null) {
-      for (var i in _res) {
-        ChatUserModel _obj = ChatUserModel().setData(i);
-        listUserChat.add(_obj);
-      }
+    // if (_res != null) {
+    //   for (var i in _res) {
+    //     ChatUserModel _obj = ChatUserModel().setData(i);
+    //     listUserChat.add(_obj);
+    //   }
+    // }
+    // update();
+
+    if (_res != null && _res.length > 0) {
+      // for(var i in _res) {}
+      listData.value = _res;
     }
-    update();
   }
 
   onSocketInit() {

@@ -93,7 +93,7 @@ class FillPhoneController extends GetxController {
               topRight: Radius.circular(12),
             ),
             child: Container(
-              color: AppTheme.colorWhite,
+              color: AppTheme.colorBackgroundCard,
               child: SizedBox(
                 height: Get.height,
                 width: Get.width,
@@ -126,8 +126,9 @@ class FillPhoneController extends GetxController {
                                       BorderSide(color: AppTheme.colorBorder),
                                   borderRadius: BorderRadius.circular(16)),
                               hintText: 'search_location'.tr,
+                              hintStyle: AppTheme.textStyle.grey(),
                               filled: true,
-                              fillColor: AppTheme.colorBackground,
+                              fillColor: AppTheme.colorBackgroundCard,
                             ),
                             onChanged: (value) => onListPhoneCodeChange(),
                           ),
@@ -137,7 +138,7 @@ class FillPhoneController extends GetxController {
                       TextButton(
                           onPressed: () => Get.back(),
                           child: TextCustom(
-                            'Cancel',
+                            'cancel'.tr,
                             style: AppTheme.textStyle16.medium(),
                           ))
                     ]),

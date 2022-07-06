@@ -24,7 +24,7 @@ class SplashController extends GetxController {
     String _fcmToken = (await FirebaseMessaging.instance.getToken())!;
     if (_phone != null) {
       Map _body = {
-        "username": _phone,
+        "username": _phone.replaceAll('+', ''),
         "fcm_token": _fcmToken,
       };
       var _res = await _httpProvider.doAutoLogin(_body);

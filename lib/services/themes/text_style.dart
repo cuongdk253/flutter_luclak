@@ -31,6 +31,12 @@ class MyTextStyle extends TextStyle {
     );
   }
 
+  MyTextStyle yellow() {
+    return copyWith1(
+      color: AppTheme.colorYellow,
+    );
+  }
+
   MyTextStyle white() {
     return copyWith1(
       color: AppTheme.colorWhite,

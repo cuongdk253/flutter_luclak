@@ -29,7 +29,7 @@ class MatchesController extends GetxController
 
   RxBool loaded = false.obs;
 
-  RxBool menuClose = true.obs;
+  RxBool menuClose = false.obs;
 
   RxInt imageSlideIndex = 0.obs;
 
@@ -215,6 +215,8 @@ class MatchesController extends GetxController
                                   ),
                                   const SizedBox(width: 10),
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       TextCustom(
                                         _res[index]['user_name'],

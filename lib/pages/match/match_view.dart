@@ -155,7 +155,8 @@ class MatchesView extends GetView<MatchesController> {
                                               .white(),
                                         ),
                                         const SizedBox(height: 2),
-                                        myStarRate(14, c.currentMatch['rate'])
+                                        myStarRate(14,
+                                            c.currentMatch['rate'].toDouble())
                                       ],
                                     ),
                                     const SizedBox(width: 8),

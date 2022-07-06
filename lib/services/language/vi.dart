@@ -99,4 +99,11 @@ const Map<String, String> vi = {
   "des_like_you": "You've got no likes right now. See how to get more!",
   "you_liked": "Bạn thích",
   "see_who_like_you": "Xem ai thích bạn",
+  "cancel": "Hủy",
+  "match_queue": "Match Queue",
+  "conversation": "Conversations",
+  "resent": "Resent",
+  "conversation_expire_in": "Conversation expires in",
+  "hours": "hours",
+  "your_move": "YOUR MOVE"
 };
