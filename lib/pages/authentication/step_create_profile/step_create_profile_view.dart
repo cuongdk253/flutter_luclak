@@ -120,7 +120,7 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                 alignment: Alignment.center,
                 child: TextFormField(
                   controller: c.aboutYou,
-                  style: AppTheme.textStyle18.medium(),
+                  style: AppTheme.textStyle18.medium().textDark(),
                   maxLines: 3,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.zero,
@@ -128,7 +128,7 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                     border: InputBorder.none,
                     filled: true,
                     fillColor: AppTheme.colorWhite,
-                    hintText: 'add_your_first_name'.tr,
+                    hintText: 'add_your_description'.tr,
                   ),
                   onChanged: (value) => c.onChangeAbout(),
                 ),
@@ -281,7 +281,7 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                     ),
                     child: TextCustom(
                       c.listPower[index]['name'],
-                      style: AppTheme.textStyle16.medium(),
+                      style: AppTheme.textStyle16.medium().textDark(),
                     ),
                   ),
                   onTap: () => c.onClickPower(index),

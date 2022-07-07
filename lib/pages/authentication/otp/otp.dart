@@ -26,7 +26,7 @@ class OtpController extends GetxController {
 
       if (authCredential.user != null) {
         Map _body = {
-          "username": _loginController.username,
+          "username": _loginController.username.replaceAll('+', ''),
           "fcm_token": _loginController.fcmToken
         };
 

@@ -57,7 +57,7 @@ class DoneCreateProfileView extends GetView<DoneCreateProfileController> {
                     color: AppTheme.colorWhite),
                 child: TextCustom(
                   'i_agree'.tr,
-                  style: AppTheme.textStyle16.bold(),
+                  style: AppTheme.textStyle16.bold().textDark(),
                 ),
               ),
               onTap: () => c.onClickNext(),

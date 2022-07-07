@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:appchat/services/http/cmd.dart';
+import 'package:appchat/components/image_decoration.dart';
+import 'package:appchat/pages/header_bar/header_bar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../components/text.dart';
@@ -17,35 +17,8 @@ class LikedYouView extends GetView<LikedYouController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.colorWhite,
-      appBar: AppBar(
-        backgroundColor: AppTheme.colorPrimary,
-        centerTitle: true,
-        leadingWidth: 0,
-        elevation: 0,
-        leading: const SizedBox(),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              child: SvgPicture.asset(
-                'assets/svgs/menu.svg',
-                color: AppTheme.colorWhite,
-              ),
-            ),
-            TextCustom(
-              'like_you'.tr,
-              style: AppTheme.textStyle18.white().medium(),
-            ),
-            InkWell(
-              child: SvgPicture.asset(
-                'assets/svgs/sort.svg',
-                color: AppTheme.colorWhite,
-              ),
-            )
-          ],
-        ),
-      ),
+      backgroundColor: AppTheme.colorBackgroundHeader,
+      appBar: HeaderBarView(),
       body: mBody(context),
     );
   }
@@ -53,89 +26,161 @@ class LikedYouView extends GetView<LikedYouController> {
   Widget mBody(context) {
     return Stack(
       children: [
-        Container(
-          height: 100,
-          width: Get.width,
-          color: AppTheme.colorPrimary,
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            height: Get.height,
-            width: Get.width,
-            color: AppTheme.colorWhite,
-            padding: const EdgeInsets.all(6),
-            child: Obx(() => Wrap(
-                  children: List.generate(
-                    c.listData.length,
-                    (index) => Container(
-                      margin: const EdgeInsets.all(6),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Stack(children: [
-                          Container(
-                            height: Get.width * 0.6,
-                            width: (Get.width - 36) / 2,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      baseUrl + c.listData[index]['avatar']),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          Container(
-                            height: Get.width * 0.6,
-                            width: (Get.width - 36) / 2,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                stops: const [0.0, 0.8, 1.0],
-                                colors: [
-                                  Colors.black.withOpacity(0.0),
-                                  Colors.black.withOpacity(0.2),
-                                  Colors.black.withOpacity(0.6),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 8,
-                            left: 8,
-                            child: TextCustom(
-                              c.listData[index]['name'],
-                              style: AppTheme.textStyle16.medium().white(),
-                            ),
-                          ),
-                          BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
-                            child: Container(
-                              height: Get.width * 0.6,
-                              width: (Get.width - 36) / 2,
-                              color: Colors.grey.withOpacity(0.1),
-                              alignment: Alignment.center,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 8,
-                            left: 8,
-                            child: Container(
-                              width: c.listData[index]['name'].length.toDouble() * 9.0,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppTheme.colorWhite,
-                              ),
-                            ),
-                          ),
-                        ]),
-                      ),
-                    ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                const SizedBox(height: 16),
+                TextCustom(
+                  'like_you'.tr,
+                  style: AppTheme.textStyle.copyWith(fontSize: 30),
+                ),
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: TextCustom(
+                    'des_like_you'.tr,
+                    style: AppTheme.textStyle16.medium(),
+                    textAlign: TextAlign.center,
                   ),
-                )),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  height: 2,
+                  width: Get.width,
+                  color: AppTheme.colorGreyText,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Obx(() => Row(
+                        children: [
+                          InkWell(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: !c.youLike.value
+                                    ? AppTheme.colorPrimary
+                                    : Colors.transparent,
+                              ),
+                              child: TextCustom(
+                                'like_you'.tr,
+                                style: AppTheme.textStyle16.medium(),
+                              ),
+                            ),
+                            onTap: () => c.onClickTab(false),
+                          ),
+                          const SizedBox(width: 8),
+                          InkWell(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: c.youLike.value
+                                    ? AppTheme.colorPrimary
+                                    : Colors.transparent,
+                              ),
+                              child: TextCustom(
+                                'you_liked'.tr,
+                                style: AppTheme.textStyle16,
+                              ),
+                            ),
+                            onTap: () => c.onClickTab(true),
+                          )
+                        ],
+                      )),
+                )
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Obx(() => Wrap(
+                      children: List.generate(
+                        c.listData.length,
+                        (index) => _item(index),
+                      ),
+                    )),
+              ),
+            )
+          ],
+        ),
+        Positioned(
+          bottom: 16,
+          right: 32,
+          left: 32,
+          child: InkWell(
+            child: Container(
+              height: 44,
+              width: Get.width,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  gradient: AppTheme.gradient),
+              child: TextCustom(
+                'see_who_like_you'.tr,
+                style: AppTheme.textStyle18.bold().white(),
+              ),
+            ),
+            onTap: () => c.onClickSeeWhoLikeYou(),
           ),
         )
       ],
+    );
+  }
+
+  Widget _item(index) {
+    var _item = c.listData[index];
+    bool blur = _item['me'] == false;
+
+    return Container(
+      margin: const EdgeInsets.all(8),
+      height: ((Get.width - 48) / 2) * 1.2,
+      width: (Get.width - 48) / 2,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: myImageDecoration(_item['profile_image']),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.0, 0.8, 1.0],
+                colors: [
+                  Colors.black.withOpacity(0.0),
+                  Colors.black.withOpacity(0.3),
+                  Colors.black.withOpacity(0.6),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: TextCustom(_item['user_name']),
+          ),
+          blur
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+                    child: SizedBox(
+                      height: ((Get.width - 48) / 2) * 1.2,
+                      width: (Get.width - 48) / 2,
+                    ),
+                  ),
+                )
+              : const SizedBox()
+        ],
+      ),
     );
   }
 }

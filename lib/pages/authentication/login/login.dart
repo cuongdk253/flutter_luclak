@@ -42,16 +42,5 @@ class LoginController extends GetxController {
 
   onClickLoginByPhone() async {
     Get.to(() => FillPhoneView());
-    // Map _body = {"username": "+84398498960", "fcm_token": fcmToken};
-
-    // var _res = await httpProvider.doVerifyUser(_body);
-
-    // // doLogin(_res);
-    // if (_res != null) {
-    //   httpProvider.setToken(_res['access_token']);
-    //   Get.put(MySocketController("+84398498960"));
-
-    //   Get.to(() => StepCreateUserView());
-    // }
   }
 }

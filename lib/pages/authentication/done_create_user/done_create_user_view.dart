@@ -52,12 +52,15 @@ class DoneCreateUserView extends GetView<DoneCreateUserController> {
               children: [
                 TextCustom(
                   'you_are_here'.tr,
-                  style: AppTheme.textStyle.bold().copyWith(fontSize: 30),
+                  style: AppTheme.textStyle
+                      .bold()
+                      .textDark()
+                      .copyWith(fontSize: 30),
                 ),
                 const SizedBox(height: 16),
                 TextCustom(
                   'des_you_are_here'.tr,
-                  style: AppTheme.textStyle18,
+                  style: AppTheme.textStyle18.textDark(),
                 )
               ],
             ),

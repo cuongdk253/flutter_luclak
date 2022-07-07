@@ -43,7 +43,7 @@ class MyTabView extends GetView<MyTabController> {
 
   Widget mTab() {
     return Container(
-      color: AppTheme.colorWhite,
+      color: AppTheme.colorBackgroundHeader,
       child: Obx(() => SafeArea(
             child: SizedBox(
               height: 64,
@@ -55,11 +55,15 @@ class MyTabView extends GetView<MyTabController> {
                     child: TextButton(
                       onPressed: () => c.onClickTab(index),
                       child: SvgPicture.asset(
-                        c.myTab[index]['icon']!,
+                        index == 0
+                            ? c.myTab[index]['icon_active']!
+                            : c.myTab[index]['icon']!,
                         width: 32,
                         height: 32,
                         color: index == c.tabIndex.value
-                            ? AppTheme.colorSecondary
+                            ? index != 0
+                                ? AppTheme.colorSecondary
+                                : null
                             : AppTheme.colorGreyText,
                       ),
                     ),

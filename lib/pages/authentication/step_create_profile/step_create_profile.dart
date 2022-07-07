@@ -176,32 +176,34 @@ class StepCreateProfileController extends GetxController
   uploadImage(ImageSource source, int index) async {
     final pickedFile = await _imagePicker.pickImage(source: source);
 
-    listImage[index]['uploading'].value = true;
+    if (pickedFile != null) {
+      listImage[index]['uploading'].value = true;
 
-    var _res = await HttpPostMultipart().doUploadImage(
-        path: pickedFile!.path,
-        onUploadProgress: (value) {
-          listImage[index]['process'].value = value;
-        });
+      var _res = await HttpPostMultipart().doUploadImage(
+          path: pickedFile.path,
+          onUploadProgress: (value) {
+            listImage[index]['process'].value = value;
+          });
 
-    listImage[index]['uploading'].value = false;
+      listImage[index]['uploading'].value = false;
 
-    if (_res != null) {
-      listImage[index]['image_url'] = _res['path'];
-    }
-
-    update([idUpdateImage]);
-
-    listUrlImage = [];
-
-    for (var i in listImage) {
-      if (i['image_url'] != '') {
-        listUrlImage.add(i['image_url']);
+      if (_res != null) {
+        listImage[index]['image_url'] = _res['path'];
       }
-    }
 
-    if (listUrlImage.length > 1) {
-      canNext.value = true;
+      update([idUpdateImage]);
+
+      listUrlImage = [];
+
+      for (var i in listImage) {
+        if (i['image_url'] != '') {
+          listUrlImage.add(i['image_url']);
+        }
+      }
+
+      if (listUrlImage.length > 1) {
+        canNext.value = true;
+      }
     }
   }
 
