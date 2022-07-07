@@ -213,100 +213,104 @@ class ListChatView extends GetView<ListChatController> {
             child: Obx(() => Column(
                   children: List.generate(
                     c.listData.length,
-                    (index) => Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 0.5,
-                            color: AppTheme.colorGreyText1,
+                    (index) => InkWell(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 0.5,
+                              color: AppTheme.colorGreyText1,
+                            ),
                           ),
                         ),
-                      ),
-                      child: Row(children: [
-                        Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                  width: 2.5,
-                                  color: AppTheme.colorGreyText,
+                        child: Row(children: [
+                          Stack(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                height: 80,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(
+                                    width: 2.5,
+                                    color: AppTheme.colorGreyText,
+                                  ),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      image: myImageDecoration(
+                                          c.listData[index]['profile_image']),
+                                      borderRadius: BorderRadius.circular(40)),
                                 ),
                               ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    image: myImageDecoration(
-                                        c.listData[index]['profile_image']),
-                                    borderRadius: BorderRadius.circular(40)),
-                              ),
-                            ),
-                            Container(
-                              height: 80,
-                              width: 80,
-                              padding: const EdgeInsets.all(1),
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 2.5,
-                                value: 0.8,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.purple),
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextCustom(
-                                    c.listData[index]['user_name'],
-                                    style: AppTheme.textStyle18.bold(),
-                                  ),
-                                  TextCustom(
-                                    c.listData[index]['user_name'],
-                                    style: AppTheme.textStyle16.grey(),
-                                  ),
-                                  Row(
-                                    children: [
-                                      TextCustom(
-                                        'conversation_expire_in'.tr,
-                                        style: AppTheme.textStyleSub.grey(),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      TextCustom(
-                                        '5 ${'hours'.tr}',
-                                        style: AppTheme.textStyleSub.yellow(),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 2, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                      color: AppTheme.colorPrimary,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: TextCustom(
-                                    'your_move'.tr,
-                                    style: AppTheme.textStyleSub,
-                                  ),
+                              Container(
+                                height: 80,
+                                width: 80,
+                                padding: const EdgeInsets.all(1),
+                                child: const CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  value: 0.8,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.purple),
                                 ),
                               )
                             ],
                           ),
-                        )
-                      ]),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextCustom(
+                                      c.listData[index]['user_name'],
+                                      style: AppTheme.textStyle18.bold(),
+                                    ),
+                                    TextCustom(
+                                      c.listData[index]['user_name'],
+                                      style: AppTheme.textStyle16.grey(),
+                                    ),
+                                    Row(
+                                      children: [
+                                        TextCustom(
+                                          'conversation_expire_in'.tr,
+                                          style: AppTheme.textStyleSub.grey(),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        TextCustom(
+                                          '5 ${'hours'.tr}',
+                                          style: AppTheme.textStyleSub.yellow(),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 8),
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.colorPrimary,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: TextCustom(
+                                      'your_move'.tr,
+                                      style: AppTheme.textStyleSub,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ]),
+                      ),
+                      onTap: () => c.onClickItem(index),
                     ),
                   ),
                 )),

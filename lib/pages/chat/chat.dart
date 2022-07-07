@@ -20,11 +20,14 @@ class ChatsController extends GetxController {
   RxBool showImageGalleryBar = false.obs;
   RxBool showChatBar = false.obs;
 
+  RxString avatarUrl = ''.obs;
+  RxString chatName = ''.obs;
+
   @override
   onInit() async {
     super.onInit();
 
-    onSocketInit();
+    // onSocketInit();
 
     onLoadMessage();
 
@@ -53,8 +56,7 @@ class ChatsController extends GetxController {
 
   onLoadMessage() async {
     Map _body = {
-      "username": listChatController.user.username,
-      "chatWith": listChatController.myChatWith!.userName,
+      "chat_with": "0345454545",
     };
     var _res = await _httpProvider.getListMessage(_body);
 
@@ -62,12 +64,19 @@ class ChatsController extends GetxController {
       for (var i in _res) {
         bool _isFirst = true;
         if (listChat.isNotEmpty) {
-          _isFirst = listChat.last['me'] != i['me'];
+          _isFirst = listChat.last['user_id'] != i['user_id'];
         }
+
+        if (chatName.value == '' && i['user_id'] != '84398498960') {
+          chatName.value = i['user_name'];
+          avatarUrl.value = i['user_avatar'];
+        }
+
         listChat.add({
-          'me': i['me'],
+          'me': i['user_id'] == '84398498960',
+          'user_id': i['user_id'],
           'content': i['content'],
-          'time': i['item'],
+          'time': i['time'],
           'is_first': _isFirst,
         });
       }
@@ -118,24 +127,24 @@ class ChatsController extends GetxController {
 
     listChat.add({
       'me': true,
+      'user_id': '84398498960',
       'content': text,
       'time': DateTime.now().millisecondsSinceEpoch,
-      'show_avatar': false,
       'is_first': _isFirst,
     });
 
     doScroll();
 
-    _socket.socket!.emit('send_message', {
-      'receiverChatID': listChatController.myChatWith!.userName,
-      'senderChatID': listChatController.user.username,
-      'senderChatName': listChatController.user.fullName,
-      'senderChatAvatar': listChatController.user.avatarUrl,
-      'content': text,
-    });
+    // _socket.socket!.emit('send_message', {
+    //   'receiverChatID': listChatController.myChatWith!.userName,
+    //   'senderChatID': listChatController.user.username,
+    //   'senderChatName': listChatController.user.fullName,
+    //   'senderChatAvatar': listChatController.user.avatarUrl,
+    //   'content': text,
+    // });
 
-    listChatController.myChatWith!.content = text;
-    listChatController.updateLastMessage();
+    // listChatController.myChatWith!.content = text;
+    // listChatController.updateLastMessage();
   }
 
   onClickBack() {

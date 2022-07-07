@@ -105,5 +105,6 @@ const Map<String, String> vi = {
   "resent": "Resent",
   "conversation_expire_in": "Conversation expires in",
   "hours": "hours",
-  "your_move": "YOUR MOVE"
+  "your_move": "YOUR MOVE",
+  "send": "Send",
 };

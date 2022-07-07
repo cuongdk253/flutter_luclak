@@ -72,16 +72,16 @@ class ListChatController extends GetxController {
   }
 
   onClickItem(index) {
-    currentIndexChatUser = index;
-    myChatWith = listUserChat[index];
+    // currentIndexChatUser = index;
+    // myChatWith = listUserChat[index];
 
-    _socket.socket!.emit('read_message',
-        {'username': user.username, 'chatWith': myChatWith!.userName});
+    // _socket.socket!.emit('read_message',
+    //     {'username': user.username, 'chatWith': myChatWith!.userName});
 
-    if (!myChatWith!.read) {
-      myChatWith!.read = true;
-      update();
-    }
+    // if (!myChatWith!.read) {
+    //   myChatWith!.read = true;
+    //   update();
+    // }
 
     Get.to(() => ChatsView());
   }
