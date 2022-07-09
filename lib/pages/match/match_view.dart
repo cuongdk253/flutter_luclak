@@ -327,6 +327,7 @@ class MatchesView extends GetView<MatchesController> {
 
   Widget _description(Map item) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.only(left: 18, right: 18, top: 16),
@@ -397,6 +398,7 @@ class MatchesView extends GetView<MatchesController> {
         Container(
           margin: const EdgeInsets.only(left: 18, right: 18, top: 18),
           padding: const EdgeInsets.symmetric(vertical: 18),
+          width: Get.width,
           decoration: BoxDecoration(
               border: Border(
             top: BorderSide(
@@ -404,18 +406,20 @@ class MatchesView extends GetView<MatchesController> {
               color: AppTheme.colorBackground,
             ),
           )),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            TextCustom(
-              'description'.tr,
-              style: AppTheme.textStyle18.bold(),
-            ),
-            const SizedBox(height: 8),
-            TextCustom(
-              item['about'],
-              style: AppTheme.textStyle,
-            )
-          ]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextCustom(
+                'description'.tr,
+                style: AppTheme.textStyle18.bold(),
+              ),
+              const SizedBox(height: 8),
+              TextCustom(
+                item['about'],
+                style: AppTheme.textStyle,
+              )
+            ],
+          ),
         ),
         Container(
           margin: const EdgeInsets.only(left: 18, right: 18, top: 18),
