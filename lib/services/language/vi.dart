@@ -107,4 +107,5 @@ const Map<String, String> vi = {
   "hours": "hours",
   "your_move": "YOUR MOVE",
   "send": "Send",
+  "expire": "Expired",
 };

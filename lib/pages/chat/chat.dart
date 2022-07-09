@@ -27,7 +27,7 @@ class ChatsController extends GetxController {
   onInit() async {
     super.onInit();
 
-    // onSocketInit();
+    onSocketInit();
 
     onLoadMessage();
 
@@ -38,7 +38,7 @@ class ChatsController extends GetxController {
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
       debugPrint(data.toString());
-      if (data['senderChatID'] == listChatController.myChatWith!.userName) {
+      if (data['sender_chat_id'] == listChatController.myChatWith.userName) {
         bool _isFirst = true;
         if (listChat.isNotEmpty && listChat.last['me'] == false) {
           _isFirst = false;
@@ -55,8 +55,13 @@ class ChatsController extends GetxController {
   }
 
   onLoadMessage() async {
+    chatName.value = listChatController.myChatWith.userName;
+    avatarUrl.value = listChatController.myChatWith.profileImage;
+
     Map _body = {
-      "chat_with": "0345454545",
+      "chat_with": listChatController.myChatWith.userID,
+      "page": 0,
+      "item_per_page": 20,
     };
     var _res = await _httpProvider.getListMessage(_body);
 
@@ -68,8 +73,8 @@ class ChatsController extends GetxController {
         }
 
         if (chatName.value == '' && i['user_id'] != '84398498960') {
-          chatName.value = i['user_name'];
-          avatarUrl.value = i['user_avatar'];
+          // chatName.value = i['user_name'];
+          // avatarUrl.value = i['user_avatar'];
         }
 
         listChat.add({
@@ -127,7 +132,7 @@ class ChatsController extends GetxController {
 
     listChat.add({
       'me': true,
-      'user_id': '84398498960',
+      'user_id': listChatController.user.userID,
       'content': text,
       'time': DateTime.now().millisecondsSinceEpoch,
       'is_first': _isFirst,
@@ -135,16 +140,17 @@ class ChatsController extends GetxController {
 
     doScroll();
 
-    // _socket.socket!.emit('send_message', {
-    //   'receiverChatID': listChatController.myChatWith!.userName,
-    //   'senderChatID': listChatController.user.username,
-    //   'senderChatName': listChatController.user.fullName,
-    //   'senderChatAvatar': listChatController.user.avatarUrl,
-    //   'content': text,
-    // });
+    _socket.socket!.emit('send_message', {
+      'receiver_chat_id': listChatController.myChatWith.userID,
+      'sender_chat_id': listChatController.user.userID,
+      'sender_chat_name': listChatController.user.fullName,
+      'sender_chat_avatar': listChatController.user.avatarUrl,
+      'content': text,
+    });
 
-    // listChatController.myChatWith!.content = text;
-    // listChatController.updateLastMessage();
+    listChatController.myChatWith.lastMessage.message = text;
+    listChatController.myChatWith.lastMessage.isFirst = false;
+    listChatController.updateLastMessage();
   }
 
   onClickBack() {

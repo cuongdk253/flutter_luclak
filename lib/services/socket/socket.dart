@@ -17,11 +17,8 @@ class MySocketController extends GetxController {
     super.onInit();
 
     socket = io(
-      baseUrl,
-      // 'http://103.179.184.110:3000',
-      // 'http://luclak.com/api/v1',
+      baseSocker,
       OptionBuilder()
-          // .setPath('/api/v1/socket.io')
           .setTransports(['websocket'])
           .setExtraHeaders({'phone': userID})
           .disableAutoConnect()

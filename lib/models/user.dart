@@ -2,13 +2,14 @@ import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/cupertino.dart';
 
 class User {
-  String username = '';
-  String fullName = 'Lo A Pao';
+  String userID = '';
+  String profileID = '';
+  String fullName = '';
   String address = '';
   String email = '';
   String idCard = '';
-  // String status = '';
   String userType = '';
+  String gender = '';
   String avatarUrl = '';
   ImageProvider? avatarProvider;
 
@@ -18,13 +19,14 @@ class User {
   factory User() => _instance;
 
   setUserData(data) {
-    username = data['id'] ?? '';
+    userID = data['_id'] ?? '';
+    profileID = data['profile_id'] ?? '';
     fullName = data['name'] ?? '';
     address = data['address'] ?? '';
     email = data['email'] ?? '';
     idCard = data['id_number'] ?? '';
-    // status = data['active'] ?? '';
     userType = data['type'] ?? '';
+    userType = data['gender'] ?? '';
     if (data['avatar'] != null) {
       avatarUrl = data['avatar'];
       avatarProvider = NetworkImage(baseUrl + data['avatar']);
