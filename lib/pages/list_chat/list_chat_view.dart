@@ -199,40 +199,43 @@ class ListChatView extends GetView<ListChatController> {
     return Obx(() => Row(
           children: List.generate(
             c.listDataMatchQueue.length,
-            (index) => Stack(
-              alignment: AlignmentDirectional.centerStart,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 12, top: 4, bottom: 4),
-                  padding: const EdgeInsets.all(10),
-                  height: 80,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      width: 2.5,
-                      color: AppTheme.colorGreyText,
+            (index) => InkWell(
+              child: Stack(
+                alignment: AlignmentDirectional.centerStart,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 12, top: 4, bottom: 4),
+                    padding: const EdgeInsets.all(10),
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                        width: 2.5,
+                        color: AppTheme.colorGreyText,
+                      ),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: c
+                              .listDataMatchQueue[index].profileImageDecoration,
+                          borderRadius: BorderRadius.circular(40)),
                     ),
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        image:
-                            c.listDataMatchQueue[index].profileImageDecoration,
-                        borderRadius: BorderRadius.circular(40)),
-                  ),
-                ),
-                Container(
-                  height: 78,
-                  width: 78,
-                  margin: const EdgeInsets.all(1),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 6,
-                    value: c.listDataMatchQueue[index].process,
-                    valueColor:
-                        const AlwaysStoppedAnimation<Color>(Colors.purple),
-                  ),
-                )
-              ],
+                  Container(
+                    height: 78,
+                    width: 78,
+                    margin: const EdgeInsets.all(1),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 6,
+                      value: c.listDataMatchQueue[index].process,
+                      valueColor:
+                          const AlwaysStoppedAnimation<Color>(Colors.purple),
+                    ),
+                  )
+                ],
+              ),
+              onTap: () => c.onClickItem(c.listDataMatchQueue[index]),
             ),
           ),
         ));

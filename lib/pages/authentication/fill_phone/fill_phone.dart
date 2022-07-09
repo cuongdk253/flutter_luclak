@@ -54,7 +54,7 @@ class FillPhoneController extends GetxController {
       var _res = await _loginController.httpProvider.doVerifyUser(_body);
       if (_res != null) {
         SPreferentModule()
-            .setItem(StorageKey.phoneNumber, _loginController.username);
+            .setItem(StorageKey.phoneNumber, phone.text.replaceAll('+', ''));
         _loginController.doLogin(_res);
       }
     } else {
