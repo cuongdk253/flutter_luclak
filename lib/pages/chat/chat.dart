@@ -48,6 +48,7 @@ class ChatsController extends GetxController {
           'time': DateTime.now().millisecondsSinceEpoch,
           'is_first': _isFirst,
         });
+
         doScroll();
       }
     });
@@ -79,6 +80,8 @@ class ChatsController extends GetxController {
           'is_first': _isFirst,
         });
       }
+
+      listChat.sort((a, b) => a['time'].compareTo(b['time']));
     }
     doScroll(scrollDuration: 300);
   }

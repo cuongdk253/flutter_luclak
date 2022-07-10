@@ -60,79 +60,81 @@ class ListChatView extends GetView<ListChatController> {
   }
 
   Widget mBody() {
-    return Column(
-      children: [
-        c.listLikeYou.isNotEmpty || c.listDataMatchQueue.isNotEmpty
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: Row(
-                      children: [
-                        TextCustom(
-                          'match_queue'.tr,
-                          style: AppTheme.textStyle18.medium(),
-                        ),
-                        const SizedBox(width: 4),
-                        TextCustom(
-                          '(${c.listDataMatchQueue.length})',
-                          style: AppTheme.textStyle18.medium().grey(),
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 16),
-                        _likeYou(),
-                        const SizedBox(width: 16),
-                        _matchStack(),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    height: 2,
-                    width: Get.width,
-                    color: AppTheme.colorGreyText1,
-                  ),
-                ],
-              )
-            : const SizedBox(),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
+    return GetBuilder<ListChatController>(
+      builder: (_) => Column(
+        children: [
+          c.listLikeYou.isNotEmpty || c.listDataMatchQueue.isNotEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextCustom(
-                      'conversation'.tr,
-                      style: AppTheme.textStyle18.medium(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: Row(
+                        children: [
+                          TextCustom(
+                            'match_queue'.tr,
+                            style: AppTheme.textStyle18.medium(),
+                          ),
+                          const SizedBox(width: 4),
+                          TextCustom(
+                            '(${c.listDataMatchQueue.length})',
+                            style: AppTheme.textStyle18.medium().grey(),
+                          )
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 4),
-                    TextCustom(
-                      '(${'resent'.tr})',
-                      style: AppTheme.textStyle18.medium().grey(),
-                    )
+                    const SizedBox(height: 12),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 16),
+                          _likeYou(),
+                          const SizedBox(width: 16),
+                          _matchStack(),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Container(
+                      height: 2,
+                      width: Get.width,
+                      color: AppTheme.colorGreyText1,
+                    ),
                   ],
+                )
+              : const SizedBox(),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      TextCustom(
+                        'conversation'.tr,
+                        style: AppTheme.textStyle18.medium(),
+                      ),
+                      const SizedBox(width: 4),
+                      TextCustom(
+                        '(${'resent'.tr})',
+                        style: AppTheme.textStyle18.medium().grey(),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              SvgPicture.asset('assets/svgs/menu1.svg')
-            ],
+                SvgPicture.asset('assets/svgs/menu1.svg')
+              ],
+            ),
           ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: _listMatchSort(),
-          ),
-        )
-      ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: _listMatchSort(),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -379,38 +381,55 @@ class ListChatView extends GetView<ListChatController> {
     if (item.chatType == ChatModelType.normal) {
       return TextCustom(
         item.lastMessage.message,
-        style: AppTheme.textStyle16.grey(),
+        style: AppTheme.textStyle16.copyWith(
+          fontWeight: !item.lastMessage.read && !item.lastMessage.youFirst
+              ? FontWeight.w600
+              : FontWeight.w400,
+          color: !item.lastMessage.read && !item.lastMessage.youFirst
+              ? AppTheme.colorText
+              : AppTheme.colorGreyText,
+        ),
+        maxLine: 1,
+        textOverflow: TextOverflow.ellipsis,
       );
     } else if (item.chatType == ChatModelType.incomingExpire ||
         item.chatType == ChatModelType.expireWithYourMove) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextCustom(
-            item.lastMessage.message,
-            style: AppTheme.textStyle16.copyWith(
-              fontWeight: !item.lastMessage.read && !item.lastMessage.youFirst
-                  ? FontWeight.w600
-                  : FontWeight.w400,
-              color: !item.lastMessage.read && !item.lastMessage.youFirst
-                  ? AppTheme.colorText
-                  : AppTheme.colorGreyText,
-            ),
-          ),
-          Row(
-            children: [
-              TextCustom(
-                'conversation_expire_in'.tr,
-                style: AppTheme.textStyleSub.grey(),
+      return Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(right: 64),
+              child: TextCustom(
+                item.lastMessage.message,
+                style: AppTheme.textStyle16.copyWith(
+                  fontWeight:
+                      !item.lastMessage.read && !item.lastMessage.youFirst
+                          ? FontWeight.w600
+                          : FontWeight.w400,
+                  color: !item.lastMessage.read && !item.lastMessage.youFirst
+                      ? AppTheme.colorText
+                      : AppTheme.colorGreyText,
+                ),
+                maxLine: 1,
+                textOverflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(width: 4),
-              TextCustom(
-                timeCaculate(time: item.time),
-                style: AppTheme.textStyleSub.yellow(),
-              )
-            ],
-          )
-        ],
+            ),
+            Row(
+              children: [
+                TextCustom(
+                  'conversation_expire_in'.tr,
+                  style: AppTheme.textStyleSub.grey(),
+                ),
+                const SizedBox(width: 4),
+                TextCustom(
+                  timeCaculate(time: item.time),
+                  style: AppTheme.textStyleSub.yellow(),
+                )
+              ],
+            )
+          ],
+        ),
       );
     } else {
       return TextCustom(

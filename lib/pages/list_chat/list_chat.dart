@@ -1,10 +1,7 @@
 import 'package:appchat/models/chat_user.dart';
 import 'package:appchat/models/user.dart';
 import 'package:appchat/pages/chat/chat_view.dart';
-import 'package:appchat/services/constant.dart';
-import 'package:appchat/services/http/cmd.dart';
 import 'package:appchat/services/socket/socket.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../services/http/getx_http.dart';
@@ -63,21 +60,27 @@ class ListChatController extends GetxController {
       listLikeYou.value = _listLikeYou;
       listData.value = _listMatch;
       listDataMatchQueue.value = _listDataMatchQueue;
+
+      update();
     }
   }
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
-      bool _notIn = true;
+      bool _newChat = true;
       for (ChatUserModel i in listData) {
-        if (i.userName == data['sender_chat_id']) {
-          // i.lastMessage.message = data['content'];
-          // i.lastMessage.read = false;
-          _notIn = false;
+        if (i.userID == data['sender_chat_id']) {
+          _newChat = false;
+
+          i.lastMessage.message = data['content'];
+          i.lastMessage.read = false;
+          i.lastMessage.youFirst = false;
+
           break;
         }
       }
-      if (_notIn) {
+
+      if (_newChat) {
         // ChatUserModel _obj = ChatUserModel();
         // _obj.userID = data['sender_chat_id'];
         // _obj.userName = data['sender_chat_name'];
@@ -92,28 +95,24 @@ class ListChatController extends GetxController {
 
         // listData.add(_obj);
       }
+
       update();
     });
   }
 
   onClickItem(item) {
-    // currentIndexChatUser = index;
     myChatWith = item;
 
-    // _socket.socket!.emit('read_message',
-    //     {'username': user.username, 'chatWith': myChatWith!.userName});
+    _socket.socket!.emit('read_message',
+        {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
-    // if (!myChatWith!.read) {
-    //   myChatWith!.read = true;
-    //   update();
-    // }
+    myChatWith.lastMessage.read = true;
+    update();
 
     Get.to(() => ChatsView());
   }
 
   updateLastMessage() {
-    // listUserChat[currentIndexChatUser] = myChatWith;
-
     update();
   }
 }

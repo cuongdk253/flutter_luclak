@@ -1,5 +1,4 @@
 import 'package:appchat/models/user.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../services/http/getx_http.dart';
@@ -50,13 +49,15 @@ class MyTabController extends GetxController {
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
-      debugPrint("message");
-      debugPrint(data.toString());
+      dotChat.value = true;
     });
 
     _socket.receiveLike.listen((data) {
-      debugPrint("like");
-      debugPrint(data.toString());
+      dotLikeYou.value = true;
+
+      if (data['match'] == true) {
+        //TODO: show match screem
+      }
     });
   }
 
