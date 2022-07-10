@@ -1,4 +1,5 @@
 import 'package:appchat/models/user.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:get/get.dart';
 
 import '../../services/http/getx_http.dart';
@@ -56,7 +57,14 @@ class MyTabController extends GetxController {
       dotLikeYou.value = true;
 
       if (data['match'] == true) {
-        //TODO: show match screem
+        AwesomeDialog(
+          context: Get.context!,
+          dialogType: DialogType.SUCCES,
+          animType: AnimType.SCALE,
+          title: 'you_got_match'.tr,
+          autoHide: const Duration(seconds: 10),
+          desc: 'des_you_got_match'.tr,
+        ).show();
       }
     });
   }

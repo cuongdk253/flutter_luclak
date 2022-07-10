@@ -108,4 +108,15 @@ const Map<String, String> vi = {
   "your_move": "YOUR MOVE",
   "send": "Send",
   "expire": "Expired",
+  "you_got_match": "Bạn vừa match nè!!",
+  "des_you_got_match": "Đến xem coi họ là ai đi!!",
+  "complete": "Hoàn thành",
+  "safe": "AN TOÀN",
+  "setting": "CÀI ĐẶT",
+  "edit_profile": "CHỈNH SỬA HỒ SƠ",
+  "view_all_package": "Xem tất cả các gói",
+  "upgrade_full": "Nâng cấp trải nghiệm full tính năng với creator",
+  "unlock_function": "Mở khóa các tính năng tuyệt vời của Luclak",
+  "introduce": "Giới thiệu",
+  "connect": "Kết nối"
 };

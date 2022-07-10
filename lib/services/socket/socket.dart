@@ -18,7 +18,7 @@ class MySocketController extends GetxController {
     super.onInit();
 
     socket = io(
-      baseSocker,
+      baseSocket,
       OptionBuilder()
           .setTransports(['websocket'])
           .setExtraHeaders({'phone': userID})

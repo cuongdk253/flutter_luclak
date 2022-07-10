@@ -91,10 +91,10 @@ class ListChatController extends GetxController {
         _obj.profileImage = data['sender_chat_avatar'];
         _obj.profileImageDecoration = DecorationImage(
             image: NetworkImage(baseUrl + data['sender_chat_avatar']));
-        _obj.lastMessage!.message = data['content'];
-        _obj.lastMessage!.youFirst = false;
-        _obj.lastMessage!.isFirst = true;
-        _obj.lastMessage!.read = false;
+
+        LastMessage _lastMessage = LastMessage(message: data['content']);
+        _obj.lastMessage = _lastMessage;
+
         _obj.chatType = ChatModelType.incomingExpire;
 
         listData.insert(0, _obj);

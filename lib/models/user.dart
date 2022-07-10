@@ -1,5 +1,6 @@
 import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class User {
   String userID = '';
@@ -8,6 +9,8 @@ class User {
   String address = '';
   String email = '';
   String idCard = '';
+  String birthday = '';
+  int age = 28;
   String userType = '';
   String gender = '';
   String avatarUrl = '';
@@ -33,6 +36,14 @@ class User {
     if (data['avatar'] != null) {
       avatarUrl = data['avatar'];
       avatarProvider = NetworkImage(baseUrl + data['avatar']);
+    }
+
+    if (data['birth'] != null) {
+      DateTime _birth = DateFormat('MM/dd/yyyy').parse(data['birth']);
+      int _time =
+          DateTime.now().millisecondsSinceEpoch - _birth.millisecondsSinceEpoch;
+      birthday = data['birth'];
+      age = (_time / 31536000000).floor();
     }
 
     newLike = data['new_like'] ?? false;

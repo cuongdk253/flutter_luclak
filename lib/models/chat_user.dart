@@ -49,10 +49,10 @@ class ChatUserModel {
       _obj.userNameLiked = data['user_name_liked'];
     }
 
-    if (data['profile_image_liked'] != null) {
-      _obj.profileImage = data['profile_image_liked'];
+    if (data['profile_image'] != null) {
+      _obj.profileImage = data['profile_image'];
       _obj.profileImageDecoration = DecorationImage(
-        image: NetworkImage(baseUrl + data['profile_image_liked']),
+        image: NetworkImage(baseUrl + data['profile_image']),
         fit: BoxFit.cover,
       );
     }
