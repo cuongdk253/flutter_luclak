@@ -78,19 +78,19 @@ class ListChatController extends GetxController {
         }
       }
       if (_notIn) {
-        ChatUserModel _obj = ChatUserModel();
-        _obj.userID = data['sender_chat_id'];
-        _obj.userName = data['sender_chat_name'];
-        _obj.profileImage = data['sender_chat_avatar'];
-        _obj.profileImageDecoration = DecorationImage(
-            image: NetworkImage(baseUrl + data['sender_chat_avatar']));
-        _obj.lastMessage.message = data['content'];
-        _obj.lastMessage.youFirst = false;
-        _obj.lastMessage.isFirst = true;
-        _obj.lastMessage.read = false;
-        _obj.chatType = ChatModelType.incomingExpire;
+        // ChatUserModel _obj = ChatUserModel();
+        // _obj.userID = data['sender_chat_id'];
+        // _obj.userName = data['sender_chat_name'];
+        // _obj.profileImage = data['sender_chat_avatar'];
+        // _obj.profileImageDecoration = DecorationImage(
+        //     image: NetworkImage(baseUrl + data['sender_chat_avatar']));
+        // _obj.lastMessage.message = data['content'];
+        // _obj.lastMessage.youFirst = false;
+        // _obj.lastMessage.isFirst = true;
+        // _obj.lastMessage.read = false;
+        // _obj.chatType = ChatModelType.incomingExpire;
 
-        listData.add(_obj);
+        // listData.add(_obj);
       }
       update();
     });

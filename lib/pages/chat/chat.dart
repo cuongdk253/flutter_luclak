@@ -37,8 +37,7 @@ class ChatsController extends GetxController {
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
-      debugPrint(data.toString());
-      if (data['sender_chat_id'] == listChatController.myChatWith.userName) {
+      if (data['sender_chat_id'] == listChatController.myChatWith.userID) {
         bool _isFirst = true;
         if (listChat.isNotEmpty && listChat.last['me'] == false) {
           _isFirst = false;
@@ -72,13 +71,8 @@ class ChatsController extends GetxController {
           _isFirst = listChat.last['user_id'] != i['user_id'];
         }
 
-        if (chatName.value == '' && i['user_id'] != '84398498960') {
-          // chatName.value = i['user_name'];
-          // avatarUrl.value = i['user_avatar'];
-        }
-
         listChat.add({
-          'me': i['user_id'] == '84398498960',
+          'me': i['user_id'] == listChatController.user.userID,
           'user_id': i['user_id'],
           'content': i['content'],
           'time': i['time'],
@@ -86,7 +80,7 @@ class ChatsController extends GetxController {
         });
       }
     }
-    doScroll(firstScroll: true);
+    doScroll(scrollDuration: 300);
   }
 
   //Load thư viện ảnh
@@ -102,12 +96,12 @@ class ChatsController extends GetxController {
   }
 
   //Animation cuộn xuống dưới cùng
-  doScroll({bool firstScroll = false}) async {
+  doScroll({int scrollDuration = 100}) async {
     if (scrollController!.hasClients) {
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(Duration(milliseconds: scrollDuration));
 
       scrollController!.animateTo(scrollController!.position.maxScrollExtent,
-          duration: Duration(milliseconds: (firstScroll ? 200 : 100)),
+          duration: Duration(milliseconds: scrollDuration),
           curve: Curves.easeOut);
     }
   }
