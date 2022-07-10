@@ -63,40 +63,47 @@ class ListChatView extends GetView<ListChatController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Row(
-            children: [
-              TextCustom(
-                'match_queue'.tr,
-                style: AppTheme.textStyle18.medium(),
-              ),
-              const SizedBox(width: 4),
-              TextCustom(
-                '(3)',
-                style: AppTheme.textStyle18.medium().grey(),
+        c.listLikeYou.isNotEmpty && c.listDataMatchQueue.isNotEmpty
+            ? Column(
+                children: [
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Row(
+                      children: [
+                        TextCustom(
+                          'match_queue'.tr,
+                          style: AppTheme.textStyle18.medium(),
+                        ),
+                        const SizedBox(width: 4),
+                        TextCustom(
+                          '(${c.listDataMatchQueue.length})',
+                          style: AppTheme.textStyle18.medium().grey(),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 16),
+                        _likeYou(),
+                        const SizedBox(width: 16),
+                        _matchStack(),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    height: 2,
+                    width: Get.width,
+                    color: AppTheme.colorGreyText1,
+                  ),
+                ],
               )
-            ],
-          ),
-        ),
-        const SizedBox(height: 12),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              const SizedBox(width: 16),
-              _likeYou(),
-              const SizedBox(width: 16),
-              _matchStack(),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          height: 2,
-          width: Get.width,
-          color: AppTheme.colorGreyText1,
-        ),
+            : const SizedBox(),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Row(
@@ -374,7 +381,8 @@ class ListChatView extends GetView<ListChatController> {
         item.lastMessage.message,
         style: AppTheme.textStyle16.grey(),
       );
-    } else if (item.chatType == ChatModelType.incomingExpire) {
+    } else if (item.chatType == ChatModelType.incomingExpire ||
+        item.chatType == ChatModelType.expireWithYourMove) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

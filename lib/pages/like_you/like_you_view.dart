@@ -27,7 +27,7 @@ class LikedYouView extends GetView<LikedYouController> {
     return Stack(
       children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               children: [

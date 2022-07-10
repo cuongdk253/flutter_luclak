@@ -64,9 +64,14 @@ class ChatUserModel {
         isFirst: data['last_message']['is_first'] ?? true,
         read: data['last_message']['read'] ?? false,
       );
-      if (!_obj.lastMessage.youFirst && _obj.lastMessage.isFirst) {
-        _obj.chatType = ChatModelType.incomingExpire;
-      } else if (!_obj.lastMessage.isFirst) {
+
+      if (_obj.lastMessage.isFirst) {
+        if (_obj.lastMessage.youFirst) {
+          _obj.chatType = ChatModelType.expireWithYourMove;
+        } else {
+          _obj.chatType = ChatModelType.incomingExpire;
+        }
+      } else {
         _obj.chatType = ChatModelType.normal;
       }
     }
