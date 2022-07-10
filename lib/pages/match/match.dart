@@ -321,10 +321,13 @@ class MatchesController extends GetxController
       'like': like,
       'user_id': _user.userID,
       'user_name': _user.fullName,
+      'profile_id': _user.profileID,
+      'profile_image': _user.avatarUrl,
+      //
       'user_id_liked': currentMatch['p_user_id'],
       'user_name_liked': currentMatch['name'],
-      'profile_id': currentMatch['_id'],
-      'profile_image': currentMatch['avatar'],
+      'profile_id_liked': currentMatch['_id'],
+      'profile_image_liked': currentMatch['avatar'],
     };
 
     if (like) {

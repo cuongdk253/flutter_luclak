@@ -1,7 +1,10 @@
 import 'package:appchat/models/chat_user.dart';
 import 'package:appchat/models/user.dart';
 import 'package:appchat/pages/chat/chat_view.dart';
+import 'package:appchat/services/constant.dart';
+import 'package:appchat/services/http/cmd.dart';
 import 'package:appchat/services/socket/socket.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../services/http/getx_http.dart';
@@ -11,8 +14,6 @@ class ListChatController extends GetxController {
   final MySocketController _socket = Get.find();
 
   final User user = User();
-
-  // List<ChatUserModel> listUserChat = [];
 
   late ChatUserModel myChatWith;
   int currentIndexChatUser = -1;
@@ -72,28 +73,31 @@ class ListChatController extends GetxController {
         if (i.userID == data['sender_chat_id']) {
           _newChat = false;
 
-          i.lastMessage.message = data['content'];
-          i.lastMessage.read = false;
-          i.lastMessage.youFirst = false;
+          i.lastMessage!.message = data['content'];
+          i.lastMessage!.read = false;
+          i.lastMessage!.youFirst = false;
 
           break;
         }
       }
 
       if (_newChat) {
-        // ChatUserModel _obj = ChatUserModel();
-        // _obj.userID = data['sender_chat_id'];
-        // _obj.userName = data['sender_chat_name'];
-        // _obj.profileImage = data['sender_chat_avatar'];
-        // _obj.profileImageDecoration = DecorationImage(
-        //     image: NetworkImage(baseUrl + data['sender_chat_avatar']));
-        // _obj.lastMessage.message = data['content'];
-        // _obj.lastMessage.youFirst = false;
-        // _obj.lastMessage.isFirst = true;
-        // _obj.lastMessage.read = false;
-        // _obj.chatType = ChatModelType.incomingExpire;
+        listDataMatchQueue
+            .removeWhere((e) => e.userID == data['sender_chat_id']);
 
-        // listData.add(_obj);
+        ChatUserModel _obj = ChatUserModel();
+        _obj.userID = data['sender_chat_id'];
+        _obj.userName = data['sender_chat_name'];
+        _obj.profileImage = data['sender_chat_avatar'];
+        _obj.profileImageDecoration = DecorationImage(
+            image: NetworkImage(baseUrl + data['sender_chat_avatar']));
+        _obj.lastMessage!.message = data['content'];
+        _obj.lastMessage!.youFirst = false;
+        _obj.lastMessage!.isFirst = true;
+        _obj.lastMessage!.read = false;
+        _obj.chatType = ChatModelType.incomingExpire;
+
+        listData.insert(0, _obj);
       }
 
       update();
@@ -106,7 +110,7 @@ class ListChatController extends GetxController {
     _socket.socket!.emit('read_message',
         {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
-    myChatWith.lastMessage.read = true;
+    myChatWith.lastMessage!.read = true;
     update();
 
     Get.to(() => ChatsView());

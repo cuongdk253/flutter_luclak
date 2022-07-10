@@ -14,12 +14,12 @@ class ChatUserModel {
   String profileImage = '';
 
   DecorationImage profileImageDecoration = const DecorationImage(
-      image: AssetImage('assets/imgs/logo_app.jpg'), fit: BoxFit.cover);
+      image: AssetImage('assets/imgs/logo_app.png'), fit: BoxFit.cover);
 
   String userIDLiked = '';
   String userNameLiked = '';
 
-  late LastMessage lastMessage;
+  LastMessage? lastMessage;
 
   double process = 0.0;
 
@@ -49,10 +49,10 @@ class ChatUserModel {
       _obj.userNameLiked = data['user_name_liked'];
     }
 
-    if (data['profile_image'] != null) {
-      _obj.profileImage = data['profile_image'];
+    if (data['profile_image_liked'] != null) {
+      _obj.profileImage = data['profile_image_liked'];
       _obj.profileImageDecoration = DecorationImage(
-        image: NetworkImage(baseUrl + data['profile_image']),
+        image: NetworkImage(baseUrl + data['profile_image_liked']),
         fit: BoxFit.cover,
       );
     }
@@ -65,8 +65,8 @@ class ChatUserModel {
         read: data['last_message']['read'] ?? false,
       );
 
-      if (_obj.lastMessage.isFirst) {
-        if (_obj.lastMessage.youFirst) {
+      if (_obj.lastMessage!.isFirst) {
+        if (_obj.lastMessage!.youFirst) {
           _obj.chatType = ChatModelType.expireWithYourMove;
         } else {
           _obj.chatType = ChatModelType.incomingExpire;
