@@ -20,5 +20,6 @@ const String listUserFind = 'find_match';
 const String listReview = 'list_review';
 const String listLike = 'list_like';
 const String like = 'like';
+const String viewAllNotification = 'view_all_notification';
 
 const String uploadImage = 'upload_image';

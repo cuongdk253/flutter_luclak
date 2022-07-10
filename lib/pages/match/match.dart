@@ -10,10 +10,12 @@ import '../../components/image_decoration.dart';
 import '../../components/time_convert.dart';
 import '../../models/user.dart';
 import '../../services/http/getx_http.dart';
+import '../../services/socket/socket.dart';
 
 class MatchesController extends GetxController
     with GetTickerProviderStateMixin {
   final MyHttpProvider _httpProvider = Get.find();
+  final MySocketController _socket = Get.find();
 
   final User _user = User();
 
@@ -64,16 +66,7 @@ class MatchesController extends GetxController
   onReady() async {
     super.onReady();
 
-    loadUser();
     onFindMatch();
-  }
-
-  loadUser() async {
-    var _res = await _httpProvider.getUserInfo();
-    if (_res != null) {
-      User().setUserData(_res);
-      update();
-    }
   }
 
   onFindMatch() async {
@@ -334,7 +327,11 @@ class MatchesController extends GetxController
       'profile_image': currentMatch['avatar'],
     };
 
-    _httpProvider.doLike(_body);
+    if (like) {
+      _socket.socket!.emit('send_like', _body);
+    } else {
+      _httpProvider.doLike(_body);
+    }
 
     currentMatch.value = _nextMatch;
     nextIndex += 1;

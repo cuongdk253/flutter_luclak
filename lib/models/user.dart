@@ -13,6 +13,9 @@ class User {
   String avatarUrl = '';
   ImageProvider? avatarProvider;
 
+  bool newLike = false;
+  bool newChat = false;
+
   static final User _instance = User.internal();
 
   User.internal();
@@ -31,5 +34,8 @@ class User {
       avatarUrl = data['avatar'];
       avatarProvider = NetworkImage(baseUrl + data['avatar']);
     }
+
+    newLike = data['new_like'] ?? false;
+    newChat = data['new_chat'] ?? false;
   }
 }

@@ -136,6 +136,15 @@ class MyHttpProvider extends GetConnect {
     return _handleResponse(response);
   }
 
+  Future<dynamic> doViewAllNotification(Map _body) async {
+    Response response = await post(
+      baseUrl + viewAllNotification,
+      _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
   Future<dynamic> getFindMatch(Map _body) async {
     Response response = await post(
       baseUrl + listUserFind,

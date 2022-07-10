@@ -11,6 +11,7 @@ class MySocketController extends GetxController {
   MySocketController(this.userID);
 
   RxMap receiveMessage = {}.obs;
+  RxMap receiveLike = {}.obs;
 
   @override
   void onInit() async {
@@ -29,6 +30,10 @@ class MySocketController extends GetxController {
 
     socket!.on('receive_message', (data) {
       receiveMessage.value = data;
+    });
+
+    socket!.on('receive_like', (data) {
+      receiveLike.value = data;
     });
 
     socket!.on('connect_error', (data) {

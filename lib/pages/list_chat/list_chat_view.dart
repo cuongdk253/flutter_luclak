@@ -61,10 +61,10 @@ class ListChatView extends GetView<ListChatController> {
 
   Widget mBody() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        c.listLikeYou.isNotEmpty && c.listDataMatchQueue.isNotEmpty
+        c.listLikeYou.isNotEmpty || c.listDataMatchQueue.isNotEmpty
             ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding:
@@ -388,7 +388,14 @@ class ListChatView extends GetView<ListChatController> {
         children: [
           TextCustom(
             item.lastMessage.message,
-            style: AppTheme.textStyle16.grey(),
+            style: AppTheme.textStyle16.copyWith(
+              fontWeight: !item.lastMessage.read && !item.lastMessage.youFirst
+                  ? FontWeight.w600
+                  : FontWeight.w400,
+              color: !item.lastMessage.read && !item.lastMessage.youFirst
+                  ? AppTheme.colorText
+                  : AppTheme.colorGreyText,
+            ),
           ),
           Row(
             children: [
