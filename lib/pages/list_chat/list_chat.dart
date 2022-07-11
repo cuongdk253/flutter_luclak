@@ -1,9 +1,10 @@
 import 'package:appchat/models/chat_user.dart';
 import 'package:appchat/models/user.dart';
 import 'package:appchat/pages/chat/chat_view.dart';
+import 'package:appchat/services/constant.dart';
 import 'package:appchat/services/http/cmd.dart';
 import 'package:appchat/services/socket/socket.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../services/http/getx_http.dart';
@@ -14,13 +15,12 @@ class ListChatController extends GetxController {
 
   final User user = User();
 
-  List<ChatUserModel> listUserChat = [];
-
-  ChatUserModel? myChatWith;
+  late ChatUserModel myChatWith;
   int currentIndexChatUser = -1;
 
   RxList listData = [].obs;
   RxList listDataMatchQueue = [].obs;
+  RxList listLikeYou = [].obs;
 
   @override
   onReady() {
@@ -30,64 +30,93 @@ class ListChatController extends GetxController {
   }
 
   onLoadUserChat() async {
-    Map _body = {"username": user.username};
+    Map _body = {"username": user.userID};
     var _res = await _httpProvider.getListUserChat(_body);
-    // if (_res != null) {
-    //   for (var i in _res) {
-    //     ChatUserModel _obj = ChatUserModel().setData(i);
-    //     listUserChat.add(_obj);
-    //   }
-    // }
-    // update();
 
     if (_res != null && _res.length > 0) {
-      // for(var i in _res) {}
-      listData.value = _res;
+      List _listLikeYou = [];
+      List _listDataMatchQueue = [];
+      List _listMatch = [];
+      for (var i in _res) {
+        ChatUserModel _obj = ChatUserModel().setData(i);
+
+        int _now = DateTime.now().millisecondsSinceEpoch;
+        _obj.process = ((_now - i['time']) / 86400000).clamp(0.0, 1.0);
+
+        if (i['match'] == true) {
+          if (i['time'] > (_now - 86400000) && i['last_message'] == null) {
+            _listDataMatchQueue.add(_obj);
+          } else {
+            _listMatch.add(_obj);
+          }
+        } else {
+          _listLikeYou.add(_obj);
+        }
+      }
+
+      if (_listLikeYou.length == 1) {
+        _listLikeYou.add(_listLikeYou[0]);
+      }
+
+      listLikeYou.value = _listLikeYou;
+      listData.value = _listMatch;
+      listDataMatchQueue.value = _listDataMatchQueue;
+
+      update();
     }
   }
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
-      bool _notIn = true;
-      for (ChatUserModel i in listUserChat) {
-        if (i.userName == data['senderChatID']) {
-          i.content = data['content'];
-          i.read = false;
-          _notIn = false;
+      bool _newChat = true;
+      for (ChatUserModel i in listData) {
+        if (i.userID == data['sender_chat_id']) {
+          _newChat = false;
+
+          i.lastMessage!.message = data['content'];
+          i.lastMessage!.read = false;
+          i.lastMessage!.youFirst = false;
+
           break;
         }
       }
-      if (_notIn) {
-        ChatUserModel _obj = ChatUserModel();
-        _obj.userName = data['senderChatID'];
-        _obj.name = data['senderChatName'];
-        _obj.avatar = data['senderChatAvatar'];
-        _obj.avatarProvider = NetworkImage(baseUrl + data['senderChatAvatar']);
-        _obj.content = data['content'];
 
-        listUserChat.add(_obj);
+      if (_newChat) {
+        listDataMatchQueue
+            .removeWhere((e) => e.userID == data['sender_chat_id']);
+
+        ChatUserModel _obj = ChatUserModel();
+        _obj.userID = data['sender_chat_id'];
+        _obj.userName = data['sender_chat_name'];
+        _obj.profileImage = data['sender_chat_avatar'];
+        _obj.profileImageDecoration = DecorationImage(
+            image: NetworkImage(baseUrl + data['sender_chat_avatar']));
+
+        LastMessage _lastMessage = LastMessage(message: data['content']);
+        _obj.lastMessage = _lastMessage;
+
+        _obj.chatType = ChatModelType.incomingExpire;
+
+        listData.insert(0, _obj);
       }
+
       update();
     });
   }
 
-  onClickItem(index) {
-    currentIndexChatUser = index;
-    myChatWith = listUserChat[index];
+  onClickItem(item) {
+    myChatWith = item;
 
     _socket.socket!.emit('read_message',
-        {'username': user.username, 'chatWith': myChatWith!.userName});
+        {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
-    if (!myChatWith!.read) {
-      myChatWith!.read = true;
-      update();
-    }
+    myChatWith.lastMessage!.read = true;
+    update();
 
     Get.to(() => ChatsView());
   }
 
   updateLastMessage() {
-    listUserChat[currentIndexChatUser] = myChatWith!;
     update();
   }
 }

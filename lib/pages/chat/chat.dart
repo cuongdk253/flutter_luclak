@@ -20,6 +20,9 @@ class ChatsController extends GetxController {
   RxBool showImageGalleryBar = false.obs;
   RxBool showChatBar = false.obs;
 
+  RxString avatarUrl = ''.obs;
+  RxString chatName = ''.obs;
+
   @override
   onInit() async {
     super.onInit();
@@ -34,8 +37,7 @@ class ChatsController extends GetxController {
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
-      debugPrint(data.toString());
-      if (data['senderChatID'] == listChatController.myChatWith!.userName) {
+      if (data['sender_chat_id'] == listChatController.myChatWith.userID) {
         bool _isFirst = true;
         if (listChat.isNotEmpty && listChat.last['me'] == false) {
           _isFirst = false;
@@ -46,15 +48,20 @@ class ChatsController extends GetxController {
           'time': DateTime.now().millisecondsSinceEpoch,
           'is_first': _isFirst,
         });
+
         doScroll();
       }
     });
   }
 
   onLoadMessage() async {
+    chatName.value = listChatController.myChatWith.userName;
+    avatarUrl.value = listChatController.myChatWith.profileImage;
+
     Map _body = {
-      "username": listChatController.user.username,
-      "chatWith": listChatController.myChatWith!.userName,
+      "chat_with": listChatController.myChatWith.userID,
+      "page": 0,
+      "item_per_page": 20,
     };
     var _res = await _httpProvider.getListMessage(_body);
 
@@ -62,17 +69,21 @@ class ChatsController extends GetxController {
       for (var i in _res) {
         bool _isFirst = true;
         if (listChat.isNotEmpty) {
-          _isFirst = listChat.last['me'] != i['me'];
+          _isFirst = listChat.last['user_id'] != i['user_id'];
         }
+
         listChat.add({
-          'me': i['me'],
+          'me': i['user_id'] == listChatController.user.userID,
+          'user_id': i['user_id'],
           'content': i['content'],
-          'time': i['item'],
+          'time': i['time'],
           'is_first': _isFirst,
         });
       }
+
+      listChat.sort((a, b) => a['time'].compareTo(b['time']));
     }
-    doScroll(firstScroll: true);
+    doScroll(scrollDuration: 300);
   }
 
   //Load thư viện ảnh
@@ -88,12 +99,12 @@ class ChatsController extends GetxController {
   }
 
   //Animation cuộn xuống dưới cùng
-  doScroll({bool firstScroll = false}) async {
+  doScroll({int scrollDuration = 100}) async {
     if (scrollController!.hasClients) {
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(Duration(milliseconds: scrollDuration));
 
       scrollController!.animateTo(scrollController!.position.maxScrollExtent,
-          duration: Duration(milliseconds: (firstScroll ? 200 : 100)),
+          duration: Duration(milliseconds: scrollDuration),
           curve: Curves.easeOut);
     }
   }
@@ -118,24 +129,25 @@ class ChatsController extends GetxController {
 
     listChat.add({
       'me': true,
+      'user_id': listChatController.user.userID,
       'content': text,
       'time': DateTime.now().millisecondsSinceEpoch,
-      'show_avatar': false,
       'is_first': _isFirst,
     });
 
     doScroll();
 
     _socket.socket!.emit('send_message', {
-      'receiverChatID': listChatController.myChatWith!.userName,
-      'senderChatID': listChatController.user.username,
-      'senderChatName': listChatController.user.fullName,
-      'senderChatAvatar': listChatController.user.avatarUrl,
+      'receiver_chat_id': listChatController.myChatWith.userID,
+      'sender_chat_id': listChatController.user.userID,
+      'sender_chat_name': listChatController.user.fullName,
+      'sender_chat_avatar': listChatController.user.avatarUrl,
       'content': text,
     });
 
-    listChatController.myChatWith!.content = text;
-    listChatController.updateLastMessage();
+    // listChatController.myChatWith.lastMessage.message = text;
+    // listChatController.myChatWith.lastMessage.isFirst = false;
+    // listChatController.updateLastMessage();
   }
 
   onClickBack() {

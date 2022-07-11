@@ -4,3 +4,5 @@ class StorageKey {
 }
 
 enum UserRole { kol, creator }
+
+enum ChatModelType { normal, expire, incomingExpire, expireWithYourMove }

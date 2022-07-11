@@ -5,15 +5,17 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../components/image_decoration.dart';
+import '../../components/time_convert.dart';
 import '../../models/user.dart';
 import '../../services/http/getx_http.dart';
+import '../../services/socket/socket.dart';
 
 class MatchesController extends GetxController
     with GetTickerProviderStateMixin {
   final MyHttpProvider _httpProvider = Get.find();
+  final MySocketController _socket = Get.find();
 
   final User _user = User();
 
@@ -36,15 +38,27 @@ class MatchesController extends GetxController
   RxDouble scrollBarPercentHeight = 0.0.obs;
   RxDouble scrollBarPercentHeightPosition = 0.0.obs;
 
-  ScrollController scrollController = ScrollController();
   ScrollController imageSlideController = ScrollController();
 
-  late final AnimationController _controller = AnimationController(
+  Offset dragItemLocation = const Offset(0, 0);
+  Offset? firstOffset;
+  bool showScrollBar = false;
+
+  late final AnimationController _menuIconController = AnimationController(
     duration: const Duration(milliseconds: 200),
     vsync: this,
   );
-  late final Animation<double> animation = CurvedAnimation(
-    parent: _controller,
+  late final Animation<double> menuIconAnimation = CurvedAnimation(
+    parent: _menuIconController,
+    curve: Curves.easeOut,
+  );
+
+  late final AnimationController _scrollBarController = AnimationController(
+    duration: const Duration(milliseconds: 500),
+    vsync: this,
+  );
+  late final Animation<double> scrollBarAnimation = CurvedAnimation(
+    parent: _scrollBarController,
     curve: Curves.easeOut,
   );
 
@@ -52,30 +66,11 @@ class MatchesController extends GetxController
   onReady() async {
     super.onReady();
 
-    scrollController.addListener(() {
-      double _cardHeight =
-          Get.height - Get.statusBarHeight - Get.bottomBarHeight;
-      double _maxScroll = scrollController.position.maxScrollExtent;
-
-      if (scrollBarPercentHeight.value == 0.0) {
-        scrollBarPercentHeight.value = _cardHeight / (_maxScroll + _cardHeight);
-      }
-
-      scrollBarPercentHeightPosition.value =
-          scrollController.offset / _maxScroll;
-    });
-
-    imageSlideController.addListener(() {
-      final extentAfter = imageSlideController.position.extentAfter;
-
-      debugPrint(extentAfter.toString());
-    });
-
     onFindMatch();
   }
 
   onFindMatch() async {
-    Map _body = {"username": _user.username};
+    Map _body = {"username": _user.userID};
     var _res = await _httpProvider.getFindMatch(_body);
     if (_res != null) {
       listMatch = [];
@@ -95,36 +90,14 @@ class MatchesController extends GetxController
     }
   }
 
-  handleDrag(double dx) {
-    if (dx.abs() > Get.width / 2) {
-      currentMatch.value = _nextMatch;
-      nextIndex += 1;
-      if (nextIndex < listMatch.length) {
-        _nextMatch = listMatch[nextIndex];
-        nextMatch.value = _nextMatch;
-      } else {
-        _nextMatch = {};
-        nextMatch.value = {};
-      }
-    }
-  }
-
-  onClickAccept() {
-    handleDrag(Get.width);
-  }
-
-  onClickDecline() {
-    handleDrag(Get.width);
-  }
-
   onClickCloseMenu() async {
     menuClose.value = !menuClose.value;
 
     if (menuClose.value) {
-      _controller.reset();
-      _controller.forward();
+      _menuIconController.reset();
+      _menuIconController.forward();
     } else {
-      _controller.reset();
+      _menuIconController.reset();
     }
   }
 
@@ -149,8 +122,6 @@ class MatchesController extends GetxController
   }
 
   onClickReview() async {
-    int _now = DateTime.now().millisecondsSinceEpoch;
-
     Map _body = {
       "profile_id": currentMatch['_id'],
       "page": 0,
@@ -236,7 +207,7 @@ class MatchesController extends GetxController
                               ),
                               const SizedBox(height: 4),
                               TextCustom(
-                                _timeCaculate(_now, _res[index]['time']),
+                                convertTimeAgo(time: _res[index]['time']),
                                 style: AppTheme.textStyleSub.grey(),
                               ),
                             ],
@@ -322,17 +293,92 @@ class MatchesController extends GetxController
     );
   }
 
-  String _timeCaculate(int _now, int _time) {
-    double _seconds = (_now - _time) / 1000;
-    if (_seconds < 60) {
-      return 'now_ago'.tr;
-    } else if (_seconds >= 60 && _seconds < 3600) {
-      return '${(_seconds / 60).toStringAsFixed(0)} ${'minute_ago'.tr}';
-    } else if (_seconds >= 3600 && _seconds < 86400) {
-      return '${(_seconds / 3600).toStringAsFixed(0)} ${'hour_ago'.tr}';
+  onDragItemUpdate(DragUpdateDetails detail) {
+    firstOffset ??= detail.localPosition;
+
+    dragItemLocation = Offset(detail.localPosition.dx - firstOffset!.dx,
+        detail.localPosition.dy - firstOffset!.dy);
+    update();
+  }
+
+  onDragItemEnd(DragEndDetails detail) {
+    if (detail.primaryVelocity! != 0) {
+      _doAcceptOrDecline(detail.primaryVelocity! > 0);
     } else {
-      return DateFormat('dd-MM-yyyy')
-          .format(DateTime.fromMillisecondsSinceEpoch(_time));
+      double _value = (dragItemLocation.dx + firstOffset!.dx) - Get.width * 0.5;
+      if (_value.abs() > (Get.width * 0.3)) {
+        _doAcceptOrDecline(_value > 0);
+      }
     }
+    dragItemLocation = const Offset(0, 0);
+    firstOffset = null;
+
+    update();
+  }
+
+  _doAcceptOrDecline(bool like) {
+    Map _body = {
+      'like': like,
+      'user_id': _user.userID,
+      'user_name': _user.fullName,
+      'profile_id': _user.profileID,
+      'profile_image': _user.avatarUrl,
+      //
+      'user_id_liked': currentMatch['p_user_id'],
+      'user_name_liked': currentMatch['name'],
+      'profile_id_liked': currentMatch['_id'],
+      'profile_image_liked': currentMatch['avatar'],
+    };
+
+    if (like) {
+      _socket.socket!.emit('send_like', _body);
+    } else {
+      _httpProvider.doLike(_body);
+    }
+
+    currentMatch.value = _nextMatch;
+    nextIndex += 1;
+    if (nextIndex < listMatch.length) {
+      _nextMatch = listMatch[nextIndex];
+      nextMatch.value = _nextMatch;
+    } else {
+      _nextMatch = {};
+      nextMatch.value = {};
+    }
+  }
+
+  onDragItemImageEnd(DragEndDetails detail) {
+    int _imageIndex = imageSlideIndex.value;
+
+    if (detail.primaryVelocity! > 0 && imageSlideIndex.value > 0) {
+      _imageIndex--;
+      onSlideToIndexImage(_imageIndex);
+    } else if (detail.primaryVelocity! < 0 &&
+        imageSlideIndex.value < currentMatch['images'].length - 1) {
+      _imageIndex++;
+      onSlideToIndexImage(_imageIndex);
+    }
+  }
+
+  onHandleScrollUpdate(ScrollUpdateNotification data) {
+    if (showScrollBar == false) {
+      showScrollBar = true;
+      _scrollBarController.forward();
+    }
+    if (data.depth == 0) {
+      double _cardHeight =
+          Get.height - Get.statusBarHeight - Get.bottomBarHeight;
+      double _maxScroll = data.metrics.maxScrollExtent;
+
+      if (scrollBarPercentHeight.value == 0.0) {
+        scrollBarPercentHeight.value = _cardHeight / (_maxScroll + _cardHeight);
+      }
+      scrollBarPercentHeightPosition.value = data.metrics.pixels / _maxScroll;
+    }
+  }
+
+  onHandleScrollEnd(ScrollEndNotification data) {
+    showScrollBar = false;
+    _scrollBarController.reverse();
   }
 }

@@ -27,7 +27,7 @@ class LikedYouView extends GetView<LikedYouController> {
     return Stack(
       children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               children: [
@@ -163,9 +163,10 @@ class LikedYouView extends GetView<LikedYouController> {
             ),
           ),
           Positioned(
-            bottom: 16,
-            left: 16,
-            child: TextCustom(_item['user_name']),
+            bottom: 12,
+            left: 8,
+            child: TextCustom(
+                blur ? _item['user_name'] : _item['user_name_liked']),
           ),
           blur
               ? ClipRRect(

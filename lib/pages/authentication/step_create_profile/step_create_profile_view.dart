@@ -196,7 +196,7 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                 color: AppTheme.colorBackground,
                 image: item['image_url'] != ''
                     ? DecorationImage(
-                        image: NetworkImage(baseUrlIP + item['image_url']),
+                        image: NetworkImage(baseUrl + item['image_url']),
                         fit: BoxFit.cover,
                       )
                     : null),

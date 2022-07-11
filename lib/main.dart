@@ -27,6 +27,10 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  ByteData data = await PlatformAssetBundle().load('assets/ca/luclak_com.pem');
+  SecurityContext.defaultContext
+      .setTrustedCertificatesBytes(data.buffer.asUint8List());
+
   HttpOverrides.global = MyHttpOverrides();
 
   // initLocalNotification();

@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
+import '../../../services/constant.dart';
+import '../../../services/others/local_storage.dart';
 import '../../../services/themes/app_theme.dart';
 import '../login/login.dart';
 import '../otp/otp_view.dart';
@@ -22,6 +24,8 @@ class FillPhoneController extends GetxController {
 
   RxString countryCode = 'VN'.obs;
   RxString phoneCode = '+84'.obs;
+
+  final bool _pass = true;
 
   @override
   onInit() async {
@@ -40,30 +44,45 @@ class FillPhoneController extends GetxController {
   }
 
   onClickNext() async {
-    _loginController.username = phoneCode.value + phone.text;
-    await _loginController.firebaseAuth.verifyPhoneNumber(
-      phoneNumber: _loginController.username,
-      timeout: const Duration(seconds: 120),
-      verificationCompleted: (phoneAuthCredential) async {},
-      verificationFailed: (verificationFailed) async {
-        debugPrint(verificationFailed.toString());
-        AwesomeDialog(
-          context: Get.context!,
-          dialogType: DialogType.WARNING,
-          animType: AnimType.BOTTOMSLIDE,
-          title: 'send_otp_fail'.tr,
-          autoHide: const Duration(seconds: 2),
-          desc: 'send_otp_fail_des'.tr,
-        ).show();
-      },
-      codeSent: (_verificationId, resendingToken) async {
-        _loginController.verificationId = _verificationId;
-        Get.to(() => OtpView());
-      },
-      codeAutoRetrievalTimeout: (verificationId) async {
-        debugPrint(verificationId);
-      },
-    );
+    //pass otp
+    if (_pass) {
+      Map _body = {
+        "username": phone.text.replaceAll('+', ''),
+        "fcm_token": _loginController.fcmToken
+      };
+
+      var _res = await _loginController.httpProvider.doVerifyUser(_body);
+      if (_res != null) {
+        SPreferentModule()
+            .setItem(StorageKey.phoneNumber, phone.text.replaceAll('+', ''));
+        _loginController.doLogin(_res);
+      }
+    } else {
+      _loginController.username = phoneCode.value + phone.text;
+      await _loginController.firebaseAuth.verifyPhoneNumber(
+        phoneNumber: _loginController.username,
+        timeout: const Duration(seconds: 120),
+        verificationCompleted: (phoneAuthCredential) async {},
+        verificationFailed: (verificationFailed) async {
+          debugPrint(verificationFailed.toString());
+          AwesomeDialog(
+            context: Get.context!,
+            dialogType: DialogType.WARNING,
+            animType: AnimType.BOTTOMSLIDE,
+            title: 'send_otp_fail'.tr,
+            autoHide: const Duration(seconds: 2),
+            desc: 'send_otp_fail_des'.tr,
+          ).show();
+        },
+        codeSent: (_verificationId, resendingToken) async {
+          _loginController.verificationId = _verificationId;
+          Get.to(() => OtpView());
+        },
+        codeAutoRetrievalTimeout: (verificationId) async {
+          debugPrint(verificationId);
+        },
+      );
+    }
   }
 
   onListPhoneCodeChange() {

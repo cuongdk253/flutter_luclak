@@ -50,23 +50,48 @@ class MyTabView extends GetView<MyTabController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(c.myTab.length, (index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    child: TextButton(
-                      onPressed: () => c.onClickTab(index),
-                      child: SvgPicture.asset(
-                        index == 0
-                            ? c.myTab[index]['icon_active']!
-                            : c.myTab[index]['icon']!,
-                        width: 32,
-                        height: 32,
-                        color: index == c.tabIndex.value
-                            ? index != 0
-                                ? AppTheme.colorSecondary
-                                : null
-                            : AppTheme.colorGreyText,
+                  return Stack(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () => c.onClickTab(index),
+                          child: SvgPicture.asset(
+                            index == 0
+                                ? c.myTab[index]['icon_active']!
+                                : c.myTab[index]['icon']!,
+                            width: 32,
+                            height: 32,
+                            color: index == c.tabIndex.value
+                                ? index != 0
+                                    ? AppTheme.colorSecondary
+                                    : null
+                                : AppTheme.colorGreyText,
+                          ),
+                        ),
                       ),
-                    ),
+                      Obx(() => (c.dotLikeYou.value && index == 1) ||
+                              (c.dotChat.value && index == 2)
+                          ? Positioned(
+                              top: 12,
+                              right: 12,
+                              child: Container(
+                                height: 14,
+                                width: 14,
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppTheme.colorBackgroundHeader,
+                                ),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppTheme.colorSecondary,
+                                )),
+                              ),
+                            )
+                          : const SizedBox())
+                    ],
                   );
                 }),
               ),

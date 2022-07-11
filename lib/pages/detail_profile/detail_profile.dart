@@ -46,6 +46,21 @@ class DetailProfileController extends GetxController {
       'uploading': false.obs,
       'process': 0.0.obs,
     },
+    {
+      'image_url': '',
+      'uploading': false.obs,
+      'process': 0.0.obs,
+    },
+    {
+      'image_url': '',
+      'uploading': false.obs,
+      'process': 0.0.obs,
+    },
+    {
+      'image_url': '',
+      'uploading': false.obs,
+      'process': 0.0.obs,
+    },
   ].obs;
 
   @override
@@ -103,7 +118,7 @@ class DetailProfileController extends GetxController {
                 onTap: () async {
                   Get.back();
 
-                  listImage[index] = '';
+                  listImage[index]['image_url'] = '';
                   List _newList = [];
                   for (var i in listImage) {
                     if (i['image_url'] != '') {
@@ -116,6 +131,8 @@ class DetailProfileController extends GetxController {
                     }
                   }
                   listImage = _newList;
+
+                  update();
                 },
               ),
               const SizedBox(height: 16)

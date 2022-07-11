@@ -15,43 +15,8 @@ class DetailProfileView extends GetView<DetailProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.colorWhite,
-      appBar: AppBar(
-        backgroundColor: AppTheme.colorWhite,
-        leading: const SizedBox(),
-        centerTitle: true,
-        leadingWidth: 0,
-        elevation: 0,
-        title: Row(
-          children: [
-            InkWell(
-              child: SvgPicture.asset('assets/svgs/back.svg'),
-              onTap: () => c.onClickBack(),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: TextCustom(
-                'add_profile'.tr,
-                style: AppTheme.textStyle18.medium(),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            InkWell(
-              child: TextCustom(
-                'done'.tr,
-                style: AppTheme.textStyle16.bold().primary(),
-              ),
-            )
-          ],
-        ),
-        bottom: PreferredSize(
-          child: Container(
-            color: AppTheme.colorBorder,
-            height: 1.0,
-          ),
-          preferredSize: const Size.fromHeight(1.0),
-        ),
-      ),
+      backgroundColor: AppTheme.colorBackgroundDark,
+      appBar: mAppBar(),
       body: mBody(),
     );
   }
@@ -60,299 +25,343 @@ class DetailProfileView extends GetView<DetailProfileController> {
     return ListView(
       children: [
         _photo(),
+        Container(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextCustom(
+                'introduce'.tr,
+                style: AppTheme.textStyle18.bold(),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorBackgroundCard,
+                ),
+                padding: const EdgeInsets.all(12),
+                alignment: Alignment.center,
+                child: TextFormField(
+                  // controller: c.aboutYou,
+                  style: AppTheme.textStyle18.medium(),
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    isDense: true,
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: AppTheme.colorBackgroundCard,
+                    hintText: 'add_your_description'.tr,
+                    hintStyle: AppTheme.textStyle18.medium().grey(),
+                  ),
+                  // onChanged: (value) => c.onChangeAbout(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextCustom(
+                'power'.tr,
+                style: AppTheme.textStyle18.bold(),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorBackgroundCard,
+                ),
+                padding: const EdgeInsets.all(12),
+                alignment: Alignment.center,
+                child: Row(children: [
+                  Expanded(
+                    child: TextCustom(
+                      'Edit video, Review SP',
+                      style: AppTheme.textStyle16,
+                    ),
+                  ),
+                  SvgPicture.asset(
+                    'assets/svgs/next.svg',
+                    color: AppTheme.colorText,
+                  )
+                ]),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextCustom(
+                'Facebook',
+                style: AppTheme.textStyle18.bold(),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorBackgroundCard,
+                ),
+                padding: const EdgeInsets.all(12),
+                alignment: Alignment.center,
+                child: Row(children: [
+                  Expanded(
+                    child: Row(children: [
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: SvgPicture.asset(
+                          'assets/svgs/logo_facebook.svg',
+                          color: AppTheme.colorText,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextCustom(
+                        '${'connect'.tr} Facebook',
+                        style: AppTheme.textStyle16,
+                      )
+                    ]),
+                  ),
+                  TextCustom(
+                    'connect'.tr,
+                    style: AppTheme.textStyle16.secondary(),
+                  )
+                ]),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextCustom(
+                'Instagram',
+                style: AppTheme.textStyle18.bold(),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorBackgroundCard,
+                ),
+                padding: const EdgeInsets.all(12),
+                alignment: Alignment.center,
+                child: Row(children: [
+                  Expanded(
+                    child: Row(children: [
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: SvgPicture.asset(
+                          'assets/svgs/logo_instagram.svg',
+                          color: AppTheme.colorText,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextCustom(
+                        '${'connect'.tr} Instagram',
+                        style: AppTheme.textStyle16,
+                      )
+                    ]),
+                  ),
+                  TextCustom(
+                    'connect'.tr,
+                    style: AppTheme.textStyle16.secondary(),
+                  )
+                ]),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextCustom(
+                'Tiktok',
+                style: AppTheme.textStyle18.bold(),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppTheme.colorBackgroundCard,
+                ),
+                padding: const EdgeInsets.all(12),
+                alignment: Alignment.center,
+                child: Row(children: [
+                  Expanded(
+                    child: Row(children: [
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: SvgPicture.asset(
+                          'assets/svgs/logo_tiktok.svg',
+                          color: AppTheme.colorText,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextCustom(
+                        '${'connect'.tr} Tiktok',
+                        style: AppTheme.textStyle16,
+                      )
+                    ]),
+                  ),
+                  TextCustom(
+                    'connect'.tr,
+                    style: AppTheme.textStyle16.secondary(),
+                  )
+                ]),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 50,
+        )
       ],
+    );
+  }
+
+  AppBar mAppBar() {
+    return AppBar(
+      backgroundColor: AppTheme.colorBackgroundHeader,
+      leading: const SizedBox(),
+      centerTitle: true,
+      leadingWidth: 0,
+      elevation: 0,
+      title: Row(
+        children: [
+          InkWell(
+            child: SvgPicture.asset(
+              'assets/svgs/back.svg',
+              color: AppTheme.colorText,
+            ),
+            onTap: () => c.onClickBack(),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: TextCustom(
+              'add_profile'.tr,
+              style: AppTheme.textStyle18.medium(),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          InkWell(
+            child: TextCustom(
+              'done'.tr,
+              style: AppTheme.textStyle16.bold().secondary(),
+            ),
+          )
+        ],
+      ),
+      bottom: PreferredSize(
+        child: Container(
+          color: AppTheme.colorGreyText1,
+          height: 1.0,
+        ),
+        preferredSize: const Size.fromHeight(1.0),
+      ),
     );
   }
 
   Widget _photo() {
     return GetBuilder<DetailProfileController>(
         builder: (_) => Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextCustom(
-                    'my_photo'.tr,
-                    style: AppTheme.textStyle18.bold(),
-                  ),
-                  const SizedBox(height: 8),
-                  TextCustom(
-                    'my_photo_sub'.tr,
-                    style: AppTheme.textStyle16.grey(),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      InkWell(
-                        child: Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            Container(
-                              width: ((Get.width - 48) / 3) * 2 + 8,
-                              height: Get.width * 0.64,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: AppTheme.colorBackground),
-                                  color: AppTheme.colorBackground,
-                                  image: c.listImage[0]['image_url'] != ''
-                                      ? DecorationImage(
-                                          image: NetworkImage(baseUrl +
-                                              c.listImage[0]['image_url']),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : null),
-                            ),
-                            Positioned(
-                              left: 8,
-                              bottom: 8,
-                              child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 6),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.black.withOpacity(0.15)),
-                                  child: TextCustom(
-                                    'main_photo'.tr,
-                                    style: AppTheme.textStyle
-                                        .white()
-                                        .copyWith(fontSize: 10),
-                                  )),
-                            ),
-                            Obx(
-                              () => c.listImage[0]['uploading'].value == true
-                                  ? Stack(
-                                      alignment: AlignmentDirectional.center,
-                                      children: [
-                                        Container(
-                                          width: ((Get.width - 48) / 3) * 2 + 8,
-                                          height: Get.width * 0.64,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color:
-                                                Colors.black.withOpacity(0.3),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 80,
-                                          width: 80,
-                                          child: CircularProgressIndicator(
-                                            backgroundColor: AppTheme.colorWhite
-                                                .withOpacity(0.3),
-                                            color: AppTheme.colorPrimary,
-                                            value:
-                                                c.listImage[0]['process'].value,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : c.listImage[0]['image_url'] == ''
-                                      ? Center(
-                                          child: SvgPicture.asset(
-                                            'assets/svgs/plus.svg',
-                                            color: AppTheme.colorGreyText,
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                            ),
-                          ],
-                        ),
-                        onTap: () => c.onClickImage(0),
-                      ),
-                      const SizedBox(width: 8),
-                      Column(
-                        children: List.generate(
-                          2,
-                          (index) => InkWell(
-                            child: Stack(
-                              alignment: AlignmentDirectional.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: index != 0 ? 4 : 0,
-                                      bottom: index != 1 ? 4 : 0),
-                                  width: ((Get.width - 48) / 3),
-                                  height: Get.width * 0.32 - 4,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: AppTheme.colorBackground),
-                                      color: AppTheme.colorBackground,
-                                      image: c.listImage[index + 1]
-                                                  ['image_url'] !=
-                                              ''
-                                          ? DecorationImage(
-                                              image: NetworkImage(baseUrl +
-                                                  c.listImage[index + 1]
-                                                      ['image_url']),
-                                              fit: BoxFit.cover,
-                                            )
-                                          : null),
-                                ),
-                                Positioned(
-                                  left: 8,
-                                  bottom: 8,
-                                  child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 6),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color:
-                                              Colors.black.withOpacity(0.15)),
-                                      child: TextCustom(
-                                        (index + 2).toString(),
-                                        style: AppTheme.textStyle
-                                            .white()
-                                            .copyWith(fontSize: 10),
-                                      )),
-                                ),
-                                Obx(
-                                  () => c.listImage[index + 1]['uploading']
-                                              .value ==
-                                          true
-                                      ? Stack(
-                                          alignment:
-                                              AlignmentDirectional.center,
-                                          children: [
-                                            Container(
-                                              width: ((Get.width - 48) / 3),
-                                              height: Get.width * 0.32 - 4,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color: Colors.black
-                                                    .withOpacity(0.3),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 40,
-                                              width: 40,
-                                              child: CircularProgressIndicator(
-                                                backgroundColor: AppTheme
-                                                    .colorWhite
-                                                    .withOpacity(0.3),
-                                                color: AppTheme.colorPrimary,
-                                                value: c
-                                                    .listImage[index + 1]
-                                                        ['process']
-                                                    .value,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : c.listImage[index + 1]['image_url'] ==
-                                              ''
-                                          ? Center(
-                                              child: SvgPicture.asset(
-                                                'assets/svgs/plus.svg',
-                                                color: AppTheme.colorGreyText,
-                                              ),
-                                            )
-                                          : const SizedBox(),
-                                ),
-                              ],
-                            ),
-                            onTap: () => c.onClickImage(index + 1),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
+                  Wrap(
                     children: List.generate(
-                      3,
+                      c.listImage.length,
                       (index) => InkWell(
-                        child: Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: index != 0 ? 4 : 0,
-                                  right: index != 2 ? 4 : 0),
-                              width: ((Get.width - 48) / 3),
-                              height: Get.width * 0.32 - 4,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: AppTheme.colorBackground),
-                                  color: AppTheme.colorBackground,
-                                  image:
-                                      c.listImage[index + 3]['image_url'] != ''
-                                          ? DecorationImage(
-                                              image: NetworkImage(baseUrl +
-                                                  c.listImage[index + 3]
-                                                      ['image_url']),
-                                              fit: BoxFit.cover,
-                                            )
-                                          : null),
-                            ),
-                            Positioned(
-                              left: 8,
-                              bottom: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 6),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.black.withOpacity(0.15)),
-                                child: TextCustom(
-                                  (index + 4).toString(),
-                                  style: AppTheme.textStyle
-                                      .white()
-                                      .copyWith(fontSize: 10),
-                                ),
-                              ),
-                            ),
-                            Obx(
-                              () => c.listImage[index + 3]['uploading'].value ==
-                                      true
-                                  ? Stack(
-                                      alignment: AlignmentDirectional.center,
-                                      children: [
-                                        Container(
-                                          width: ((Get.width - 48) / 3),
-                                          height: Get.width * 0.32 - 4,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color:
-                                                Colors.black.withOpacity(0.3),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: CircularProgressIndicator(
-                                            backgroundColor: AppTheme.colorWhite
-                                                .withOpacity(0.3),
-                                            color: AppTheme.colorPrimary,
-                                            value: c
-                                                .listImage[index + 3]['process']
-                                                .value,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : c.listImage[index + 3]['image_url'] == ''
-                                      ? Center(
-                                          child: SvgPicture.asset(
-                                            'assets/svgs/plus.svg',
-                                            color: AppTheme.colorGreyText,
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                            ),
-                          ],
-                        ),
-                        onTap: () => c.onClickImage(index + 3),
+                        child: _imageItem(c.listImage[index]),
+                        onTap: () => c.onClickImage(index),
                       ),
                     ),
                   )
                 ],
               ),
             ));
+  }
+
+  _imageItem(item) {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(4),
+          width: (Get.width - 24) / 3,
+          height: (Get.width - 24) / 3 * 1.4,
+          child: Container(
+            width: (Get.width - 24) / 3,
+            height: (Get.width - 24) / 3 * 1.4,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: AppTheme.colorBackgroundCard,
+                image: item['image_url'] != ''
+                    ? DecorationImage(
+                        image: NetworkImage(baseUrl + item['image_url']),
+                        fit: BoxFit.cover,
+                      )
+                    : null),
+          ),
+        ),
+        Positioned(
+          right: 0,
+          bottom: 0,
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: item['image_url'] != ''
+                  ? AppTheme.colorBackgroundCard
+                  : AppTheme.colorGreyText,
+              boxShadow: AppTheme.boxShadow,
+            ),
+            child: SvgPicture.asset(
+              item['image_url'] != ''
+                  ? 'assets/svgs/close.svg'
+                  : 'assets/svgs/plus.svg',
+              color: AppTheme.colorText,
+            ),
+          ),
+        ),
+        Obx(
+          () => item['uploading'].value == true
+              ? Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Container(
+                      width: ((Get.width - 48) / 3),
+                      height: Get.width * 0.32 - 4,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.black.withOpacity(0.3),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(
+                        backgroundColor: AppTheme.colorWhite.withOpacity(0.3),
+                        color: AppTheme.colorPrimary,
+                        value: item['process'].value,
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox(),
+        ),
+      ],
+    );
   }
 }

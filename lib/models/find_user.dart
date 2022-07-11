@@ -7,8 +7,7 @@ class FindUserModel {
   String name = '';
   String about = '';
   String address = '';
-  ImageProvider avatarProvider =
-      const AssetImage('assets/imgs/cute-didongviet.jpg');
+  ImageProvider avatarProvider = const AssetImage('assets/imgs/logo_app.png');
   List<ImageProvider> images = [];
   List<String> favorites = [];
 

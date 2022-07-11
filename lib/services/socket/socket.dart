@@ -11,17 +11,15 @@ class MySocketController extends GetxController {
   MySocketController(this.userID);
 
   RxMap receiveMessage = {}.obs;
+  RxMap receiveLike = {}.obs;
 
   @override
   void onInit() async {
     super.onInit();
 
     socket = io(
-      baseUrl,
-      // 'http://103.179.184.110:3000',
-      // 'http://luclak.com/api/v1',
+      baseSocket,
       OptionBuilder()
-          // .setPath('/api/v1/socket.io')
           .setTransports(['websocket'])
           .setExtraHeaders({'phone': userID})
           .disableAutoConnect()
@@ -32,6 +30,10 @@ class MySocketController extends GetxController {
 
     socket!.on('receive_message', (data) {
       receiveMessage.value = data;
+    });
+
+    socket!.on('receive_like', (data) {
+      receiveLike.value = data;
     });
 
     socket!.on('connect_error', (data) {

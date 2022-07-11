@@ -1,3 +1,4 @@
+import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -14,9 +15,9 @@ class ChatsView extends GetView<ChatsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.colorWhite,
+      backgroundColor: AppTheme.colorBackgroundDark,
       appBar: AppBar(
-        backgroundColor: AppTheme.colorWhite,
+        backgroundColor: AppTheme.colorBackgroundHeader,
         leading: const SizedBox(),
         centerTitle: true,
         leadingWidth: 0,
@@ -24,34 +25,43 @@ class ChatsView extends GetView<ChatsController> {
         title: Row(
           children: [
             InkWell(
-              child: SvgPicture.asset('assets/svgs/back.svg'),
+              child: SvgPicture.asset(
+                'assets/svgs/back.svg',
+                color: AppTheme.colorText,
+              ),
               onTap: () => c.onClickBack(),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: Row(
                 children: [
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: c.listChatController.myChatWith!.avatarProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  Obx(() => Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: c.avatarUrl.value.isNotEmpty
+                              ? DecorationImage(
+                                  image:
+                                      NetworkImage(baseUrl + c.avatarUrl.value),
+                                  fit: BoxFit.cover,
+                                )
+                              : null,
+                        ),
+                      )),
                   const SizedBox(width: 8),
-                  TextCustom(
-                    c.listChatController.myChatWith!.name,
-                    style: AppTheme.textStyle18.medium(),
-                  )
+                  Obx(() => TextCustom(
+                        c.chatName.value,
+                        style: AppTheme.textStyle18.medium(),
+                      ))
                 ],
               ),
             ),
             InkWell(
-              child: SvgPicture.asset('assets/svgs/more.svg'),
+              child: SvgPicture.asset(
+                'assets/svgs/more.svg',
+                color: AppTheme.colorText,
+              ),
             )
           ],
         ),
@@ -76,25 +86,31 @@ class ChatsView extends GetView<ChatsController> {
       children: [
         Expanded(
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 12),
             child: Obx(() => ListView(
                   controller: c.scrollController,
-                  children: List.generate(
-                    c.listChat.length,
-                    (index) => c.listChat[index]['me'] == false
-                        ? _question(c.listChat[index])
-                        : Container(
-                            margin: const EdgeInsets.only(top: 4),
-                            padding: const EdgeInsets.only(left: 24),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                _buildAnswerQuestion(c.listChat[index]),
-                              ],
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  children: [
+                    const SizedBox(height: 16),
+                    ...List.generate(
+                      c.listChat.length,
+                      (index) => c.listChat[index]['me'] == false
+                          ? _question(c.listChat[index])
+                          : Container(
+                              margin: const EdgeInsets.only(top: 4),
+                              padding: const EdgeInsets.only(left: 24),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  _buildAnswerQuestion(c.listChat[index]),
+                                ],
+                              ),
                             ),
-                          ),
-                  ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                 )),
           ),
         ),
@@ -129,7 +145,7 @@ class ChatsView extends GetView<ChatsController> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppTheme.colorBorder,
+                        color: AppTheme.colorGreyText1,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(
                               item['is_first'] == true ? 12 : 2),
@@ -309,30 +325,26 @@ class ChatsView extends GetView<ChatsController> {
       child: Container(
         height: 50,
         padding: const EdgeInsets.only(left: 16, right: 4),
-        // decoration: BoxDecoration(
-        color: AppTheme.colorWhite,
-        //   boxShadow: AppTheme.boxShadow,
-        // ),
+        color: AppTheme.colorBackgroundHeader,
         child: Row(
           children: [
             Expanded(
-              child: SizedBox(
+              child: Container(
                 height: 36,
+                width: Get.width,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppTheme.colorGreyText1)),
                 child: TextFormField(
                   controller: _text,
                   style: AppTheme.textStyle,
                   autofocus: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true,
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppTheme.colorBorder),
-                        borderRadius: BorderRadius.circular(16)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppTheme.colorBorder),
-                        borderRadius: BorderRadius.circular(16)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppTheme.colorBorder),
-                        borderRadius: BorderRadius.circular(16)),
+                    contentPadding: EdgeInsets.zero,
+                    border: InputBorder.none,
                   ),
                 ),
               ),
@@ -340,20 +352,15 @@ class ChatsView extends GetView<ChatsController> {
             const SizedBox(width: 8),
             InkWell(
               child: Container(
-                height: 40,
-                width: 40,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppTheme.colorBackground),
-                child: SvgPicture.asset(
-                  'assets/svgs/send.svg',
-                  color: AppTheme.colorPrimary,
+                padding: const EdgeInsets.only(right: 16, left: 8),
+                child: TextCustom(
+                  'send'.tr,
+                  style: AppTheme.textStyle16.secondary().bold(),
                 ),
               ),
               onTap: () {
                 c.onClickChatSend(_text.text);
-                _text.text = '';
+                _text.clear();
               },
             )
           ],

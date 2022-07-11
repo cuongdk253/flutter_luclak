@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../models/user.dart';
 import '../../services/http/getx_http.dart';
+import '../detail_profile/detail_profile_view.dart';
 
 class PersonalController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();
@@ -26,5 +27,9 @@ class PersonalController extends GetxController {
 
   onClickListProfile() {
     Get.to(() => ListProfileView());
+  }
+
+  onClickEditProfile() {
+    Get.to(() => DetailProfileView(), arguments: '+84398498960_1655305278024');
   }
 }
