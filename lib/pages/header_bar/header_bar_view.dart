@@ -73,6 +73,7 @@ class HeaderBarView extends GetView<HeaderBarController>
                 ),
               ),
             ),
+            onTap: () => c.onClickBalance(),
           )
         ],
       ),

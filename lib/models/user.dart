@@ -16,6 +16,10 @@ class User {
   String avatarUrl = '';
   ImageProvider? avatarProvider;
 
+  List listImage = [];
+  List listPower = [];
+  String about = '';
+
   bool newLike = false;
   bool newChat = false;
 
@@ -48,5 +52,9 @@ class User {
 
     newLike = data['new_like'] ?? false;
     newChat = data['new_chat'] ?? false;
+
+    listImage = data['images'] ?? false;
+    listPower = data['powers'] ?? false;
+    about = data['about'] ?? false;
   }
 }

@@ -39,7 +39,7 @@ class AppTheme {
   static final Border borderBottomLine = Border(
     bottom: BorderSide(
       width: 0.5,
-      color: colorBorderLine,
+      color: colorGreyText1,
     ),
   );
 
@@ -58,7 +58,7 @@ class AppTheme {
   static final Border borderTopLine = Border(
     top: BorderSide(
       width: 1,
-      color: colorBorderLine,
+      color: colorGreyText1,
     ),
   );
 

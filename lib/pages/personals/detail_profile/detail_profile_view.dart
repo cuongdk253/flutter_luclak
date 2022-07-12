@@ -1,10 +1,10 @@
+import 'package:appchat/components/text.dart';
 import 'package:appchat/services/http/cmd.dart';
+import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../components/text.dart';
-import '../../services/themes/app_theme.dart';
 import 'detail_profile.dart';
 
 class DetailProfileView extends GetView<DetailProfileController> {
@@ -43,7 +43,7 @@ class DetailProfileView extends GetView<DetailProfileController> {
                 padding: const EdgeInsets.all(12),
                 alignment: Alignment.center,
                 child: TextFormField(
-                  // controller: c.aboutYou,
+                  controller: c.aboutYou,
                   style: AppTheme.textStyle18.medium(),
                   maxLines: 3,
                   decoration: InputDecoration(
@@ -55,7 +55,6 @@ class DetailProfileView extends GetView<DetailProfileController> {
                     hintText: 'add_your_description'.tr,
                     hintStyle: AppTheme.textStyle18.medium().grey(),
                   ),
-                  // onChanged: (value) => c.onChangeAbout(),
                 ),
               ),
             ],
@@ -71,25 +70,28 @@ class DetailProfileView extends GetView<DetailProfileController> {
                 style: AppTheme.textStyle18.bold(),
               ),
               const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppTheme.colorBackgroundCard,
-                ),
-                padding: const EdgeInsets.all(12),
-                alignment: Alignment.center,
-                child: Row(children: [
-                  Expanded(
-                    child: TextCustom(
-                      'Edit video, Review SP',
-                      style: AppTheme.textStyle16,
-                    ),
+              InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: AppTheme.colorBackgroundCard,
                   ),
-                  SvgPicture.asset(
-                    'assets/svgs/next.svg',
-                    color: AppTheme.colorText,
-                  )
-                ]),
+                  padding: const EdgeInsets.all(12),
+                  alignment: Alignment.center,
+                  child: Row(children: [
+                    Expanded(
+                      child: Obx(() => TextCustom(
+                            c.power.value,
+                            style: AppTheme.textStyle16,
+                          )),
+                    ),
+                    SvgPicture.asset(
+                      'assets/svgs/next.svg',
+                      color: AppTheme.colorText,
+                    )
+                  ]),
+                ),
+                onTap: () => c.onClickPowerCard(),
               ),
             ],
           ),
@@ -259,6 +261,7 @@ class DetailProfileView extends GetView<DetailProfileController> {
               'done'.tr,
               style: AppTheme.textStyle16.bold().secondary(),
             ),
+            onTap: () => c.onClickDone(),
           )
         ],
       ),
@@ -341,8 +344,8 @@ class DetailProfileView extends GetView<DetailProfileController> {
                   alignment: AlignmentDirectional.center,
                   children: [
                     Container(
-                      width: ((Get.width - 48) / 3),
-                      height: Get.width * 0.32 - 4,
+                      width: (Get.width - 24) / 3,
+                      height: (Get.width - 24) / 3 * 1.4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.black.withOpacity(0.3),

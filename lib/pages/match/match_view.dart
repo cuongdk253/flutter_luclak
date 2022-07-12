@@ -240,9 +240,12 @@ class MatchesView extends GetView<MatchesController> {
                             borderRadius: BorderRadius.circular(25),
                             color: AppTheme.colorTextDark,
                           ),
-                          child: SvgPicture.asset(
-                            'assets/svgs/close.svg',
-                            color: AppTheme.colorWhite,
+                          child: InkWell(
+                            child: SvgPicture.asset(
+                              'assets/svgs/close.svg',
+                              color: AppTheme.colorWhite,
+                            ),
+                            onTap: () => Get.back(),
                           ),
                         ),
                 ),

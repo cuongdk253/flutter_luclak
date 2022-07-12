@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../services/constant.dart';
 import '../../../services/http/getx_http.dart';
 import '../../../services/http/post_multipart.dart';
 import '../../../services/themes/app_theme.dart';
@@ -32,18 +33,7 @@ class StepCreateProfileController extends GetxController
 
   List listUrlImage = [];
 
-  List listPower = [
-    {'name': 'Photograp', 'checked': false},
-    {'name': 'Edit video', 'checked': false},
-    {'name': 'Review SP', 'checked': false},
-    {'name': 'Crafts', 'checked': false},
-    {'name': 'Singing', 'checked': false},
-    {'name': 'Art', 'checked': false},
-    {'name': 'Writing', 'checked': false},
-    {'name': 'Stream', 'checked': false},
-    {'name': 'Design', 'checked': false},
-    {'name': 'DJ', 'checked': false},
-  ];
+  List listPower = ListConstant().listPower;
 
   RxString power = ''.obs;
 

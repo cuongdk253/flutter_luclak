@@ -1,10 +1,10 @@
+import 'package:appchat/components/text.dart';
+import 'package:appchat/pages/header_bar/header_bar_view.dart';
+import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../components/text.dart';
-import '../../services/themes/app_theme.dart';
-import '../header_bar/header_bar_view.dart';
 import 'personal.dart';
 
 class PersonalView extends GetView<PersonalController> {
@@ -106,32 +106,35 @@ class PersonalView extends GetView<PersonalController> {
                 ),
                 Positioned(
                   left: 24,
-                  child: SizedBox(
-                    width: 100,
-                    child: Column(children: [
-                      Container(
-                        height: 48,
-                        width: 48,
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: const Offset(0.0, 2.0),
-                              color: Colors.black.withOpacity(.5),
-                              blurRadius: 10.0,
-                            ),
-                          ],
-                          color: AppTheme.colorBackgroundCard,
+                  child: InkWell(
+                    child: SizedBox(
+                      width: 100,
+                      child: Column(children: [
+                        Container(
+                          height: 48,
+                          width: 48,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0.0, 2.0),
+                                color: Colors.black.withOpacity(.5),
+                                blurRadius: 10.0,
+                              ),
+                            ],
+                            color: AppTheme.colorBackgroundCard,
+                          ),
+                          child: SvgPicture.asset('assets/svgs/shield.svg'),
                         ),
-                        child: SvgPicture.asset('assets/svgs/shield.svg'),
-                      ),
-                      const SizedBox(height: 8),
-                      TextCustom(
-                        'safe'.tr,
-                        style: AppTheme.textStyle16.bold().grey(),
-                      )
-                    ]),
+                        const SizedBox(height: 8),
+                        TextCustom(
+                          'SAFE'.tr,
+                          style: AppTheme.textStyle16.bold().grey(),
+                        )
+                      ]),
+                    ),
+                    onTap: () => c.onClickSafe(),
                   ),
                 ),
                 Positioned(
@@ -159,12 +162,12 @@ class PersonalView extends GetView<PersonalController> {
                         ),
                         const SizedBox(height: 8),
                         TextCustom(
-                          'setting'.tr,
+                          'SETTING'.tr,
                           style: AppTheme.textStyle16.bold().grey(),
                         )
                       ]),
                     ),
-                    onTap: () => c.onClickListProfile(),
+                    onTap: () => c.onClickSetting(),
                   ),
                 ),
                 Positioned(
@@ -191,7 +194,7 @@ class PersonalView extends GetView<PersonalController> {
                         ),
                         const SizedBox(height: 8),
                         TextCustom(
-                          'edit_profile'.tr,
+                          'EDIT_PROFILE'.tr,
                           style: AppTheme.textStyle16.bold().grey(),
                         )
                       ]),

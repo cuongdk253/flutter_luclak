@@ -1,4 +1,5 @@
 import 'package:appchat/components/text.dart';
+import 'package:appchat/pages/personals/balance/balance_view.dart';
 import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,9 +26,12 @@ class HeaderBarController extends GetxController {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/svgs/close.svg',
-                      color: AppTheme.colorWhite,
+                    InkWell(
+                      child: SvgPicture.asset(
+                        'assets/svgs/close.svg',
+                        color: AppTheme.colorWhite,
+                      ),
+                      onTap: () => Get.back(),
                     ),
                     Expanded(
                       child: TextCustom(
@@ -241,5 +245,9 @@ class HeaderBarController extends GetxController {
               : SvgPicture.asset('assets/svgs/flash1.svg')
           : const SizedBox(),
     );
+  }
+
+  onClickBalance() {
+    Get.to(() => BalanceView());
   }
 }

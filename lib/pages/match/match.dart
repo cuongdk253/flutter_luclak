@@ -148,9 +148,12 @@ class MatchesController extends GetxController
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/svgs/close.svg',
-                      color: AppTheme.colorWhite,
+                    InkWell(
+                      child: SvgPicture.asset(
+                        'assets/svgs/close.svg',
+                        color: AppTheme.colorWhite,
+                      ),
+                      onTap: () => Get.back(),
                     ),
                     Expanded(
                       child: TextCustom(
