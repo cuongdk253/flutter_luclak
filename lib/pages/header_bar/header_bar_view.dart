@@ -34,17 +34,20 @@ class HeaderBarView extends GetView<HeaderBarController>
                 child: SvgPicture.asset('assets/svgs/flash.svg'),
               ),
             ),
-            onTap: () => c.onClickLogo(),
+            onTap: () => c.onClickLogoFlash(),
           ),
-          ShaderMask(
-            shaderCallback: (bounds) {
-              return AppTheme.gradient.createShader(bounds);
-            },
-            child: SvgPicture.asset(
-              'assets/svgs/logo_text.svg',
-              height: 30,
-              color: AppTheme.colorWhite,
+          InkWell(
+            child: ShaderMask(
+              shaderCallback: (bounds) {
+                return AppTheme.gradient.createShader(bounds);
+              },
+              child: SvgPicture.asset(
+                'assets/svgs/logo_text.svg',
+                height: 30,
+                color: AppTheme.colorWhite,
+              ),
             ),
+            onTap: () => c.onClickLogo(),
           ),
           InkWell(
             child: Container(
