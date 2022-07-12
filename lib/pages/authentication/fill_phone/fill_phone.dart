@@ -47,7 +47,7 @@ class FillPhoneController extends GetxController {
     //pass otp
     if (_pass) {
       Map _body = {
-        "username": phone.text.replaceAll('+', ''),
+        "username": (phoneCode.value + phone.text).replaceAll('+', ''),
         "fcm_token": _loginController.fcmToken
       };
 
