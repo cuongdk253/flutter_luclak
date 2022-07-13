@@ -1,7 +1,8 @@
-import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+
+import '../http/cmd.dart';
 
 class MySocketController extends GetxController {
   Socket? socket;

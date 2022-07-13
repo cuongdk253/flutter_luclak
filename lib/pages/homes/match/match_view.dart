@@ -1,15 +1,15 @@
-import 'package:appchat/components/check.dart';
-import 'package:appchat/components/image_decoration.dart';
-import 'package:appchat/pages/header_bar/header_bar_view.dart';
-import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../components/start_rate.dart';
-import '../../components/text.dart';
-import '../../services/themes/app_theme.dart';
+import '../../../components/check.dart';
+import '../../../components/image_decoration.dart';
+import '../../../components/start_rate.dart';
+import '../../../components/text.dart';
+import '../../../services/http/cmd.dart';
+import '../../../services/themes/app_theme.dart';
+import '../../header_bar/header_bar_view.dart';
 import 'match.dart';
 
 class MatchesView extends GetView<MatchesController> {

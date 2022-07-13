@@ -1,9 +1,5 @@
 import 'dart:io';
 
-import 'package:appchat/components/loading/loading_controller.dart';
-import 'package:appchat/pages/splash/splash_view.dart';
-import 'package:appchat/services/http/getx_http.dart';
-import 'package:appchat/services/language/language.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+
+import 'components/loading/loading_controller.dart';
+import 'pages/splash/splash_view.dart';
+import 'services/http/getx_http.dart';
+import 'services/language/language.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();

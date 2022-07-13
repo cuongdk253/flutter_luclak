@@ -1,5 +1,6 @@
-import 'package:appchat/pages/personals/personal/personal.dart';
 import 'package:get/get.dart';
+
+import '../personal/personal.dart';
 
 class SafeController extends GetxController {
   final PersonalController personalController = Get.find();

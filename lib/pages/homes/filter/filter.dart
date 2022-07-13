@@ -1,6 +1,7 @@
-import 'package:appchat/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../models/user.dart';
 
 class FilterController extends GetxController {
   // final MyHttpProvider _httpProvider = Get.find();

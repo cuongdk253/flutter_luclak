@@ -1,14 +1,14 @@
 import 'dart:ui';
 
-import 'package:appchat/models/chat_user.dart';
-import 'package:appchat/services/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../components/text.dart';
-import '../../components/time_convert.dart';
-import '../../services/themes/app_theme.dart';
+import '../../../components/text.dart';
+import '../../../components/time_convert.dart';
+import '../../../models/chat_user.dart';
+import '../../../services/constant.dart';
+import '../../../services/themes/app_theme.dart';
 import 'list_chat.dart';
 
 class ListChatView extends GetView<ListChatController> {

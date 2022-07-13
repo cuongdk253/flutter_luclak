@@ -1,9 +1,9 @@
-import 'package:appchat/models/user.dart';
-import 'package:appchat/pages/personals/safe/safe_view.dart';
-import 'package:appchat/pages/personals/setting/setting_view.dart';
 import 'package:get/get.dart';
 
+import '../../../models/user.dart';
 import '../detail_profile/detail_profile_view.dart';
+import '../safe/safe_view.dart';
+import '../setting/setting_view.dart';
 
 class PersonalController extends GetxController {
   User user = User();

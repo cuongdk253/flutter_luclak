@@ -1,6 +1,7 @@
-import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+
+import '../services/http/cmd.dart';
 
 class User {
   String userID = '';

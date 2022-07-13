@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:appchat/services/http/post_multipart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import 'cmd.dart';
+import 'post_multipart.dart';
 
 class MyHttpProvider extends GetConnect {
   Map<String, String> headerSignature = {};

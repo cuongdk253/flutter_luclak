@@ -1,7 +1,7 @@
-import 'package:appchat/models/user.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:get/get.dart';
 
+import '../../models/user.dart';
 import '../../services/http/getx_http.dart';
 import '../../services/socket/socket.dart';
 

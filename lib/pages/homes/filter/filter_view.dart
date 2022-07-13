@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../components/text.dart';
-import '../../components/toggle.dart';
-import '../../services/themes/app_theme.dart';
+import '../../../components/text.dart';
+import '../../../components/toggle.dart';
+import '../../../services/themes/app_theme.dart';
 import 'filter.dart';
 
 class FilterView extends GetView<FilterController> {

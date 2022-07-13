@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -10,6 +9,7 @@ import 'dart:io';
 
 import '../../components/loading/loading_controller.dart';
 import '../../components/loading/loading_state.dart';
+import 'cmd.dart';
 
 typedef OnUploadProgressCallback = void Function(double percent);
 

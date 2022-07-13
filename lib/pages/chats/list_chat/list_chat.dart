@@ -1,13 +1,13 @@
-import 'package:appchat/models/chat_user.dart';
-import 'package:appchat/models/user.dart';
-import 'package:appchat/pages/chat/chat_view.dart';
-import 'package:appchat/services/constant.dart';
-import 'package:appchat/services/http/cmd.dart';
-import 'package:appchat/services/socket/socket.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../services/http/getx_http.dart';
+import '../../../models/chat_user.dart';
+import '../../../models/user.dart';
+import '../../../services/constant.dart';
+import '../../../services/http/cmd.dart';
+import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
+import '../chat/chat_view.dart';
 
 class ListChatController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();

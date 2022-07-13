@@ -1,16 +1,16 @@
-import 'package:appchat/components/start_rate.dart';
-import 'package:appchat/components/text.dart';
-import 'package:appchat/services/themes/app_theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../components/image_decoration.dart';
-import '../../components/time_convert.dart';
-import '../../models/user.dart';
-import '../../services/http/getx_http.dart';
-import '../../services/socket/socket.dart';
+import '../../../components/image_decoration.dart';
+import '../../../components/start_rate.dart';
+import '../../../components/text.dart';
+import '../../../components/time_convert.dart';
+import '../../../models/user.dart';
+import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
+import '../../../services/themes/app_theme.dart';
 
 class MatchesController extends GetxController
     with GetTickerProviderStateMixin {

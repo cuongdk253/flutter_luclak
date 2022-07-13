@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:appchat/components/text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
+import '../../../components/text.dart';
 import '../../../services/constant.dart';
 import '../../../services/others/local_storage.dart';
 import '../../../services/themes/app_theme.dart';
