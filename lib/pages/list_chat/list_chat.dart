@@ -110,7 +110,10 @@ class ListChatController extends GetxController {
     _socket.socket!.emit('read_message',
         {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
-    myChatWith.lastMessage!.read = true;
+    if (myChatWith.lastMessage != null) {
+      myChatWith.lastMessage!.read = true;
+    }
+
     update();
 
     Get.to(() => ChatsView());
