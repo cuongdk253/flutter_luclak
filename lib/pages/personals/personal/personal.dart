@@ -24,6 +24,6 @@ class PersonalController extends GetxController {
   }
 
   onClickEditProfile() {
-    Get.to(() => DetailProfileView(), arguments: '+84398498960_1655305278024');
+    Get.to(() => DetailProfileView());
   }
 }

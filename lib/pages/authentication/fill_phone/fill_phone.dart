@@ -46,15 +46,15 @@ class FillPhoneController extends GetxController {
   onClickNext() async {
     //pass otp
     if (_pass) {
+      String _username = (phoneCode.value + phone.text).replaceAll('+', '');
       Map _body = {
-        "username": (phoneCode.value + phone.text).replaceAll('+', ''),
+        "username": _username,
         "fcm_token": _loginController.fcmToken
       };
 
       var _res = await _loginController.httpProvider.doVerifyUser(_body);
       if (_res != null) {
-        SPreferentModule()
-            .setItem(StorageKey.phoneNumber, phone.text.replaceAll('+', ''));
+        SPreferentModule().setItem(StorageKey.phoneNumber, _username);
         _loginController.doLogin(_res);
       }
     } else {

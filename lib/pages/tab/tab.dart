@@ -1,4 +1,6 @@
+import 'package:appchat/services/http/cmd.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../models/user.dart';
@@ -24,6 +26,8 @@ class MyTabController extends GetxController {
   RxBool dotLikeYou = false.obs;
   RxBool dotChat = false.obs;
 
+  List listImageCache = [];
+
   @override
   void onReady() async {
     super.onReady();
@@ -36,10 +40,38 @@ class MyTabController extends GetxController {
     dotChat.value = User().newChat;
   }
 
+  doPrecacheImage(int page) async {
+    listImageCache = [];
+
+    Map _body = {"page": page, "item_per_page": 5};
+    var _res = await _httpProvider.getFindMatch(_body);
+    if (_res != null) {
+      listImageCache = [];
+      for (var i in _res) {
+        final ImageProvider _avatarProvider =
+            NetworkImage(baseUrl + i['avatar']);
+        await precacheImage(_avatarProvider, Get.context!);
+        List _imageProvider = [];
+        i['avatar_provider'] = _avatarProvider;
+        for (var j in i['images']) {
+          final ImageProvider _itemImageProvider = NetworkImage(baseUrl + j);
+          await precacheImage(_itemImageProvider, Get.context!);
+          _imageProvider.add(_itemImageProvider);
+        }
+        i['image_providers'] = _imageProvider;
+
+        listImageCache.add(i);
+      }
+    }
+
+    return listImageCache;
+  }
+
   loadUser() async {
     var _res = await _httpProvider.getUserInfo();
     if (_res != null) {
       User().setUserData(_res);
+      doPrecacheImage(0);
     }
   }
 

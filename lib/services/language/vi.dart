@@ -163,4 +163,8 @@ const Map<String, String> vi = {
   "select_language": "Select language",
   "filters": "Filters",
   "adv_filters": "Set advanced filters",
+  "logout": "Đăng xuất",
+  "ask_logout": "Bạn có chắc muốn đăng xuất?",
+  "yes": "Có",
+  "no": "Không",
 };

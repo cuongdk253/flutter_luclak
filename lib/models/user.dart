@@ -44,7 +44,8 @@ class User {
     }
 
     if (data['birth'] != null) {
-      DateTime _birth = DateFormat('MM/dd/yyyy').parse(data['birth']);
+      String _date = data['birth'].replaceAll('-', '/');
+      DateTime _birth = DateFormat('MM/dd/yyyy').parse(_date);
       int _time =
           DateTime.now().millisecondsSinceEpoch - _birth.millisecondsSinceEpoch;
       birthday = data['birth'];

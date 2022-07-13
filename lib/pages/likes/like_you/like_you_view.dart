@@ -144,7 +144,8 @@ class LikedYouView extends GetView<LikedYouController> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              image: myImageDecoration(_item['profile_image']),
+              image: myImageDecoration(
+                  blur ? _item['profile_image'] : _item['profile_image_liked']),
             ),
           ),
           Container(

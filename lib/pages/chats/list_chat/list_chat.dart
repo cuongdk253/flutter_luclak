@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:appchat/components/image_decoration.dart';
 import 'package:get/get.dart';
 
 import '../../../models/chat_user.dart';
 import '../../../models/user.dart';
 import '../../../services/constant.dart';
-import '../../../services/http/cmd.dart';
 import '../../../services/http/getx_http.dart';
 import '../../../services/socket/socket.dart';
 import '../chat/chat_view.dart';
@@ -89,8 +88,8 @@ class ListChatController extends GetxController {
         _obj.userID = data['sender_chat_id'];
         _obj.userName = data['sender_chat_name'];
         _obj.profileImage = data['sender_chat_avatar'];
-        _obj.profileImageDecoration = DecorationImage(
-            image: NetworkImage(baseUrl + data['sender_chat_avatar']));
+        _obj.profileImageDecoration =
+            myImageDecoration(data['sender_chat_avatar']);
 
         LastMessage _lastMessage = LastMessage(message: data['content']);
         _obj.lastMessage = _lastMessage;

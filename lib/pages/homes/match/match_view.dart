@@ -7,7 +7,6 @@ import '../../../components/check.dart';
 import '../../../components/image_decoration.dart';
 import '../../../components/start_rate.dart';
 import '../../../components/text.dart';
-import '../../../services/http/cmd.dart';
 import '../../../services/themes/app_theme.dart';
 import '../../header_bar/header_bar_view.dart';
 import 'match.dart';
@@ -31,27 +30,42 @@ class MatchesView extends GetView<MatchesController> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: LayoutBuilder(
-          builder: (context, constraints) => Obx(() => c.currentMatch.isNotEmpty
-              ? Stack(
-                  children: [
-                    _matchItem(
-                      item: c.nextMatch,
-                      width: constraints.maxWidth,
-                      height: constraints.maxHeight,
-                      isCurrent: false,
-                    ),
-                    GetBuilder<MatchesController>(
+          builder: (context, constraints) => Obx(
+            () => c.matchSwap0.isNotEmpty || c.matchSwap1.isNotEmpty
+                ? Stack(
+                    children: [
+                      _matchItem(
+                        item: c.matchNext,
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight,
+                        isCurrent: false,
+                      ),
+                      GetBuilder<MatchesController>(
                         builder: (_) => Transform.translate(
-                              offset: c.dragItemLocation,
-                              child: _matchItem(
-                                item: c.currentMatch,
-                                width: constraints.maxWidth,
-                                height: constraints.maxHeight,
-                              ),
-                            ))
-                  ],
-                )
-              : _noMatch()),
+                          offset: c.dragItemLocation,
+                          child: Obx(() => IndexedStack(
+                                index: c.indexStack.value,
+                                children: [
+                                  _matchItem(
+                                    item: c.matchSwap0,
+                                    width: constraints.maxWidth,
+                                    height: constraints.maxHeight,
+                                    isCurrent: false,
+                                  ),
+                                  _matchItem(
+                                    item: c.matchSwap1,
+                                    width: constraints.maxWidth,
+                                    height: constraints.maxHeight,
+                                    isCurrent: false,
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ),
+                    ],
+                  )
+                : _noMatch(),
+          ),
         ),
       ),
       onHorizontalDragUpdate: (DragUpdateDetails detail) =>
@@ -142,9 +156,7 @@ class MatchesView extends GetView<MatchesController> {
           height: height,
           width: width,
           decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(baseUrl + item['images'][0]),
-                fit: BoxFit.cover),
+            image: myImageDecoration(item['images'][0]),
           ),
         ),
         Container(
@@ -190,7 +202,7 @@ class MatchesView extends GetView<MatchesController> {
                     )
                   : const SizedBox()
             ]),
-            onTap: () => c.onClickReview(),
+            // onTap: () => c.onClickReview(),
           ),
         ),
         Positioned(
@@ -240,12 +252,9 @@ class MatchesView extends GetView<MatchesController> {
                             borderRadius: BorderRadius.circular(25),
                             color: AppTheme.colorTextDark,
                           ),
-                          child: InkWell(
-                            child: SvgPicture.asset(
-                              'assets/svgs/close.svg',
-                              color: AppTheme.colorWhite,
-                            ),
-                            onTap: () => Get.back(),
+                          child: SvgPicture.asset(
+                            'assets/svgs/close.svg',
+                            color: AppTheme.colorWhite,
                           ),
                         ),
                 ),
@@ -347,7 +356,8 @@ class MatchesView extends GetView<MatchesController> {
               ),
               Expanded(
                 child: TextCustom(
-                  _socialWiew(c.currentMatch['facebook_view'].toDouble()),
+                  // _socialWiew(c.currentMatch['facebook_view'].toDouble()),
+                  _socialWiew(item['facebook_view'].toDouble()),
                   style: AppTheme.textStyle16.bold(),
                 ),
               ),
@@ -369,7 +379,8 @@ class MatchesView extends GetView<MatchesController> {
               ),
               Expanded(
                 child: TextCustom(
-                  _socialWiew(c.currentMatch['tiktok_view'].toDouble()),
+                  // _socialWiew(c.currentMatch['tiktok_view'].toDouble()),
+                  _socialWiew(item['tiktok_view'].toDouble()),
                   style: AppTheme.textStyle16.bold(),
                 ),
               ),
@@ -391,7 +402,8 @@ class MatchesView extends GetView<MatchesController> {
               ),
               Expanded(
                 child: TextCustom(
-                  _socialWiew(c.currentMatch['instagram_view'].toDouble()),
+                  // _socialWiew(c.currentMatch['instagram_view'].toDouble()),
+                  _socialWiew(item['instagram_view'].toDouble()),
                   style: AppTheme.textStyle16.bold(),
                 ),
               ),
@@ -490,9 +502,7 @@ class MatchesView extends GetView<MatchesController> {
                     height: Get.width - 60,
                     width: Get.width - 60,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(baseUrl + item['images'][index]),
-                          fit: BoxFit.cover),
+                      image: myImageDecoration(item['images'][index]),
                     ),
                   ),
                 ),
