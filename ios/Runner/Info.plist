@@ -32,9 +32,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow LucLak access camera permission to take photo and upload</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow LucLak access photo library to upload image</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -59,9 +63,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow LucLak access photo library to upload image</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Allow LucLak access camera permission to take photo and upload</string>
 </dict>
 </plist>
