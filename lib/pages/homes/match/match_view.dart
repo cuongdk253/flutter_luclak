@@ -189,8 +189,12 @@ class MatchesView extends GetView<MatchesController> {
                     item['name'],
                     style: AppTheme.textStyle20.bold().white(),
                   ),
-                  const SizedBox(height: 2),
-                  myStarRate(14, item['rate'].toDouble())
+                  item['rate'] != null
+                      ? Container(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: myStarRate(14, item['rate'].toDouble()),
+                        )
+                      : const SizedBox()
                 ],
               ),
               const SizedBox(width: 8),
@@ -317,21 +321,32 @@ class MatchesView extends GetView<MatchesController> {
         Positioned(
           bottom: 16,
           left: 18,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            TextCustom(
-              '\$ ${NumberFormat().format(item['money_from'])} - \$ ${NumberFormat().format(item['money_to'])}',
-              style: AppTheme.textStyle20.bold().white().copyWith(fontSize: 30),
-            ),
-            TextCustom(
-              _job(item['jobs']),
-              style: AppTheme.textStyle20.white(),
-            ),
-            TextCustom(
-              _favorite(item['favorites']),
-              style: AppTheme.textStyle20.white(),
-            )
-          ]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              item['money_from'] != null
+                  ? TextCustom(
+                      '\$ ${NumberFormat().format(item['money_from'])} - \$ ${NumberFormat().format(item['money_to'])}',
+                      style: AppTheme.textStyle20
+                          .bold()
+                          .white()
+                          .copyWith(fontSize: 30),
+                    )
+                  : const SizedBox(),
+              item['jobs'] != null
+                  ? TextCustom(
+                      _job(item['jobs']),
+                      style: AppTheme.textStyle20.white(),
+                    )
+                  : const SizedBox(),
+              item['favorites'] != null
+                  ? TextCustom(
+                      _favorite(item['favorites']),
+                      style: AppTheme.textStyle20.white(),
+                    )
+                  : const SizedBox()
+            ],
+          ),
         ),
       ],
     );
@@ -356,8 +371,9 @@ class MatchesView extends GetView<MatchesController> {
               ),
               Expanded(
                 child: TextCustom(
-                  // _socialWiew(c.currentMatch['facebook_view'].toDouble()),
-                  _socialWiew(item['facebook_view'].toDouble()),
+                  item['facebook_view'] != null
+                      ? _socialWiew(item['facebook_view'].toDouble())
+                      : 'no_update'.tr,
                   style: AppTheme.textStyle16.bold(),
                 ),
               ),
@@ -379,8 +395,9 @@ class MatchesView extends GetView<MatchesController> {
               ),
               Expanded(
                 child: TextCustom(
-                  // _socialWiew(c.currentMatch['tiktok_view'].toDouble()),
-                  _socialWiew(item['tiktok_view'].toDouble()),
+                  item['facebook_view'] != null
+                      ? _socialWiew(item['tiktok_view'].toDouble())
+                      : 'no_update'.tr,
                   style: AppTheme.textStyle16.bold(),
                 ),
               ),
@@ -402,8 +419,9 @@ class MatchesView extends GetView<MatchesController> {
               ),
               Expanded(
                 child: TextCustom(
-                  // _socialWiew(c.currentMatch['instagram_view'].toDouble()),
-                  _socialWiew(item['instagram_view'].toDouble()),
+                  item['facebook_view'] != null
+                      ? _socialWiew(item['instagram_view'].toDouble())
+                      : 'no_update'.tr,
                   style: AppTheme.textStyle16.bold(),
                 ),
               ),

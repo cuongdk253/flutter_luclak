@@ -167,4 +167,5 @@ const Map<String, String> vi = {
   "ask_logout": "Bạn có chắc muốn đăng xuất?",
   "yes": "Có",
   "no": "Không",
+  "no_update": "Chưa cập nhật",
 };
