@@ -145,9 +145,9 @@ class ChatsController extends GetxController {
       'content': text,
     });
 
-    // listChatController.myChatWith.lastMessage.message = text;
-    // listChatController.myChatWith.lastMessage.isFirst = false;
-    // listChatController.updateLastMessage();
+    listChatController.myChatWith.lastMessage!.message = text;
+    listChatController.myChatWith.lastMessage!.isFirst = false;
+    listChatController.updateLastMessage();
   }
 
   onClickBack() {
