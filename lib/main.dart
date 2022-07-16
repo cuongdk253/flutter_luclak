@@ -137,3 +137,171 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// import 'dart:math' as math;
+
+// import 'package:flutter/material.dart';
+
+// import 'package:swipable_stack/swipable_stack.dart';
+
+// import 'components/card_swipe.dart';
+// import 'services/constant.dart';
+
+
+// const _images = [
+//   'assets/imgs/img1.jpeg',
+//   'assets/imgs/img2.jpeg',
+//   'assets/imgs/img3.jpeg',
+// ];
+
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
+//       ),
+//       home: const Home(),
+//     );
+//   }
+// }
+
+// class Home extends StatefulWidget {
+//   const Home({Key? key}) : super(key: key);
+
+//   @override
+//   _HomeState createState() => _HomeState();
+// }
+
+// class _HomeState extends State<Home> {
+//   late SwipableStackController _controller;
+
+//   void _listenController() {
+//     setState(() {});
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _controller = SwipableStackController()..addListener(_listenController);
+//   }
+
+//   static const double _bottomPadding = 100;
+//   static const double _topPadding = 60;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('currentIndex:${_controller.currentIndex}'),
+//       ),
+//       body: SafeArea(
+//         child: Stack(
+//           children: [
+//             SwipableStack(
+//               controller: _controller,
+//               onSwipeCompleted: (index, direction) {},
+//               overlayBuilder: (
+//                 context,
+//                 constraints,
+//                 index,
+//                 direction,
+//                 swipeProgress,
+//               ) {
+//                 final opacity = math.min(swipeProgress, 1.0);
+
+//                 final isRight = direction == SwipeDirection.right;
+//                 final isLeft = direction == SwipeDirection.left;
+//                 final isUp = direction == SwipeDirection.up;
+//                 final isDown = direction == SwipeDirection.down;
+//                 return Padding(
+//                   padding: const EdgeInsets.symmetric(
+//                     horizontal: 32,
+//                   ).copyWith(
+//                     top: _topPadding + 8,
+//                   ),
+//                   child: Stack(
+//                     children: [
+//                       Opacity(
+//                         opacity: isRight ? opacity : 0,
+//                         child: CardLabel.right(),
+//                       ),
+//                       Opacity(
+//                         opacity: isLeft ? opacity : 0,
+//                         child: CardLabel.left(),
+//                       ),
+//                       Opacity(
+//                         opacity: isUp ? opacity : 0,
+//                         child: CardLabel.up(),
+//                       ),
+//                       Opacity(
+//                         opacity: isDown ? opacity : 0,
+//                         child: CardLabel.down(),
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//               builder: (context, index, constraints) {
+//                 final imagePath = _images[index % _images.length];
+//                 return Padding(
+//                   padding: const EdgeInsets.only(
+//                     top: _topPadding,
+//                     bottom: _bottomPadding,
+//                   ),
+
+//                   child: SingleChildScrollView(
+//                       child: Column(children: [
+//                     ClipRRect(
+//                       borderRadius: BorderRadius.circular(8),
+//                       child: Image.asset(
+//                         imagePath,
+//                       ),
+//                     ),
+//                     const Text('ok'),
+//                     Container(
+//                       height: 100,
+//                       width: 100,
+//                       color: Colors.red,
+//                     ),
+//                     Container(
+//                       height: 100,
+//                       width: 100,
+//                       color: Colors.red,
+//                     ),
+//                     Container(
+//                       height: 100,
+//                       width: 100,
+//                       color: Colors.red,
+//                     ),
+//                     Container(
+//                       height: 100,
+//                       width: 100,
+//                       color: Colors.red,
+//                     )
+//                   ])),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     _controller.removeListener(_listenController);
+//     _controller.dispose();
+//   }
+// }

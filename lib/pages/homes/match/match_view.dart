@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:swipable_stack/swipable_stack.dart';
 
+import '../../../components/card_swipe.dart';
 import '../../../components/check.dart';
 import '../../../components/image_decoration.dart';
 import '../../../components/start_rate.dart';
@@ -13,7 +15,6 @@ import 'match.dart';
 
 class MatchesView extends GetView<MatchesController> {
   final MatchesController c = Get.put(MatchesController());
-
   MatchesView({Key? key}) : super(key: key);
 
   @override
@@ -21,71 +22,70 @@ class MatchesView extends GetView<MatchesController> {
     return Scaffold(
       backgroundColor: AppTheme.colorBackgroundHeader,
       appBar: HeaderBarView(),
-      body: mBody(context),
+      body: mBody(),
     );
   }
 
-  Widget mBody(context) {
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: LayoutBuilder(
-          builder: (context, constraints) => Obx(
-            () => c.matchSwap0.isNotEmpty || c.matchSwap1.isNotEmpty
-                ? Stack(
-                    children: [
-                      _matchItem(
-                        item: c.matchNext,
-                        width: constraints.maxWidth,
-                        height: constraints.maxHeight,
-                        isCurrent: false,
+  Widget mBody() {
+    return SafeArea(
+      child: Stack(
+        children: [
+          GetBuilder<MatchesController>(
+            builder: (_) => c.swipableStackController != null
+                ? Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: SwipableStack(
+                      controller: c.swipableStackController,
+                      stackClipBehaviour: Clip.none,
+                      allowVerticalSwipe: false,
+                      onWillMoveNext: (index, swipeDirection) {
+                        // Return true for the desired swipe direction.
+                        switch (swipeDirection) {
+                          case SwipeDirection.left:
+                          case SwipeDirection.right:
+                            return c.canSwipe.value;
+                          case SwipeDirection.up:
+                          case SwipeDirection.down:
+                            return false;
+                        }
+                      },
+                      onSwipeCompleted: (index, direction) =>
+                          c.onSwipeCompleted(index, direction),
+                      horizontalSwipeThreshold: 0.8,
+                      // Set max value to ignore vertical threshold.
+                      verticalSwipeThreshold: 1,
+                      overlayBuilder: (context, properties) => CardOverlay(
+                        swipeProgress: properties.swipeProgress,
+                        direction: properties.direction,
                       ),
-                      GetBuilder<MatchesController>(
-                        builder: (_) => Transform.translate(
-                          offset: c.dragItemLocation,
-                          child: Obx(() => IndexedStack(
-                                index: c.indexStack.value,
-                                children: [
-                                  _matchItem(
-                                    item: c.matchSwap0,
-                                    width: constraints.maxWidth,
-                                    height: constraints.maxHeight,
-                                    isCurrent: false,
-                                  ),
-                                  _matchItem(
-                                    item: c.matchSwap1,
-                                    width: constraints.maxWidth,
-                                    height: constraints.maxHeight,
-                                    isCurrent: false,
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ),
-                    ],
+                      builder: (context, properties) {
+                        final Map item = c.listMatch[(properties.index)
+                            .clamp(0, c.listMatch.length - 1)];
+                        if (item.isNotEmpty) {
+                          return _matchItem(item: item);
+                        } else {
+                          return _noMatch();
+                        }
+                      },
+                    ),
                   )
-                : _noMatch(),
+                : const SizedBox(),
           ),
-        ),
+          Obx(() => !c.canSwipe.value ? _noMatch() : const SizedBox()),
+        ],
       ),
-      onHorizontalDragUpdate: (DragUpdateDetails detail) =>
-          c.onDragItemUpdate(detail),
-      onHorizontalDragEnd: (DragEndDetails detai) => c.onDragItemEnd(detai),
     );
   }
 
-  Widget _matchItem({
-    required Map item,
-    required double width,
-    required double height,
-    bool isCurrent = true,
-  }) {
+  Widget _matchItem({required Map item}) {
+    double height = Get.height - Get.statusBarHeight - Get.bottomBarHeight + 8;
+    double width = Get.width - 16;
     return SizedBox(
       height: height,
       width: width,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Obx(() => item.isNotEmpty
+        child: item.isNotEmpty
             ? Stack(
                 children: [
                   Container(
@@ -116,37 +116,37 @@ class MatchesView extends GetView<MatchesController> {
                   )
                 ],
               )
-            : const SizedBox()),
+            : const SizedBox(),
       ),
     );
   }
 
   Widget _scroll() {
-    return FadeTransition(
-      opacity: c.scrollBarAnimation,
-      child: Container(
-        height: 72,
-        width: 6,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(3),
-          color: AppTheme.colorGreyText,
-        ),
-        child: Container(
-          margin: EdgeInsets.only(
-              top: ((72.0 - 72.0 * c.scrollBarPercentHeight.value) *
-                      c.scrollBarPercentHeightPosition.value)
-                  .clamp(0.0, 72.0),
-              bottom: (72.0 * (1 - c.scrollBarPercentHeight.value) -
-                      (72.0 - 72.0 * c.scrollBarPercentHeight.value) *
+    return Obx(() => FadeTransition(
+          opacity: c.scrollBarAnimation,
+          child: Container(
+            height: 72,
+            width: 6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3),
+              color: AppTheme.colorGreyText,
+            ),
+            child: Container(
+              margin: EdgeInsets.only(
+                  top: ((72.0 - 72.0 * c.scrollBarPercentHeight.value) *
                           c.scrollBarPercentHeightPosition.value)
-                  .clamp(0.0, 72.0)),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color: AppTheme.colorWhite,
+                      .clamp(0.0, 72.0),
+                  bottom: (72.0 * (1 - c.scrollBarPercentHeight.value) -
+                          (72.0 - 72.0 * c.scrollBarPercentHeight.value) *
+                              c.scrollBarPercentHeightPosition.value)
+                      .clamp(0.0, 72.0)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: AppTheme.colorWhite,
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _introduce(Map item, double width, double height) {
@@ -202,7 +202,7 @@ class MatchesView extends GetView<MatchesController> {
                     )
                   : const SizedBox()
             ]),
-            // onTap: () => c.onClickReview(),
+            onTap: () => c.onClickReview(),
           ),
         ),
         Positioned(
@@ -499,8 +499,8 @@ class MatchesView extends GetView<MatchesController> {
                 children: List.generate(
                   item['images'].length,
                   (index) => Container(
-                    height: Get.width - 60,
-                    width: Get.width - 60,
+                    height: Get.width - 52,
+                    width: Get.width - 52,
                     decoration: BoxDecoration(
                       image: myImageDecoration(item['images'][index]),
                     ),
@@ -510,12 +510,12 @@ class MatchesView extends GetView<MatchesController> {
             ),
             GestureDetector(
               child: Container(
-                height: Get.width - 60,
-                width: Get.width - 60,
+                height: Get.width - 52,
+                width: Get.width - 52,
                 color: Colors.transparent,
               ),
               onHorizontalDragEnd: (DragEndDetails detai) =>
-                  c.onDragItemImageEnd(detai),
+                  c.onDragItemImageEnd(detai, item),
             ),
             Positioned(
               bottom: 12,
@@ -547,12 +547,15 @@ class MatchesView extends GetView<MatchesController> {
   }
 
   Widget _noMatch() {
-    return Obx(() => c.loaded.value
-        ? Container(
-            alignment: Alignment.center,
-            child: const TextCustom('hết rồi!'),
-          )
-        : const SizedBox());
+    return Container(
+      // height: Get.height - Get.statusBarHeight - Get.bottomBarHeight + 8,
+      // width: Get.width - 16,
+      height: Get.height,
+      width: Get.width,
+      color: AppTheme.colorBackgroundHeader,
+      alignment: Alignment.center,
+      child: const TextCustom('hết rồi!'),
+    );
   }
 
   String _job(List list) {

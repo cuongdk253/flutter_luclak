@@ -1,4 +1,5 @@
 import 'package:appchat/pages/authentication/login/login_view.dart';
+import 'package:appchat/services/themes/app_theme.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:get/get.dart';
 
@@ -41,7 +42,9 @@ class SettingController extends GetxController {
         title: 'logout'.tr,
         desc: 'ask_logout'.tr,
         btnOkText: 'yes'.tr,
+        btnOkColor: AppTheme.colorPrimary,
         btnCancelText: 'no'.tr,
+        btnCancelColor: AppTheme.colorRed,
         btnCancelOnPress: () {},
         btnOkOnPress: () async {
           await _httpProvider.doLogout();
