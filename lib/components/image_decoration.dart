@@ -8,6 +8,6 @@ DecorationImage myImageDecoration(String? url) {
   if (url != null && url != '') {
     _imageProvider = CachedNetworkImageProvider(baseUrl + url);
   }
-
+  
   return DecorationImage(image: _imageProvider, fit: BoxFit.cover);
 }
