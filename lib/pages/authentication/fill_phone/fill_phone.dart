@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
+import '../../../components/loading/loading.dart';
 import '../../../components/text.dart';
 import '../../../services/constant.dart';
 import '../../../services/others/local_storage.dart';
@@ -25,7 +26,7 @@ class FillPhoneController extends GetxController {
   RxString countryCode = 'VN'.obs;
   RxString phoneCode = '+84'.obs;
 
-  final bool _pass = true;
+  final bool _pass = false;
 
   @override
   onInit() async {
@@ -44,7 +45,9 @@ class FillPhoneController extends GetxController {
   }
 
   onClickNext() async {
-    //pass otp
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    // pass otp
     if (_pass) {
       String _username = (phoneCode.value + phone.text).replaceAll('+', '');
       Map _body = {
@@ -58,13 +61,16 @@ class FillPhoneController extends GetxController {
         _loginController.doLogin(_res);
       }
     } else {
+      showLoading();
+
       _loginController.username = phoneCode.value + phone.text;
-      await _loginController.firebaseAuth.verifyPhoneNumber(
+      _loginController.firebaseAuth.verifyPhoneNumber(
         phoneNumber: _loginController.username,
         timeout: const Duration(seconds: 120),
         verificationCompleted: (phoneAuthCredential) async {},
         verificationFailed: (verificationFailed) async {
-          debugPrint(verificationFailed.toString());
+          await hideLoading();
+
           AwesomeDialog(
             context: Get.context!,
             dialogType: DialogType.WARNING,
@@ -76,10 +82,14 @@ class FillPhoneController extends GetxController {
         },
         codeSent: (_verificationId, resendingToken) async {
           _loginController.verificationId = _verificationId;
+
+          hideLoading();
+          await Future.delayed(const Duration(milliseconds: 300));
+
           Get.to(() => OtpView());
         },
         codeAutoRetrievalTimeout: (verificationId) async {
-          debugPrint(verificationId);
+          await hideLoading();
         },
       );
     }

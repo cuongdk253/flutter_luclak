@@ -168,4 +168,8 @@ const Map<String, String> vi = {
   "yes": "Có",
   "no": "Không",
   "no_update": "Chưa cập nhật",
+  "your_pubget": "Your pubget",
+  "des_your_pubget": "Chọn khoảng tiền bạn muốn giới thiệu về pubget của bạn",
+  "min_pubget": "Min pudget",
+  "max_pubget": "Max pudget",
 };

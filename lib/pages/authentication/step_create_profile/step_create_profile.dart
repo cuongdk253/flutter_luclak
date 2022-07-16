@@ -1,3 +1,5 @@
+import 'package:appchat/components/format_number.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +18,15 @@ class StepCreateProfileController extends GetxController
 
   TextEditingController aboutYou = TextEditingController();
 
-  RxDouble processStep = 0.34.obs;
+  RxDouble processStep = 0.25.obs;
+
+  final double maxPubget = 10000.0;
+  final double itemValuePubget = 100.0;
+  RxDouble pubgetStart = 0.0.obs;
+  RxDouble pubgetEnd = 100.0.obs;
+
+  FixedExtentScrollController? pubgetStartController;
+  FixedExtentScrollController? pubgetEndController;
 
   List listImage = [
     {
@@ -58,14 +68,16 @@ class StepCreateProfileController extends GetxController
 
   onClickNext() async {
     if (canNext.value) {
-      if (step.value < 3) {
-        canNext.value = false;
+      if (step.value < 4) {
+        if (step.value < 3) {
+          canNext.value = false;
+        }
 
         _controller.forward();
 
         await Future.delayed(const Duration(milliseconds: 300));
         step.value += 1;
-        processStep.value += 0.33;
+        processStep.value += 0.25;
 
         _controller.reset();
       } else {
@@ -231,14 +243,167 @@ class StepCreateProfileController extends GetxController
     Map _body = {
       "about": aboutYou.text,
       "images": listUrlImage,
-      "powers": _listPower
+      "powers": _listPower,
+      "money_from": pubgetStart.value,
+      "money_to": pubgetEnd.value,
     };
-
-    debugPrint(_body.toString());
 
     var _res = await _httpProvider.doCreateProfile(_body);
     if (_res != null) {
       Get.to(() => DoneCreateProfileView());
     }
+  }
+
+  onPubgetChange(RangeValues value) {
+    pubgetStart.value = value.start;
+    pubgetEnd.value = value.end;
+  }
+
+  onClickPubget() async {
+    pubgetStartController = FixedExtentScrollController(
+        initialItem: pubgetStart.value != 0
+            ? (pubgetStart.value / itemValuePubget).round()
+            : 0);
+    pubgetEndController = FixedExtentScrollController(
+        initialItem: pubgetEnd.value != 0
+            ? (pubgetEnd.value / itemValuePubget).round()
+            : 0);
+
+    await Get.bottomSheet(
+      SizedBox(
+        height: 250,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Container(
+                  height: 52,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom:
+                          BorderSide(width: 1, color: AppTheme.colorDisable),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: Get.width,
+                        child: TextCustom(
+                          'your_pubget'.tr,
+                          style: AppTheme.textStyle16.medium().textDark(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: InkWell(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: TextCustom(
+                              'done'.tr,
+                              style: AppTheme.textStyle16.medium().secondary(),
+                            ),
+                          ),
+                          onTap: () => Get.back(),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 4),
+                            TextCustom(
+                              'min_pubget'.tr,
+                              style: AppTheme.textStyle.textDark(),
+                            ),
+                            Expanded(
+                              child: CupertinoPicker(
+                                itemExtent: 36,
+                                scrollController: pubgetStartController,
+                                onSelectedItemChanged: (int index) {
+                                  pubgetStart.value = index * itemValuePubget;
+                                  if (pubgetEnd.value <= pubgetStart.value) {
+                                    pubgetEndController!.animateToItem(
+                                      index + 1,
+                                      duration:
+                                          const Duration(milliseconds: 100),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  }
+                                },
+                                children: List.generate(
+                                  (maxPubget / itemValuePubget).round(),
+                                  (int index) => Center(
+                                    child: TextCustom(
+                                      formatNumberString(
+                                          index * itemValuePubget),
+                                      style: AppTheme.textStyle16.textDark(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 4),
+                            TextCustom(
+                              'max_pubget'.tr,
+                              style: AppTheme.textStyle.textDark(),
+                            ),
+                            Expanded(
+                              child: CupertinoPicker(
+                                itemExtent: 36,
+                                scrollController: pubgetEndController,
+                                onSelectedItemChanged: (int index) {
+                                  pubgetEnd.value = index * itemValuePubget;
+                                  if (pubgetEnd.value <= pubgetStart.value) {
+                                    pubgetEndController!.animateToItem(
+                                      index + 1,
+                                      duration:
+                                          const Duration(milliseconds: 100),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  }
+                                },
+                                children: List.generate(
+                                  (maxPubget / itemValuePubget).round(),
+                                  (int index) => Center(
+                                    child: TextCustom(
+                                      formatNumberString(
+                                          index * itemValuePubget),
+                                      style: AppTheme.textStyle16.textDark(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

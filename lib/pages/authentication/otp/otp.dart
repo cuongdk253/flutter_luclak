@@ -1,3 +1,4 @@
+import 'package:appchat/components/loading/loading.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,8 @@ class OtpController extends GetxController {
 
   onClickVerification() async {
     try {
+      showLoading();
+
       PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
           verificationId: _loginController.verificationId!, smsCode: otp.text);
 
@@ -31,6 +34,9 @@ class OtpController extends GetxController {
         };
 
         var _res = await _loginController.httpProvider.doVerifyUser(_body);
+
+        hideLoading();
+
         if (_res != null) {
           SPreferentModule()
               .setItem(StorageKey.phoneNumber, _loginController.username);
@@ -40,6 +46,8 @@ class OtpController extends GetxController {
         throw Exception('verify_otp_fail'.tr);
       }
     } catch (error) {
+      hideLoading();
+
       AwesomeDialog(
         context: Get.context!,
         dialogType: DialogType.ERROR,

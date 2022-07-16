@@ -38,45 +38,12 @@ class MyTabController extends GetxController {
     dotChat.value = User().newChat;
   }
 
-  // doPrecacheImage(int page) async {
-  //   listImageCache = [];
-
-  //   Map _body = {"page": page, "item_per_page": 5};
-  //   var _res = await _httpProvider.getFindMatch(_body);
-  //   if (_res != null) {
-  //     listImageCache = [];
-  //     for (var i in _res) {
-  //       final ImageProvider _avatarProvider =
-  //           NetworkImage(baseUrl + i['avatar']);
-  //       await precacheImage(_avatarProvider, Get.context!);
-  //       List _imageProvider = [];
-  //       i['avatar_provider'] = _avatarProvider;
-  //       for (var j in i['images']) {
-  //         final ImageProvider _itemImageProvider = NetworkImage(baseUrl + j);
-  //         await precacheImage(_itemImageProvider, Get.context!);
-  //         _imageProvider.add(_itemImageProvider);
-  //       }
-  //       i['image_providers'] = _imageProvider;
-
-  //       listImageCache.add(i);
-  //     }
-  //   }
-
-  //   return listImageCache;
-  // }
-
   loadUser() async {
     var _res = await _httpProvider.getUserInfo();
     if (_res != null) {
       User().setUserData(_res);
-      // doPrecacheImage(0);
     }
   }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
@@ -95,6 +62,8 @@ class MyTabController extends GetxController {
           autoHide: const Duration(seconds: 10),
           desc: 'des_you_got_match'.tr,
         ).show();
+
+        _socket.socket!.emit('send_match', data);
       }
     });
   }

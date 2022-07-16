@@ -125,7 +125,7 @@ class StepCreateUserController extends GetxController
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 16),
                             child: TextCustom(
-                              'Xong',
+                              'done'.tr,
                               style: AppTheme.textStyle16.medium().secondary(),
                             ),
                           ),

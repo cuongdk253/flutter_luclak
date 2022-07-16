@@ -308,9 +308,12 @@ class DetailProfileView extends GetView<DetailProfileController> {
             width: (Get.width - 24) / 3,
             height: (Get.width - 24) / 3 * 1.4,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: AppTheme.colorBackgroundCard,
-                image: myImageDecoration(item['image_url'])),
+              borderRadius: BorderRadius.circular(8),
+              color: AppTheme.colorBackgroundCard,
+              image: item['image_url'] != ''
+                  ? myImageDecoration(item['image_url'])
+                  : null,
+            ),
           ),
         ),
         Positioned(

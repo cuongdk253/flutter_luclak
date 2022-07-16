@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import 'loading_controller.dart';
 import 'loading_state.dart';
@@ -11,34 +12,15 @@ void showLoading() async {
 
     Get.dialog(
       WillPopScope(
-          child: Center(
-            child: Stack(
-              children: [
-                // RotationTransition(
-                //   turns: _loadingController.animation,
-                //   child: CustomPaint(
-                //     size: Size(80, 80),
-                //     painter: MyPainter(),
-                //   ),
-                // ),
-                Positioned(
-                  left: 1,
-                  top: 1,
-                  right: 1,
-                  child: Container(
-                    height: 78,
-                    width: 78,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(39),
-                      image: const DecorationImage(
-                        image: AssetImage("assets/imgs/logo_app.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: Lottie.asset('assets/lotties/loading.json'),
+              ),
+            ],
           ),
           onWillPop: () async => _loadingController.state is UnLoading),
       barrierDismissible: false,

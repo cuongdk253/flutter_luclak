@@ -473,7 +473,7 @@ class MatchesView extends GetView<MatchesController> {
             const SizedBox(height: 8),
             Row(
               children: List.generate(
-                item['powers'].length,
+                2,
                 (index) => Expanded(
                     child: Row(
                   children: [

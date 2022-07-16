@@ -1,5 +1,4 @@
 import 'package:appchat/components/image_decoration.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../models/chat_user.dart';
@@ -68,7 +67,6 @@ class ListChatController extends GetxController {
 
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
-      debugPrint(data.toString());
       bool _newChat = true;
       for (ChatUserModel i in listData) {
         if (i.userID == data['sender_chat_id']) {
