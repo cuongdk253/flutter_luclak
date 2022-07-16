@@ -1,11 +1,11 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../../components/text.dart';
+import '../../../services/themes/app_theme.dart';
 import 'otp.dart';
 
 class OtpView extends GetView<OtpController> {

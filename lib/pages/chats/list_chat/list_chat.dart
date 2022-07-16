@@ -1,13 +1,12 @@
-import 'package:appchat/models/chat_user.dart';
-import 'package:appchat/models/user.dart';
-import 'package:appchat/pages/chat/chat_view.dart';
-import 'package:appchat/services/constant.dart';
-import 'package:appchat/services/http/cmd.dart';
-import 'package:appchat/services/socket/socket.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:appchat/components/image_decoration.dart';
 import 'package:get/get.dart';
 
-import '../../services/http/getx_http.dart';
+import '../../../models/chat_user.dart';
+import '../../../models/user.dart';
+import '../../../services/constant.dart';
+import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
+import '../chat/chat_view.dart';
 
 class ListChatController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();
@@ -89,8 +88,8 @@ class ListChatController extends GetxController {
         _obj.userID = data['sender_chat_id'];
         _obj.userName = data['sender_chat_name'];
         _obj.profileImage = data['sender_chat_avatar'];
-        _obj.profileImageDecoration = DecorationImage(
-            image: NetworkImage(baseUrl + data['sender_chat_avatar']));
+        _obj.profileImageDecoration =
+            myImageDecoration(data['sender_chat_avatar']);
 
         LastMessage _lastMessage = LastMessage(message: data['content']);
         _obj.lastMessage = _lastMessage;
@@ -110,7 +109,10 @@ class ListChatController extends GetxController {
     _socket.socket!.emit('read_message',
         {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
-    myChatWith.lastMessage!.read = true;
+    if (myChatWith.lastMessage != null) {
+      myChatWith.lastMessage!.read = true;
+    }
+
     update();
 
     Get.to(() => ChatsView());

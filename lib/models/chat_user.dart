@@ -1,6 +1,6 @@
-import 'package:appchat/services/constant.dart';
 import 'package:flutter/material.dart';
 
+import '../services/constant.dart';
 import '../services/http/cmd.dart';
 
 class ChatUserModel {

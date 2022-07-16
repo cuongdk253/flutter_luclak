@@ -1,13 +1,13 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/pages/authentication/done_create_profile/done_create_profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../components/text.dart';
 import '../../../services/constant.dart';
 import '../../../services/http/getx_http.dart';
 import '../../../services/http/post_multipart.dart';
 import '../../../services/themes/app_theme.dart';
+import '../done_create_profile/done_create_profile_view.dart';
 
 class StepCreateProfileController extends GetxController
     with GetTickerProviderStateMixin {

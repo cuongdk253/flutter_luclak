@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../services/http/getx_http.dart';
+import '../../../services/http/getx_http.dart';
 
 class LikedYouController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();

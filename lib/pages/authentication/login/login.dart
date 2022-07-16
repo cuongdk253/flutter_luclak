@@ -1,4 +1,3 @@
-import 'package:appchat/pages/authentication/fill_phone/fill_phone_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../services/http/getx_http.dart';
 import '../../../services/socket/socket.dart';
 import '../../tab/tab_view.dart';
+import '../fill_phone/fill_phone_view.dart';
 import '../step_create_user/step_create_user_view.dart';
 
 class LoginController extends GetxController {

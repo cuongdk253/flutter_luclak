@@ -1,6 +1,7 @@
-import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../services/themes/app_theme.dart';
 
 class MyCheckbox extends StatelessWidget {
   final bool isChecked;

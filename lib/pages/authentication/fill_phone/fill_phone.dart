@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:appchat/components/text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
+import '../../../components/text.dart';
 import '../../../services/constant.dart';
 import '../../../services/others/local_storage.dart';
 import '../../../services/themes/app_theme.dart';
@@ -46,15 +46,15 @@ class FillPhoneController extends GetxController {
   onClickNext() async {
     //pass otp
     if (_pass) {
+      String _username = (phoneCode.value + phone.text).replaceAll('+', '');
       Map _body = {
-        "username": (phoneCode.value + phone.text).replaceAll('+', ''),
+        "username": _username,
         "fcm_token": _loginController.fcmToken
       };
 
       var _res = await _loginController.httpProvider.doVerifyUser(_body);
       if (_res != null) {
-        SPreferentModule()
-            .setItem(StorageKey.phoneNumber, phone.text.replaceAll('+', ''));
+        SPreferentModule().setItem(StorageKey.phoneNumber, _username);
         _loginController.doLogin(_res);
       }
     } else {

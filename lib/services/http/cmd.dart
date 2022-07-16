@@ -9,6 +9,7 @@ const String userInfo = 'api/user_info';
 const String verifyUser = 'api/verify_user';
 const String autoLogin = 'api/auto_login';
 const String updateUser = 'api/update_user';
+const String logout = 'api/logout';
 
 const String createProfile = 'api/create_profile';
 const String updateProfile = 'api/update_profile';

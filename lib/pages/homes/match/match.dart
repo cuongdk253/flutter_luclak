@@ -1,35 +1,28 @@
-import 'package:appchat/components/start_rate.dart';
-import 'package:appchat/components/text.dart';
-import 'package:appchat/services/themes/app_theme.dart';
+// import 'package:appchat/pages/tab/tab.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:swipable_stack/swipable_stack.dart';
 
-import '../../components/image_decoration.dart';
-import '../../components/time_convert.dart';
-import '../../models/user.dart';
-import '../../services/http/getx_http.dart';
-import '../../services/socket/socket.dart';
+import '../../../components/image_decoration.dart';
+import '../../../components/start_rate.dart';
+import '../../../components/text.dart';
+import '../../../components/time_convert.dart';
+import '../../../models/user.dart';
+import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
+import '../../../services/themes/app_theme.dart';
 
 class MatchesController extends GetxController
     with GetTickerProviderStateMixin {
   final MyHttpProvider _httpProvider = Get.find();
   final MySocketController _socket = Get.find();
+  // final MyTabController _tab = Get.find();
 
   final User _user = User();
 
   List listMatch = [];
-
-  RxMap currentMatch = {}.obs;
-
-  RxMap nextMatch = {}.obs;
-
-  var _nextMatch = {};
-
-  int nextIndex = 1;
-
-  RxBool loaded = false.obs;
 
   RxBool menuClose = false.obs;
 
@@ -40,8 +33,6 @@ class MatchesController extends GetxController
 
   ScrollController imageSlideController = ScrollController();
 
-  Offset dragItemLocation = const Offset(0, 0);
-  Offset? firstOffset;
   bool showScrollBar = false;
 
   late final AnimationController _menuIconController = AnimationController(
@@ -62,30 +53,45 @@ class MatchesController extends GetxController
     curve: Curves.easeOut,
   );
 
+  int page = 0;
+  final int itemPerPage = 10;
+  bool hasMore = true;
+
+  SwipableStackController? swipableStackController;
+  RxBool canSwipe = true.obs;
+  int previousIndex = 0;
+
   @override
   onReady() async {
     super.onReady();
+
+    swipableStackController = SwipableStackController()..addListener(() {});
 
     onFindMatch();
   }
 
   onFindMatch() async {
-    Map _body = {"username": _user.userID};
-    var _res = await _httpProvider.getFindMatch(_body);
-    if (_res != null) {
-      listMatch = [];
-      for (var i in _res) {
-        // FindUserModel _obj = FindUserModel().setData(i);
-        listMatch.add(i);
-      }
+    if (hasMore) {
+      Map _body = {"page": page, "item_per_page": itemPerPage};
 
-      loaded.value = true;
+      var _res = await _httpProvider.getFindMatch(_body);
 
-      if (listMatch.length > 1) {
-        currentMatch.value = listMatch[0];
-        _nextMatch = nextMatch.value = listMatch[1];
-      } else if (listMatch.length == 1) {
-        currentMatch.value = listMatch[0];
+      if (_res != null) {
+        hasMore = _res.length == itemPerPage;
+
+        if (page == 0) {
+          listMatch = _res;
+        } else {
+          listMatch.removeAt(listMatch.length - 1);
+          for (var i in _res) {
+            listMatch.add(i);
+          }
+        }
+
+        listMatch.add({});
+        page += 1;
+
+        update();
       }
     }
   }
@@ -104,26 +110,20 @@ class MatchesController extends GetxController
   onSlideImage() {
     double _imageWidth = Get.width - 60;
     int _index = (imageSlideController.offset / _imageWidth).round();
-    // imageSlideIndex.value = _index;
-
-    // debugPrint((_imageWidth * _index).toString());
-
-    // imageSlideController.animateTo(1000,
-    //     duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
 
     return onSlideToIndexImage(_index);
   }
 
   onSlideToIndexImage(index) {
     imageSlideIndex.value = index;
-    double _imageWidth = Get.width - 60;
+    double _imageWidth = Get.width - 52;
     imageSlideController.animateTo(_imageWidth * index,
         duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   onClickReview() async {
     Map _body = {
-      "profile_id": currentMatch['_id'],
+      "profile_id": listMatch[previousIndex + 1],
       "page": 0,
       "item_per_page": 20
     };
@@ -296,69 +296,49 @@ class MatchesController extends GetxController
     );
   }
 
-  onDragItemUpdate(DragUpdateDetails detail) {
-    firstOffset ??= detail.localPosition;
+  onSwipeCompleted(int index, SwipeDirection direction) {
+    menuClose.value = true;
+    onClickCloseMenu();
+    imageSlideIndex.value = 0;
+    previousIndex = index;
+    canSwipe.value = (index < listMatch.length - 2);
 
-    dragItemLocation = Offset(detail.localPosition.dx - firstOffset!.dx,
-        detail.localPosition.dy - firstOffset!.dy);
-    update();
-  }
-
-  onDragItemEnd(DragEndDetails detail) {
-    if (detail.primaryVelocity! != 0) {
-      _doAcceptOrDecline(detail.primaryVelocity! > 0);
-    } else {
-      double _value = (dragItemLocation.dx + firstOffset!.dx) - Get.width * 0.5;
-      if (_value.abs() > (Get.width * 0.3)) {
-        _doAcceptOrDecline(_value > 0);
-      }
+    if (listMatch.length - index == itemPerPage / 2) {
+      onFindMatch();
     }
-    dragItemLocation = const Offset(0, 0);
-    firstOffset = null;
 
-    update();
-  }
+    Map _currenMatch = listMatch[index];
 
-  _doAcceptOrDecline(bool like) {
     Map _body = {
-      'like': like,
+      'like': direction == SwipeDirection.right,
       'user_id': _user.userID,
       'user_name': _user.fullName,
       'profile_id': _user.profileID,
       'profile_image': _user.avatarUrl,
       //
-      'user_id_liked': currentMatch['p_user_id'],
-      'user_name_liked': currentMatch['name'],
-      'profile_id_liked': currentMatch['_id'],
-      'profile_image_liked': currentMatch['avatar'],
+      'user_id_liked': _currenMatch['p_user_id'],
+      'user_name_liked': _currenMatch['name'],
+      'profile_id_liked': _currenMatch['_id'],
+      'profile_image_liked': _currenMatch['avatar'],
     };
 
-    if (like) {
+    if (direction == SwipeDirection.right) {
       _socket.socket!.emit('send_like', _body);
     } else {
       _httpProvider.doLike(_body);
     }
-
-    currentMatch.value = _nextMatch;
-    nextIndex += 1;
-    if (nextIndex < listMatch.length) {
-      _nextMatch = listMatch[nextIndex];
-      nextMatch.value = _nextMatch;
-    } else {
-      _nextMatch = {};
-      nextMatch.value = {};
-    }
   }
 
-  onDragItemImageEnd(DragEndDetails detail) {
+  onDragItemImageEnd(DragEndDetails detail, Map item) {
     int _imageIndex = imageSlideIndex.value;
 
     if (detail.primaryVelocity! > 0 && imageSlideIndex.value > 0) {
       _imageIndex--;
       onSlideToIndexImage(_imageIndex);
-    } else if (detail.primaryVelocity! < 0 &&
-        imageSlideIndex.value < currentMatch['images'].length - 1) {
-      _imageIndex++;
+    } else if (detail.primaryVelocity! < 0) {
+      if (imageSlideIndex.value < item['images'].length - 1) {
+        _imageIndex++;
+      }
       onSlideToIndexImage(_imageIndex);
     }
   }

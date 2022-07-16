@@ -1,10 +1,11 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/pages/filter/filter_view.dart';
-import 'package:appchat/pages/personals/balance/balance_view.dart';
-import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
+import '../../components/text.dart';
+import '../../services/themes/app_theme.dart';
+import '../homes/filter/filter_view.dart';
+import '../personals/balance/balance_view.dart';
 
 class HeaderBarController extends GetxController {
   onClickLogoFlash() {

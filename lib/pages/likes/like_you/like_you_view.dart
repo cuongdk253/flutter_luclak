@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:appchat/components/image_decoration.dart';
-import 'package:appchat/pages/header_bar/header_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../components/text.dart';
-import '../../services/themes/app_theme.dart';
+import '../../../components/image_decoration.dart';
+import '../../../components/text.dart';
+import '../../../services/themes/app_theme.dart';
+import '../../header_bar/header_bar_view.dart';
 import 'like_you.dart';
 
 class LikedYouView extends GetView<LikedYouController> {
@@ -144,7 +144,8 @@ class LikedYouView extends GetView<LikedYouController> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              image: myImageDecoration(_item['profile_image']),
+              image: myImageDecoration(
+                  blur ? _item['profile_image'] : _item['profile_image_liked']),
             ),
           ),
           Container(

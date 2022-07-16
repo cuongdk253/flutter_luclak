@@ -1,10 +1,10 @@
-import 'package:appchat/services/http/cmd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../components/text.dart';
-import '../../services/themes/app_theme.dart';
+import '../../../components/text.dart';
+import '../../../services/http/cmd.dart';
+import '../../../services/themes/app_theme.dart';
 import 'chat.dart';
 
 class ChatsView extends GetView<ChatsController> {

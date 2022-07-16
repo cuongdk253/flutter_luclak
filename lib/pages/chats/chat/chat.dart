@@ -1,9 +1,9 @@
-import 'package:appchat/services/socket/socket.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../services/http/getx_http.dart';
+import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
 import '../list_chat/list_chat.dart';
 
 class ChatsController extends GetxController {

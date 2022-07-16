@@ -5,6 +5,11 @@ import 'text_style.dart';
 class AppTheme {
   AppTheme._();
 
+  static const Color right = Color.fromRGBO(70, 195, 120, 1);
+  static const Color left = Color.fromRGBO(220, 90, 108, 1);
+  static const Color up = Color.fromRGBO(83, 170, 232, 1);
+  static const Color down = Color.fromRGBO(154, 85, 215, 1);
+
   static final Color colorText = HexColor('#FFFFFF');
   static final Color colorTextDark = HexColor('#333333');
   static final Color colorGreyText = HexColor('#A1A1A1');
