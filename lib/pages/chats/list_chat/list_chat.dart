@@ -21,6 +21,8 @@ class ListChatController extends GetxController {
   RxList listDataMatchQueue = [].obs;
   RxList listLikeYou = [].obs;
 
+  RxBool loaded = false.obs;
+
   @override
   onReady() {
     super.onReady();
@@ -62,6 +64,8 @@ class ListChatController extends GetxController {
 
       update();
     }
+
+    loaded.value = true;
   }
 
   onSocketInit() {
@@ -105,7 +109,7 @@ class ListChatController extends GetxController {
   onClickItem(item) {
     myChatWith = item;
 
-    _socket.socket!.emit('read_message',
+    _socket.socket.emit('read_message',
         {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
     myChatWith.lastMessage.read = true;

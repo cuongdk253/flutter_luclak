@@ -1,3 +1,4 @@
+import 'package:appchat/pages/authentication/step_create_profile/step_create_profile_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import '../step_create_user/step_create_user_view.dart';
 
 class LoginController extends GetxController {
   final MyHttpProvider httpProvider = Get.find();
+  final MySocketController _socket = Get.find();
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -31,10 +33,14 @@ class LoginController extends GetxController {
 
   doLogin(res) {
     httpProvider.setToken(res['access_token']);
-    Get.put(MySocketController(username));
 
-    if (res['user_exits'] == true) {
+    _socket.initSocket(username);
+
+    if (res['user_validate'] == true && res['provider_avaiable'] == true) {
       Get.to(() => MyTabView());
+    } else if (res['user_validate'] == true &&
+        res['provider_avaiable'] == false) {
+      Get.to(() => StepCreateProfileView());
     } else {
       Get.to(() => StepCreateUserView());
     }

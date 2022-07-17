@@ -4,9 +4,11 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:get/get.dart';
 
 import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
 
 class SettingController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();
+  final MySocketController _socket = Get.find();
 
   // @override
   // onInit() async {
@@ -47,6 +49,7 @@ class SettingController extends GetxController {
         btnCancelColor: AppTheme.colorRed,
         btnCancelOnPress: () {},
         btnOkOnPress: () async {
+          _socket.socket.disconnect();
           await _httpProvider.doLogout();
           Get.offAll(() => LoginView());
         }).show();

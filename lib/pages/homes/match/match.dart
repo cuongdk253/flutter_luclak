@@ -323,7 +323,7 @@ class MatchesController extends GetxController
     };
 
     if (direction == SwipeDirection.right) {
-      _socket.socket!.emit('send_like', _body);
+      _socket.socket.emit('send_like', _body);
     } else {
       _httpProvider.doLike(_body);
     }

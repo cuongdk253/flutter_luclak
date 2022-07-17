@@ -6,11 +6,13 @@ import '../../services/http/getx_http.dart';
 import '../../services/others/local_storage.dart';
 import '../../services/socket/socket.dart';
 import '../authentication/login/login_view.dart';
+import '../authentication/step_create_profile/step_create_profile_view.dart';
 import '../authentication/step_create_user/step_create_user_view.dart';
 import '../tab/tab_view.dart';
 
 class SplashController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();
+  final MySocketController _socket = Get.find();
 
   @override
   void onReady() async {
@@ -30,10 +32,16 @@ class SplashController extends GetxController {
       var _res = await _httpProvider.doAutoLogin(_body);
       if (_res != null) {
         _httpProvider.setToken(_res['accessToken']);
-        Get.put(MySocketController(_phone));
-        if (_res['user_validate'] == true) {
+        _socket.initSocket(_phone);
+
+        if (_res['user_validate'] == true &&
+            _res['provider_avaiable'] == true) {
           return Get.to(() => MyTabView());
-        } else {
+        } else if (_res['user_validate'] == true &&
+            _res['provider_avaiable'] == false) {
+          return Get.to(() => StepCreateProfileView());
+        } else if (_res['user_validate'] == false &&
+            _res['provider_avaiable'] == false) {
           return Get.to(() => StepCreateUserView());
         }
       }

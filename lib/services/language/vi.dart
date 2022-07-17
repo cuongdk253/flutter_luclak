@@ -172,4 +172,6 @@ const Map<String, String> vi = {
   "des_your_pubget": "Chọn khoảng tiền bạn muốn giới thiệu về pubget của bạn",
   "min_pubget": "Min pudget",
   "max_pubget": "Max pudget",
+  "no_chat":
+      "Bạn đang không có cuộc trò chuyện nào! Hãy mua gói premium để like được nhiều người hơn nhé"
 };

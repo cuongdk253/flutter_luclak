@@ -51,7 +51,7 @@ class ChatsController extends GetxController {
 
         doScroll();
 
-        _socket.socket!.emit('read_message', {
+        _socket.socket.emit('read_message', {
           'user_id': listChatController.user.userID,
           'chat_with': listChatController.myChatWith.userID
         });
@@ -144,7 +144,7 @@ class ChatsController extends GetxController {
 
     doScroll();
 
-    _socket.socket!.emit('send_message', {
+    _socket.socket.emit('send_message', {
       'receiver_chat_id': listChatController.myChatWith.userID,
       'sender_chat_id': listChatController.user.userID,
       'sender_chat_name': listChatController.user.fullName,
