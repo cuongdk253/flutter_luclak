@@ -50,6 +50,13 @@ class ChatsController extends GetxController {
         });
 
         doScroll();
+
+        _socket.socket!.emit('read_message', {
+          'user_id': listChatController.user.userID,
+          'chat_with': listChatController.myChatWith.userID
+        });
+        listChatController.myChatWith.lastMessage.read = true;
+        listChatController.update();
       }
     });
   }
@@ -145,9 +152,13 @@ class ChatsController extends GetxController {
       'content': text,
     });
 
-    listChatController.myChatWith.lastMessage!.message = text;
-    listChatController.myChatWith.lastMessage!.isFirst = false;
-    listChatController.updateLastMessage();
+    if (listChatController.myChatWith.lastMessage.isFirst) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      listChatController.onLoadUserChat();
+    } else {
+      listChatController.myChatWith.lastMessage.message = text;
+      listChatController.update();
+    }
   }
 
   onClickBack() {

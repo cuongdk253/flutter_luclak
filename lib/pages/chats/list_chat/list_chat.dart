@@ -29,8 +29,7 @@ class ListChatController extends GetxController {
   }
 
   onLoadUserChat() async {
-    Map _body = {"username": user.userID};
-    var _res = await _httpProvider.getListUserChat(_body);
+    var _res = await _httpProvider.getListUserChat({});
 
     if (_res != null && _res.length > 0) {
       List _listLikeYou = [];
@@ -72,9 +71,9 @@ class ListChatController extends GetxController {
         if (i.userID == data['sender_chat_id']) {
           _newChat = false;
 
-          i.lastMessage!.message = data['content'];
-          i.lastMessage!.read = false;
-          i.lastMessage!.youFirst = false;
+          i.lastMessage.message = data['content'];
+          i.lastMessage.read = false;
+          i.lastMessage.youFirst = false;
 
           break;
         }
@@ -109,16 +108,10 @@ class ListChatController extends GetxController {
     _socket.socket!.emit('read_message',
         {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
-    if (myChatWith.lastMessage != null) {
-      myChatWith.lastMessage!.read = true;
-    }
+    myChatWith.lastMessage.read = true;
 
     update();
 
     Get.to(() => ChatsView());
-  }
-
-  updateLastMessage() {
-    update();
   }
 }

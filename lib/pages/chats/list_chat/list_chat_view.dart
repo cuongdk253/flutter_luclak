@@ -380,12 +380,12 @@ class ListChatView extends GetView<ListChatController> {
   Widget _chatContent(ChatUserModel item) {
     if (item.chatType == ChatModelType.normal) {
       return TextCustom(
-        item.lastMessage!.message,
+        item.lastMessage.message,
         style: AppTheme.textStyle16.copyWith(
-          fontWeight: !item.lastMessage!.read && !item.lastMessage!.youFirst
+          fontWeight: !item.lastMessage.read && !item.lastMessage.youFirst
               ? FontWeight.w600
               : FontWeight.w400,
-          color: !item.lastMessage!.read && !item.lastMessage!.youFirst
+          color: !item.lastMessage.read && !item.lastMessage.youFirst
               ? AppTheme.colorText
               : AppTheme.colorGreyText,
         ),
@@ -401,13 +401,13 @@ class ListChatView extends GetView<ListChatController> {
             Container(
               margin: const EdgeInsets.only(right: 64),
               child: TextCustom(
-                item.lastMessage!.message,
+                item.lastMessage.message,
                 style: AppTheme.textStyle16.copyWith(
                   fontWeight:
-                      !item.lastMessage!.read && !item.lastMessage!.youFirst
+                      !item.lastMessage.read && !item.lastMessage.youFirst
                           ? FontWeight.w600
                           : FontWeight.w400,
-                  color: !item.lastMessage!.read && !item.lastMessage!.youFirst
+                  color: !item.lastMessage.read && !item.lastMessage.youFirst
                       ? AppTheme.colorText
                       : AppTheme.colorGreyText,
                 ),

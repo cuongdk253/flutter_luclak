@@ -19,7 +19,12 @@ class ChatUserModel {
   String userIDLiked = '';
   String userNameLiked = '';
 
-  LastMessage? lastMessage;
+  LastMessage lastMessage = LastMessage(
+    message: '',
+    youFirst: false,
+    isFirst: true,
+    read: false,
+  );
 
   double process = 0.0;
 
@@ -65,8 +70,8 @@ class ChatUserModel {
         read: data['last_message']['read'] ?? false,
       );
 
-      if (_obj.lastMessage!.isFirst) {
-        if (_obj.lastMessage!.youFirst) {
+      if (_obj.lastMessage.isFirst) {
+        if (_obj.lastMessage.youFirst) {
           _obj.chatType = ChatModelType.expireWithYourMove;
         } else {
           _obj.chatType = ChatModelType.incomingExpire;

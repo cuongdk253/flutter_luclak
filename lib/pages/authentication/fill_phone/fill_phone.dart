@@ -26,7 +26,7 @@ class FillPhoneController extends GetxController {
   RxString countryCode = 'VN'.obs;
   RxString phoneCode = '+84'.obs;
 
-  final bool _pass = false;
+  final bool _pass = true;
 
   @override
   onInit() async {
