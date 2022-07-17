@@ -42,7 +42,7 @@ class SettingController extends GetxController {
         title: 'logout'.tr,
         desc: 'ask_logout'.tr,
         btnOkText: 'yes'.tr,
-        btnOkColor: AppTheme.colorPrimary,
+        btnOkColor: AppTheme.colorGreen,
         btnCancelText: 'no'.tr,
         btnCancelColor: AppTheme.colorRed,
         btnCancelOnPress: () {},

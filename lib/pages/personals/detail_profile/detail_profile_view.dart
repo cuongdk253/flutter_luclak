@@ -316,6 +316,35 @@ class DetailProfileView extends GetView<DetailProfileController> {
             ),
           ),
         ),
+        Obx(
+          () => item['uploading'].value == true
+              ? Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Container(
+                      width: (Get.width - 24) / 3,
+                      height: (Get.width - 24) / 3 * 1.4,
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black.withOpacity(0.3),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(
+                        backgroundColor: AppTheme.colorWhite.withOpacity(0.3),
+                        color: AppTheme.colorPrimary,
+                        value: item['process'].value,
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox(),
+        ),
         Positioned(
           right: 0,
           bottom: 0,
@@ -335,32 +364,6 @@ class DetailProfileView extends GetView<DetailProfileController> {
               color: AppTheme.colorText,
             ),
           ),
-        ),
-        Obx(
-          () => item['uploading'].value == true
-              ? Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: [
-                    Container(
-                      width: (Get.width - 24) / 3,
-                      height: (Get.width - 24) / 3 * 1.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.black.withOpacity(0.3),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: CircularProgressIndicator(
-                        backgroundColor: AppTheme.colorWhite.withOpacity(0.3),
-                        color: AppTheme.colorPrimary,
-                        value: item['process'].value,
-                      ),
-                    ),
-                  ],
-                )
-              : const SizedBox(),
         ),
       ],
     );

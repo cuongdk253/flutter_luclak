@@ -8,7 +8,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
-import 'components/loading/loading_controller.dart';
 import 'pages/splash/splash_view.dart';
 import 'services/http/getx_http.dart';
 import 'services/language/language.dart';
@@ -37,7 +36,6 @@ void main() async {
   // initLocalNotification();
   await initFirebase();
 
-  Get.lazyPut(() => LoadingController());
   Get.lazyPut(() => MyHttpProvider());
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(

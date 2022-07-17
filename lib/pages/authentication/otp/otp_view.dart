@@ -93,6 +93,8 @@ class OtpView extends GetView<OtpController> {
       length: 6,
       obscureText: false,
       animationType: AnimationType.fade,
+      cursorColor: AppTheme.colorTextDark,
+      cursorHeight: 18,
       keyboardType:
           const TextInputType.numberWithOptions(signed: true, decimal: false),
       pinTheme: PinTheme(

@@ -1,9 +1,9 @@
-import 'package:appchat/components/loading/loading.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../../components/loading.dart';
 import '../../../services/constant.dart';
 import '../../../services/others/local_storage.dart';
 import '../login/login.dart';
@@ -19,7 +19,7 @@ class OtpController extends GetxController {
 
   onClickVerification() async {
     try {
-      showLoading();
+      MyLoad().showLoading(context: Get.context!);
 
       PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
           verificationId: _loginController.verificationId!, smsCode: otp.text);
@@ -35,7 +35,7 @@ class OtpController extends GetxController {
 
         var _res = await _loginController.httpProvider.doVerifyUser(_body);
 
-        hideLoading();
+        MyLoad().hideLoading();
 
         if (_res != null) {
           SPreferentModule()
@@ -46,7 +46,7 @@ class OtpController extends GetxController {
         throw Exception('verify_otp_fail'.tr);
       }
     } catch (error) {
-      hideLoading();
+      MyLoad().hideLoading();
 
       AwesomeDialog(
         context: Get.context!,

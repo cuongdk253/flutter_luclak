@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
-import '../../../components/loading/loading.dart';
+import '../../../components/loading.dart';
 import '../../../components/text.dart';
 import '../../../services/constant.dart';
 import '../../../services/others/local_storage.dart';
@@ -61,7 +61,7 @@ class FillPhoneController extends GetxController {
         _loginController.doLogin(_res);
       }
     } else {
-      showLoading();
+      MyLoad().showLoading(context: Get.context!);
 
       _loginController.username = phoneCode.value + phone.text;
       _loginController.firebaseAuth.verifyPhoneNumber(
@@ -69,7 +69,7 @@ class FillPhoneController extends GetxController {
         timeout: const Duration(seconds: 120),
         verificationCompleted: (phoneAuthCredential) async {},
         verificationFailed: (verificationFailed) async {
-          await hideLoading();
+          MyLoad().hideLoading();
 
           AwesomeDialog(
             context: Get.context!,
@@ -83,13 +83,13 @@ class FillPhoneController extends GetxController {
         codeSent: (_verificationId, resendingToken) async {
           _loginController.verificationId = _verificationId;
 
-          hideLoading();
+          MyLoad().hideLoading();
           await Future.delayed(const Duration(milliseconds: 300));
 
           Get.to(() => OtpView());
         },
         codeAutoRetrievalTimeout: (verificationId) async {
-          await hideLoading();
+          MyLoad().hideLoading();
         },
       );
     }

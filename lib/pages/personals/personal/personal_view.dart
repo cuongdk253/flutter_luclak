@@ -1,3 +1,4 @@
+import 'package:appchat/components/image_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -45,12 +46,11 @@ class PersonalView extends GetView<PersonalController> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(60),
                       color: AppTheme.colorPrimary,
-                      image: c.user.avatarProvider != null
-                          ? DecorationImage(
-                              image: c.user.avatarProvider!, fit: BoxFit.cover)
+                      image: c.user.avatarUrl != ''
+                          ? myImageDecoration(c.user.avatarUrl)
                           : null,
                     ),
-                    child: c.user.avatarProvider == null
+                    child: c.user.avatarUrl == ''
                         ? TextCustom(
                             c.user.fullName,
                             style: AppTheme.textStyle16
