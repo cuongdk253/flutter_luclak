@@ -10,6 +10,15 @@ import 'filter.dart';
 class FilterView extends GetView<FilterController> {
   final FilterController c = Get.put(FilterController());
 
+  static double minRangeAge = 1;
+  static double maxRangeAge = 100;
+  Rx<RangeLabels> labels =
+      RangeLabels(minRangeAge.toString(), maxRangeAge.toString()).obs;
+  //RxInt maxRangeAge = 100.obs;
+  RxString startLabelRangeAge = minRangeAge.toString().obs;
+  RxString endLabelRangeAge = maxRangeAge.toString().obs;
+  Rx<RangeValues> values = RangeValues(minRangeAge, maxRangeAge).obs;
+
   FilterView({Key? key}) : super(key: key);
 
   @override
@@ -238,28 +247,40 @@ class FilterView extends GetView<FilterController> {
                     child: TextCustom(
                       'between'.tr +
                           ' ' +
-                          c.currentRangeValues.start.round().toString() +
+                          double.parse(startLabelRangeAge.value)
+                              .round()
+                              .toString() +
                           ' ' +
                           'and'.tr +
                           ' ' +
-                          c.currentRangeValues.end.round().toString(),
+                          double.parse(endLabelRangeAge.value)
+                              .round()
+                              .toString(),
                       style: AppTheme.textStyle.copyWith(fontSize: 16),
                     ),
                   ),
-                  RangeSlider(
-                    values: c.currentRangeValues,
-                    max: 100,
-                    divisions: 5,
-                    labels: RangeLabels(
-                      c.currentRangeValues.start.round().toString(),
-                      c.currentRangeValues.end.round().toString(),
-                    ),
-                    onChanged: (RangeValues values) {
-                      // setState(() {
-                      //   c.currentRangeValues = values;
-                      // });
-                    },
-                  ),
+                  Obx(() {
+                    return RangeSlider(
+                      divisions: 99,
+                      activeColor: Colors.blue[700],
+                      inactiveColor: Colors.blue[300],
+                      min: minRangeAge,
+                      max: maxRangeAge,
+                      values: values.value,
+                      labels: RangeLabels(
+                          double.parse(startLabelRangeAge.value)
+                              .round()
+                              .toString(),
+                          double.parse(endLabelRangeAge.value)
+                              .round()
+                              .toString()),
+                      onChanged: (value) {
+                        values.value = value;
+                        startLabelRangeAge.value = value.start.toString();
+                        endLabelRangeAge.value = value.end.toString();
+                      },
+                    );
+                  }),
                 ],
               ),
             ),
