@@ -1,13 +1,14 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/pages/personals/personal/personal.dart';
-import 'package:appchat/services/constant.dart';
-import 'package:appchat/services/http/getx_http.dart';
-import 'package:appchat/services/http/post_multipart.dart';
-import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../components/text.dart';
+import '../../../services/constant.dart';
+import '../../../services/http/getx_http.dart';
+import '../../../services/http/post_multipart.dart';
+import '../../../services/themes/app_theme.dart';
+import '../personal/personal.dart';
 
 class DetailProfileController extends GetxController {
   final MyHttpProvider _httpProvider = Get.find();

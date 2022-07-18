@@ -1,9 +1,9 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../../components/text.dart';
+import '../../../services/themes/app_theme.dart';
 import 'setting.dart';
 
 class SettingView extends GetView<SettingController> {
@@ -100,6 +100,49 @@ class SettingView extends GetView<SettingController> {
                         color: AppTheme.colorText,
                       )
                     ]),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          decoration: BoxDecoration(
+            color: AppTheme.colorBackgroundCard,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            children: List.generate(
+              c.listSetting2.length,
+              (index) => InkWell(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: index != c.listSetting2.length - 1
+                      ? BoxDecoration(border: AppTheme.borderBottomLine)
+                      : null,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              c.listSetting2[index]['svg'],
+                              color: AppTheme.colorText,
+                            ),
+                            const SizedBox(width: 8),
+                            TextCustom(
+                              c.listSetting2[index]['title'],
+                              style: AppTheme.textStyle16.medium(),
+                            )
+                          ],
+                        ),
+                        SvgPicture.asset(
+                          'assets/svgs/next.svg',
+                          color: AppTheme.colorText,
+                        ),
+                      ]),
+                ),
+                onTap: () => c.onClickLogout(),
               ),
             ),
           ),

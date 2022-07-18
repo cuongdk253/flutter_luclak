@@ -1,10 +1,10 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/services/http/cmd.dart';
-import 'package:appchat/services/themes/app_theme.dart';
+import 'package:appchat/components/image_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../../components/text.dart';
+import '../../../services/themes/app_theme.dart';
 import 'detail_profile.dart';
 
 class DetailProfileView extends GetView<DetailProfileController> {
@@ -308,15 +308,42 @@ class DetailProfileView extends GetView<DetailProfileController> {
             width: (Get.width - 24) / 3,
             height: (Get.width - 24) / 3 * 1.4,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: AppTheme.colorBackgroundCard,
-                image: item['image_url'] != ''
-                    ? DecorationImage(
-                        image: NetworkImage(baseUrl + item['image_url']),
-                        fit: BoxFit.cover,
-                      )
-                    : null),
+              borderRadius: BorderRadius.circular(8),
+              color: AppTheme.colorBackgroundCard,
+              image: item['image_url'] != ''
+                  ? myImageDecoration(item['image_url'])
+                  : null,
+            ),
           ),
+        ),
+        Obx(
+          () => item['uploading'].value == true
+              ? Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Container(
+                      width: (Get.width - 24) / 3,
+                      height: (Get.width - 24) / 3 * 1.4,
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black.withOpacity(0.3),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(
+                        backgroundColor: AppTheme.colorWhite.withOpacity(0.3),
+                        color: AppTheme.colorPrimary,
+                        value: item['process'].value,
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox(),
         ),
         Positioned(
           right: 0,
@@ -337,32 +364,6 @@ class DetailProfileView extends GetView<DetailProfileController> {
               color: AppTheme.colorText,
             ),
           ),
-        ),
-        Obx(
-          () => item['uploading'].value == true
-              ? Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: [
-                    Container(
-                      width: (Get.width - 24) / 3,
-                      height: (Get.width - 24) / 3 * 1.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.black.withOpacity(0.3),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: CircularProgressIndicator(
-                        backgroundColor: AppTheme.colorWhite.withOpacity(0.3),
-                        color: AppTheme.colorPrimary,
-                        value: item['process'].value,
-                      ),
-                    ),
-                  ],
-                )
-              : const SizedBox(),
         ),
       ],
     );

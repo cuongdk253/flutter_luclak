@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:appchat/components/text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiengviet/tiengviet.dart';
 
+import '../../../components/loading.dart';
+import '../../../components/text.dart';
 import '../../../services/constant.dart';
 import '../../../services/others/local_storage.dart';
 import '../../../services/themes/app_theme.dart';
@@ -44,27 +45,34 @@ class FillPhoneController extends GetxController {
   }
 
   onClickNext() async {
-    //pass otp
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    // pass otp
     if (_pass) {
+      _loginController.username =
+          (phoneCode.value + phone.text).replaceAll('+', '');
       Map _body = {
-        "username": (phoneCode.value + phone.text).replaceAll('+', ''),
+        "username": _loginController.username,
         "fcm_token": _loginController.fcmToken
       };
 
       var _res = await _loginController.httpProvider.doVerifyUser(_body);
       if (_res != null) {
         SPreferentModule()
-            .setItem(StorageKey.phoneNumber, phone.text.replaceAll('+', ''));
+            .setItem(StorageKey.phoneNumber, _loginController.username);
         _loginController.doLogin(_res);
       }
     } else {
+      MyLoad().showLoading(context: Get.context!);
+
       _loginController.username = phoneCode.value + phone.text;
-      await _loginController.firebaseAuth.verifyPhoneNumber(
+      _loginController.firebaseAuth.verifyPhoneNumber(
         phoneNumber: _loginController.username,
         timeout: const Duration(seconds: 120),
         verificationCompleted: (phoneAuthCredential) async {},
         verificationFailed: (verificationFailed) async {
-          debugPrint(verificationFailed.toString());
+          MyLoad().hideLoading();
+
           AwesomeDialog(
             context: Get.context!,
             dialogType: DialogType.WARNING,
@@ -76,10 +84,14 @@ class FillPhoneController extends GetxController {
         },
         codeSent: (_verificationId, resendingToken) async {
           _loginController.verificationId = _verificationId;
+
+          MyLoad().hideLoading();
+          await Future.delayed(const Duration(milliseconds: 300));
+
           Get.to(() => OtpView());
         },
         codeAutoRetrievalTimeout: (verificationId) async {
-          debugPrint(verificationId);
+          MyLoad().hideLoading();
         },
       );
     }

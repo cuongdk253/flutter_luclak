@@ -1,12 +1,12 @@
-import 'package:appchat/pages/list_chat/list_chat_view.dart';
-import 'package:appchat/pages/personals/personal/personal_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../services/themes/app_theme.dart';
-import '../like_you/like_you_view.dart';
-import '../match/match_view.dart';
+import '../../../services/themes/app_theme.dart';
+import '../chats/list_chat/list_chat_view.dart';
+import '../homes/match/match_view.dart';
+import '../likes/like_you/like_you_view.dart';
+import '../personals/personal/personal_view.dart';
 import 'tab.dart';
 
 class MyTabView extends GetView<MyTabController> {

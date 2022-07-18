@@ -1,6 +1,15 @@
+import 'package:appchat/pages/authentication/login/login_view.dart';
+import 'package:appchat/services/themes/app_theme.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:get/get.dart';
 
+import '../../../services/http/getx_http.dart';
+import '../../../services/socket/socket.dart';
+
 class SettingController extends GetxController {
+  final MyHttpProvider _httpProvider = Get.find();
+  final MySocketController _socket = Get.find();
+
   // @override
   // onInit() async {
   //   super.onInit();
@@ -19,7 +28,30 @@ class SettingController extends GetxController {
     {'svg': 'assets/svgs/star3.svg', 'title': 'rate_appstore'.tr},
   ];
 
+  List listSetting2 = [
+    {'svg': 'assets/svgs/logout.svg', 'title': 'logout'.tr},
+  ];
+
   onClickBack() {
     Get.back();
+  }
+
+  onClickLogout() {
+    AwesomeDialog(
+        context: Get.context!,
+        dialogType: DialogType.WARNING,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'logout'.tr,
+        desc: 'ask_logout'.tr,
+        btnOkText: 'yes'.tr,
+        btnOkColor: AppTheme.colorGreen,
+        btnCancelText: 'no'.tr,
+        btnCancelColor: AppTheme.colorRed,
+        btnCancelOnPress: () {},
+        btnOkOnPress: () async {
+          _socket.socket.disconnect();
+          await _httpProvider.doLogout();
+          Get.offAll(() => LoginView());
+        }).show();
   }
 }

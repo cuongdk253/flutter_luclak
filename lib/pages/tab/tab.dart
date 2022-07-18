@@ -1,7 +1,8 @@
-import 'package:appchat/models/user.dart';
+import 'package:appchat/pages/chats/list_chat/list_chat.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:get/get.dart';
 
+import '../../models/user.dart';
 import '../../services/http/getx_http.dart';
 import '../../services/socket/socket.dart';
 
@@ -24,6 +25,8 @@ class MyTabController extends GetxController {
   RxBool dotLikeYou = false.obs;
   RxBool dotChat = false.obs;
 
+  List listImageCache = [];
+
   @override
   void onReady() async {
     super.onReady();
@@ -43,17 +46,12 @@ class MyTabController extends GetxController {
     }
   }
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
-
   onSocketInit() {
     _socket.receiveMessage.listen((data) {
       dotChat.value = true;
     });
 
-    _socket.receiveLike.listen((data) {
+    _socket.receiveLike.listen((data) async {
       dotLikeYou.value = true;
 
       if (data['match'] == true) {
@@ -65,6 +63,15 @@ class MyTabController extends GetxController {
           autoHide: const Duration(seconds: 10),
           desc: 'des_you_got_match'.tr,
         ).show();
+
+        _socket.socket.emit('send_match', data);
+
+        if (Get.isRegistered<ListChatController>()) {
+          final ListChatController _ctrl = Get.find();
+
+          await Future.delayed(const Duration(milliseconds: 500));
+          _ctrl.onLoadUserChat();
+        }
       }
     });
   }

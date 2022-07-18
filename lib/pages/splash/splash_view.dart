@@ -1,8 +1,8 @@
-import 'package:appchat/services/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../services/themes/app_theme.dart';
 import 'splash.dart';
 
 class SplashView extends GetView<SplashController> {
@@ -19,15 +19,29 @@ class SplashView extends GetView<SplashController> {
   }
 
   Widget mBody() {
-    return Container(
-      width: Get.width,
-      height: Get.height,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(gradient: AppTheme.gradient),
-      child: SvgPicture.asset(
-        'assets/svgs/logo_doc.svg',
-        color: AppTheme.colorWhite,
-      ),
+    return Stack(
+      children: [
+        Container(
+          width: Get.width,
+          height: Get.height,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/imgs/splash.png'),
+            ),
+          ),
+        ),
+        Container(
+          width: Get.width,
+          height: Get.height,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(gradient: AppTheme.gradient),
+          child: SvgPicture.asset(
+            'assets/svgs/logo_doc.svg',
+            color: AppTheme.colorWhite,
+          ),
+        ),
+      ],
     );
   }
 }

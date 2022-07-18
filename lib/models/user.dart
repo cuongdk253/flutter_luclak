@@ -1,5 +1,3 @@
-import 'package:appchat/services/http/cmd.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class User {
@@ -14,7 +12,6 @@ class User {
   String userType = '';
   String gender = '';
   String avatarUrl = '';
-  ImageProvider? avatarProvider;
 
   List listImage = [];
   List listPower = [];
@@ -37,13 +34,11 @@ class User {
     idCard = data['id_number'] ?? '';
     userType = data['type'] ?? '';
     userType = data['gender'] ?? '';
-    if (data['avatar'] != null) {
-      avatarUrl = data['avatar'];
-      avatarProvider = NetworkImage(baseUrl + data['avatar']);
-    }
+    avatarUrl = data['avatar'] ?? '';
 
     if (data['birth'] != null) {
-      DateTime _birth = DateFormat('MM/dd/yyyy').parse(data['birth']);
+      String _date = data['birth'].replaceAll('-', '/');
+      DateTime _birth = DateFormat('MM/dd/yyyy').parse(_date);
       int _time =
           DateTime.now().millisecondsSinceEpoch - _birth.millisecondsSinceEpoch;
       birthday = data['birth'];
@@ -53,8 +48,8 @@ class User {
     newLike = data['new_like'] ?? false;
     newChat = data['new_chat'] ?? false;
 
-    listImage = data['images'] ?? false;
-    listPower = data['powers'] ?? false;
-    about = data['about'] ?? false;
+    listImage = data['images'] ?? [];
+    listPower = data['powers'] ?? [];
+    about = data['about'] ?? '';
   }
 }

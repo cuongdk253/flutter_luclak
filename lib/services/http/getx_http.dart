@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:appchat/services/http/post_multipart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import 'cmd.dart';
+import 'post_multipart.dart';
 
 class MyHttpProvider extends GetConnect {
   Map<String, String> headerSignature = {};
@@ -50,6 +50,15 @@ class MyHttpProvider extends GetConnect {
     Response response = await post(
       baseUrl + autoLogin,
       _body,
+      headers: headerSignature,
+    );
+    return _handleResponse(response);
+  }
+
+  Future<dynamic> doLogout() async {
+    Response response = await post(
+      baseUrl + logout,
+      {},
       headers: headerSignature,
     );
     return _handleResponse(response);

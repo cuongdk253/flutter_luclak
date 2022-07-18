@@ -163,4 +163,15 @@ const Map<String, String> vi = {
   "select_language": "Select language",
   "filters": "Filters",
   "adv_filters": "Set advanced filters",
+  "logout": "Đăng xuất",
+  "ask_logout": "Bạn có chắc muốn đăng xuất?",
+  "yes": "Có",
+  "no": "Không",
+  "no_update": "Chưa cập nhật",
+  "your_pubget": "Your pubget",
+  "des_your_pubget": "Chọn khoảng tiền bạn muốn giới thiệu về pubget của bạn",
+  "min_pubget": "Min pudget",
+  "max_pubget": "Max pudget",
+  "no_chat":
+      "Bạn đang không có cuộc trò chuyện nào! Hãy mua gói premium để like được nhiều người hơn nhé"
 };

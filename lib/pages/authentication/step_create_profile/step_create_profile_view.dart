@@ -1,10 +1,11 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/services/themes/app_theme.dart';
+import 'package:appchat/components/format_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../services/http/cmd.dart';
+import '../../../components/image_decoration.dart';
+import '../../../components/text.dart';
+import '../../../services/themes/app_theme.dart';
 import 'step_create_profile.dart';
 
 class StepCreateProfileView extends GetView<StepCreateProfileController> {
@@ -56,6 +57,8 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                 return _step2();
               } else if (c.step.value == 3) {
                 return _step3();
+              } else if (c.step.value == 4) {
+                return _step4();
               }
               return Container();
             }),
@@ -191,15 +194,13 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
           Container(
             height: (Get.width - 80) * 0.6,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppTheme.colorBackground),
-                color: AppTheme.colorBackground,
-                image: item['image_url'] != ''
-                    ? DecorationImage(
-                        image: NetworkImage(baseUrl + item['image_url']),
-                        fit: BoxFit.cover,
-                      )
-                    : null),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppTheme.colorBackground),
+              color: AppTheme.colorBackground,
+              image: item['image_url'] != ''
+                  ? myImageDecoration(item['image_url'])
+                  : null,
+            ),
           ),
           Positioned(
             top: 0,
@@ -288,6 +289,105 @@ class StepCreateProfileView extends GetView<StepCreateProfileController> {
                 ),
               )),
             )),
+      ],
+    );
+  }
+
+  Widget _step4() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: Get.statusBarHeight),
+        Container(
+          padding: const EdgeInsets.all(32),
+          child: TextCustom(
+            'your_pubget'.tr,
+            style: AppTheme.textStyle16.white().bold().copyWith(
+                  fontSize: 30,
+                ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: TextCustom(
+            'des_your_pubget'.tr,
+            style: AppTheme.textStyle16.white(),
+          ),
+        ),
+        const SizedBox(height: 32),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: AppTheme.colorText,
+                        ),
+                      ),
+                      child: Row(children: [
+                        TextCustom(
+                          '\$ ${formatNumberString(c.pubgetStart.value)}',
+                          style: AppTheme.textStyle16,
+                        ),
+                        const SizedBox(width: 6),
+                        SvgPicture.asset(
+                          'assets/svgs/down1.svg',
+                          color: AppTheme.colorText,
+                        )
+                      ]),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: AppTheme.colorText,
+                        ),
+                      ),
+                      child: Row(children: [
+                        TextCustom(
+                          '\$ ${formatNumberString(c.pubgetEnd.value)}' +
+                              (c.pubgetEnd.value == c.maxPubget ? ' +' : ''),
+                          style: AppTheme.textStyle16,
+                        ),
+                        const SizedBox(width: 6),
+                        SvgPicture.asset(
+                          'assets/svgs/down1.svg',
+                          color: AppTheme.colorText,
+                        )
+                      ]),
+                    ),
+                  ],
+                ),
+                onTap: () => c.onClickPubget(),
+              ),
+              const SizedBox(height: 8),
+              Obx(() => RangeSlider(
+                  values: RangeValues(c.pubgetStart.value, c.pubgetEnd.value),
+                  max: c.maxPubget,
+                  divisions: 1000,
+                  activeColor: AppTheme.colorWhite,
+                  inactiveColor: AppTheme.colorWhite.withOpacity(0.5),
+                  labels: RangeLabels(
+                    c.pubgetStart.value.round().toString(),
+                    c.pubgetEnd.value.round().toString(),
+                  ),
+                  onChanged: (RangeValues values) => c.onPubgetChange(values))),
+            ],
+          ),
+        ),
       ],
     );
   }

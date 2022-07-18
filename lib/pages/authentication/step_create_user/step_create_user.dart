@@ -1,11 +1,11 @@
-import 'package:appchat/components/text.dart';
-import 'package:appchat/pages/authentication/done_create_user/done_create_user_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../components/text.dart';
 import '../../../services/http/getx_http.dart';
 import '../../../services/themes/app_theme.dart';
+import '../done_create_user/done_create_user_view.dart';
 
 class StepCreateUserController extends GetxController
     with GetTickerProviderStateMixin {
@@ -125,7 +125,7 @@ class StepCreateUserController extends GetxController
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 16),
                             child: TextCustom(
-                              'Xong',
+                              'done'.tr,
                               style: AppTheme.textStyle16.medium().secondary(),
                             ),
                           ),
