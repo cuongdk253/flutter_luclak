@@ -46,8 +46,6 @@ void main() async {
 
   Widget _firstScreen = await initBackEndService();
 
-  await Future.delayed(const Duration(seconds: 5));
-
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) {
       runApp(MyApp(_firstScreen));
