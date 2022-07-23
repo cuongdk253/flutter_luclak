@@ -100,12 +100,14 @@ class MatchesView extends GetView<MatchesController> {
                         }
                         return false;
                       },
-                      child: ListView(
-                        children: [
-                          _introduce(item, width, height),
-                          _description(item),
-                          _imageSlider(item),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            _introduce(item, width, height),
+                            _description(item),
+                            _imageSlider(item),
+                          ],
+                        ),
                       ),
                     ),
                   ),
