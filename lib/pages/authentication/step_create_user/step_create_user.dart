@@ -1,3 +1,4 @@
+import 'package:appchat/services/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,10 +17,10 @@ class StepCreateUserController extends GetxController
   RxDouble processStep = 0.25.obs;
 
   List listGender = [
-    {'code': 'male', 'name': 'man'.tr, 'checked': false},
-    {'code': 'female', 'name': 'women'.tr, 'checked': false},
-    {'code': 'nonbinary', 'name': 'nonbinary'.tr, 'checked': false},
-    {'code': 'private', 'name': 'private'.tr, 'checked': false},
+    {'code': Gender.male, 'name': 'man'.tr, 'checked': false},
+    {'code': Gender.female, 'name': 'women'.tr, 'checked': false},
+    {'code': Gender.nonbinary, 'name': 'nonbinary'.tr, 'checked': false},
+    {'code': Gender.private, 'name': 'private'.tr, 'checked': false},
   ];
 
   List listUserType = [

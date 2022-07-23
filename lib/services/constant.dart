@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 //**Storage Key for share preferent */
 class StorageKey {
   static const phoneNumber = 'phone_number';
+  static const matchFilter = 'match_filter';
 }
 
 enum UserRole { kol, creator }
@@ -21,4 +22,11 @@ class ListConstant {
     {'name': 'stream'.tr, 'checked': false},
     {'name': 'design'.tr, 'checked': false},
   ];
+}
+
+class Gender {
+  static const male = 'male';
+  static const female = 'female';
+  static const nonbinary = 'nonbinary';
+  static const private = 'private';
 }

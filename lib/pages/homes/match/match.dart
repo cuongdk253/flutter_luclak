@@ -1,4 +1,6 @@
 // import 'package:appchat/pages/tab/tab.dart';
+import 'package:appchat/services/constant.dart';
+import 'package:appchat/services/others/local_storage.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -61,18 +63,29 @@ class MatchesController extends GetxController
   RxBool canSwipe = true.obs;
   int previousIndex = 0;
 
+  Map matchFilter = {};
+
   @override
   onReady() async {
     super.onReady();
 
     swipableStackController = SwipableStackController()..addListener(() {});
 
+    var _filter = await SPreferentModule().getItem(StorageKey.matchFilter);
+    if (_filter != null) {
+      matchFilter = _filter;
+    }
+
     onFindMatch();
   }
 
   onFindMatch() async {
     if (hasMore) {
-      Map _body = {"page": page, "item_per_page": itemPerPage};
+      Map _body = {
+        "page": page,
+        "item_per_page": itemPerPage,
+        "filter": matchFilter,
+      };
 
       var _res = await _httpProvider.getFindMatch(_body);
 

@@ -1,3 +1,5 @@
+import 'package:appchat/components/check.dart';
+import 'package:appchat/components/format_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,7 @@ class FilterView extends GetView<FilterController> {
       backgroundColor: AppTheme.colorBackgroundHeader,
       appBar: mAppBar(),
       body: mBody(),
+      bottomNavigationBar: mBottomBar(),
     );
   }
 
@@ -42,12 +45,7 @@ class FilterView extends GetView<FilterController> {
             'match_filter'.tr,
             style: AppTheme.textStyle.copyWith(fontSize: 24),
           ),
-          InkWell(
-            child: SvgPicture.asset(
-              'assets/svgs/search.svg',
-              color: AppTheme.colorText,
-            ),
-          )
+          const SizedBox(width: 24),
         ],
       ),
       bottom: PreferredSize(
@@ -64,495 +62,457 @@ class FilterView extends GetView<FilterController> {
     return ListView(
       padding: const EdgeInsets.only(bottom: 20),
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(
-                  top: 20, left: 30, right: 30, bottom: 10),
-              child: TextCustom(
-                'who_wanna_book'.tr,
-                style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFF343434),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                        border: Border(
-                      bottom: BorderSide(
-                        width: 0.5,
-                        color: Colors.grey,
-                      ),
-                    )),
-                    margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: [
-                          TextCustom(
-                            'ok_with_everyone'.tr,
-                            style: AppTheme.textStyle.copyWith(fontSize: 16),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              width: double.infinity,
-                            ),
-                          ),
-                          InkWell(
-                            child: MyToggle(
-                              isOn: c.checkToggle.value,
-                            ),
-                            onTap: c.onChangeToggle(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 20, right: 5),
-                    child: Row(
-                      children: [
-                        TextCustom(
-                          'man'.tr,
-                          style: AppTheme.textStyle.copyWith(fontSize: 16),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            width: double.infinity,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          child: Obx(() {
-                            return Checkbox(
-                              value: c.checkMan.value,
-                              checkColor: AppTheme.colorWhite,
-                              onChanged: (_value) {
-                                c.checkMan.value = _value!;
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              side: MaterialStateBorderSide.resolveWith(
-                                (states) => const BorderSide(
-                                    width: 1.0, color: Colors.blue),
-                              ),
-                            );
-                          }),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: const Divider(
-                      color: Colors.grey,
-                      height: 1,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 20, right: 5),
-                    child: Row(
-                      children: [
-                        TextCustom(
-                          'women'.tr,
-                          style: AppTheme.textStyle.copyWith(fontSize: 16),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            width: double.infinity,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          child: Obx(() {
-                            return Checkbox(
-                              value: c.checkWoman.value,
-                              checkColor: AppTheme.colorWhite,
-                              onChanged: (_value) {
-                                c.checkWoman.value = _value!;
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              side: MaterialStateBorderSide.resolveWith(
-                                (states) => const BorderSide(
-                                    width: 1.0, color: Colors.blue),
-                              ),
-                            );
-                          }),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: const Divider(
-                      color: Colors.grey,
-                      height: 1,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 20, right: 5),
-                    child: Row(
-                      children: [
-                        TextCustom(
-                          'non_binary_pp'.tr,
-                          style: AppTheme.textStyle.copyWith(fontSize: 16),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            width: double.infinity,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          child: Obx(() {
-                            return Checkbox(
-                              value: c.checkOther.value,
-                              checkColor: AppTheme.colorWhite,
-                              onChanged: (_value) {
-                                c.checkOther.value = _value!;
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              side: MaterialStateBorderSide.resolveWith(
-                                (states) => const BorderSide(
-                                    width: 1.0, color: Colors.blue),
-                              ),
-                            );
-                          }),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                  top: 20, left: 30, right: 30, bottom: 10),
-              child: TextCustom(
-                'age'.tr,
-                style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFF343434),
-              ),
-              child: Obx(() {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 10, left: 20, right: 20),
-                      child: TextCustom(
-                        'between'.tr +
-                            ' ' +
-                            double.parse(c.startLabelRangeAge.value)
-                                .round()
-                                .toString() +
-                            ' ' +
-                            'and'.tr +
-                            ' ' +
-                            double.parse(c.endLabelRangeAge.value)
-                                .round()
-                                .toString(),
-                        style: AppTheme.textStyle.copyWith(fontSize: 16),
-                      ),
-                    ),
-                    RangeSlider(
-                      divisions: 99,
-                      activeColor: Colors.blue[700],
-                      inactiveColor: Colors.blue[300],
-                      min: c.minRangeAge,
-                      max: c.maxRangeAge,
-                      values: c.values.value,
-                      labels: RangeLabels(
-                          double.parse(c.startLabelRangeAge.value)
-                              .round()
-                              .toString(),
-                          double.parse(c.endLabelRangeAge.value)
-                              .round()
-                              .toString()),
-                      onChanged: (value) {
-                        c.values.value = value;
-                        c.startLabelRangeAge.value = value.start.toString();
-                        c.endLabelRangeAge.value = value.end.toString();
-                      },
-                    )
-                  ],
-                );
-              }),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                  top: 20, left: 30, right: 30, bottom: 10),
-              child: TextCustom(
-                'your_budget'.tr,
-                style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFF343434),
-              ),
-              child: Obx(() {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                              top: 10, left: 20, right: 20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(
-                              width: 1,
-                              color: const Color(0xFF808080),
-                            ),
-                          ),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: " \$" + c.startLabelRangeBudget.value,
-                                    style: const TextStyle(
-                                        color: Color(0xFF808080))),
-                                const WidgetSpan(
-                                  child: Icon(Icons.arrow_drop_down,
-                                      size: 14, color: Color(0xFF808080)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Expanded(
-                          flex: 2,
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 1,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                              top: 10, left: 20, right: 20),
-                          alignment: Alignment.centerRight,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(
-                              width: 1,
-                              color: const Color(0xFF808080),
-                            ),
-                          ),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: " \$" + c.endLabelRangeBudget.value,
-                                    style: const TextStyle(
-                                        color: Color(0xFF808080))),
-                                const WidgetSpan(
-                                  child: Icon(Icons.arrow_drop_down,
-                                      size: 14, color: Color(0xFF808080)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    RangeSlider(
-                      divisions: 10000,
-                      activeColor: Colors.blue[700],
-                      inactiveColor: Colors.blue[300],
-                      min: c.minRangeBudget,
-                      max: c.maxRangeBudget,
-                      values: c.valuesBudget.value,
-                      labels: RangeLabels(c.startLabelRangeBudget.value,
-                          c.endLabelRangeBudget.value),
-                      onChanged: (value) {
-                        c.valuesBudget.value = value;
-                        c.startLabelRangeBudget.value =
-                            c.overNumGenerator(value.start.round());
-                        c.endLabelRangeBudget.value = c.overNumGenerator(
-                            int.parse(value.end.round().toString()));
-                      },
-                    ),
-                  ],
-                );
-              }),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                  top: 20, left: 30, right: 30, bottom: 10),
-              child: TextCustom(
-                'location'.tr,
-                style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFF343434),
-              ),
+        const SizedBox(height: 8),
+        _whoWantBook(),
+        _age(),
+        _pubget(),
+        // _location(),
+        _language(),
+        // _advance(),
+      ],
+    );
+  }
+
+  Widget mBottomBar() {
+    return Obx(() => c.filterChange.value
+        ? SafeArea(
+            child: Container(
+              decoration: BoxDecoration(border: AppTheme.borderTopLine),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: InkWell(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
-                      child: TextCustom(
-                        'select_location'.tr,
-                        style: AppTheme.textStyle.copyWith(fontSize: 16),
-                      ),
-                    ),
-                    const Expanded(
-                      flex: 2,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 1,
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: SvgPicture.asset(
-                          'assets/svgs/next.svg',
-                          color: AppTheme.colorGreyText,
-                          alignment: Alignment.centerRight,
-                          width: 24,
-                          height: 24,
-                        )),
-                  ],
+                child: Container(
+                  height: 44,
+                  width: Get.width,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(32),
+                      gradient: AppTheme.gradient),
+                  child: TextCustom(
+                    'next'.tr,
+                    style: AppTheme.textStyle18.bold().white(),
+                  ),
                 ),
-                onTap: () => c.onFilterViewLocation(),
+                onTap: () => c.onClickApplyFilter(),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                  top: 20, left: 30, right: 30, bottom: 10),
-              child: TextCustom(
+          )
+        : const SizedBox());
+  }
+
+  Widget _language() {
+    return Container(
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 8),
+              TextCustom(
                 'language'.tr,
                 style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.left,
-              ),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppTheme.colorBackgroundCard,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFF343434),
-              ),
-              child: InkWell(
+            child: InkWell(
+              child: Container(
+                padding: const EdgeInsets.all(12),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
-                      child: TextCustom(
-                        'select_language'.tr,
-                        style: AppTheme.textStyle.copyWith(fontSize: 16),
-                      ),
+                    Expanded(
+                      child: Obx(() => TextCustom(
+                            c.languageSort.value,
+                            style: AppTheme.textStyle.copyWith(fontSize: 16),
+                          )),
                     ),
-                    const Expanded(
-                      flex: 2,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 1,
-                      ),
+                    SvgPicture.asset(
+                      'assets/svgs/next.svg',
+                      color: AppTheme.colorGreyText,
                     ),
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: SvgPicture.asset(
-                          'assets/svgs/next.svg',
-                          color: AppTheme.colorGreyText,
-                          alignment: Alignment.centerRight,
-                          width: 24,
-                          height: 24,
-                        )),
                   ],
                 ),
-                onTap: () => c.onFilterViewLanguage(),
               ),
+              onTap: () => c.onFilterViewLanguage(),
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                  top: 20, left: 30, right: 30, bottom: 10),
-              child: TextCustom(
-                'filters'.tr,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget _advance() {
+  //   return Container(
+  //     padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           children: [
+  //             const SizedBox(width: 8),
+  //             TextCustom(
+  //               'filters'.tr,
+  //               style: const TextStyle(color: Colors.grey),
+  //             )
+  //           ],
+  //         ),
+  //         const SizedBox(height: 8),
+  //         Container(
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(10),
+  //             color: AppTheme.colorBackgroundCard,
+  //           ),
+  //           child: InkWell(
+  //             child: Container(
+  //               padding: const EdgeInsets.all(12),
+  //               child: Row(
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   Expanded(
+  //                     child: TextCustom(
+  //                       'adv_filters'.tr,
+  //                       style: AppTheme.textStyle.copyWith(fontSize: 16),
+  //                     ),
+  //                   ),
+  //                   SvgPicture.asset(
+  //                     'assets/svgs/next.svg',
+  //                     color: AppTheme.colorGreyText,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             onTap: () => c.onFilterViewLocation(),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  // Widget _location() {
+  //   return Container(
+  //     padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           children: [
+  //             const SizedBox(width: 8),
+  //             TextCustom(
+  //               'location'.tr,
+  //               style: const TextStyle(color: Colors.grey),
+  //             )
+  //           ],
+  //         ),
+  //         const SizedBox(height: 8),
+  //         Container(
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(10),
+  //             color: AppTheme.colorBackgroundCard,
+  //           ),
+  //           child: InkWell(
+  //             child: Container(
+  //               padding: const EdgeInsets.all(12),
+  //               child: Row(
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   Expanded(
+  //                     child: TextCustom(
+  //                       'select_location'.tr,
+  //                       style: AppTheme.textStyle.copyWith(fontSize: 16),
+  //                     ),
+  //                   ),
+  //                   SvgPicture.asset(
+  //                     'assets/svgs/next.svg',
+  //                     color: AppTheme.colorGreyText,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             onTap: () => c.onFilterViewLocation(),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget _pubget() {
+    return Container(
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 8),
+              TextCustom(
+                'your_budget'.tr,
                 style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.left,
-              ),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppTheme.colorBackgroundCard,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFF343434),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
-                    child: TextCustom(
-                      'adv_filters'.tr,
-                      style: AppTheme.textStyle.copyWith(fontSize: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 12),
+                  child: InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              width: 1,
+                              color: AppTheme.colorText,
+                            ),
+                          ),
+                          child: Row(children: [
+                            Obx(() => TextCustom(
+                                  '\$ ${formatNumberString(c.pubgetStart.value)}',
+                                  style: AppTheme.textStyle16,
+                                )),
+                            const SizedBox(width: 6),
+                            SvgPicture.asset(
+                              'assets/svgs/down1.svg',
+                              color: AppTheme.colorText,
+                            )
+                          ]),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              width: 1,
+                              color: AppTheme.colorText,
+                            ),
+                          ),
+                          child: Row(children: [
+                            Obx(() => TextCustom(
+                                  '\$ ${formatNumberString(c.pubgetEnd.value)}' +
+                                      (c.pubgetEnd.value == c.maxPubget
+                                          ? ' +'
+                                          : ''),
+                                  style: AppTheme.textStyle16,
+                                )),
+                            const SizedBox(width: 6),
+                            SvgPicture.asset(
+                              'assets/svgs/down1.svg',
+                              color: AppTheme.colorText,
+                            )
+                          ]),
+                        ),
+                      ],
                     ),
+                    onTap: () => c.onClickPubget(),
                   ),
-                  const Expanded(
-                    flex: 2,
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 1,
+                ),
+                Obx(() => RangeSlider(
+                    values: RangeValues(c.pubgetStart.value, c.pubgetEnd.value),
+                    max: c.maxPubget,
+                    activeColor: AppTheme.colorPrimary,
+                    inactiveColor: AppTheme.colorWhite.withOpacity(0.5),
+                    labels: RangeLabels(
+                      c.pubgetStart.value.round().toString(),
+                      c.pubgetEnd.value.round().toString(),
                     ),
-                  ),
-                  Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: SvgPicture.asset(
-                        'assets/svgs/next.svg',
-                        color: AppTheme.colorGreyText,
-                        alignment: Alignment.centerRight,
-                        width: 24,
-                        height: 24,
+                    onChanged: (RangeValues values) =>
+                        c.onPubgetChange(values))),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _age() {
+    return Container(
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 8),
+              TextCustom(
+                'age'.tr,
+                style: const TextStyle(color: Colors.grey),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppTheme.colorBackgroundCard,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 8, left: 24, right: 24),
+                  child: Obx(() => TextCustom(
+                        '${'between'.tr} ${c.minAge.value.round().toString()} ${'and'.tr} ${c.maxAge.value.round().toString()}',
+                        style: AppTheme.textStyle.copyWith(fontSize: 16),
                       )),
-                ],
-              ),
+                ),
+                Obx(() => RangeSlider(
+                    values: RangeValues(c.minAge.value, c.maxAge.value),
+                    max: 100,
+                    activeColor: AppTheme.colorPrimary,
+                    inactiveColor: AppTheme.colorWhite.withOpacity(0.5),
+                    labels: RangeLabels(
+                      c.minAge.value.round().toString(),
+                      c.maxAge.value.round().toString(),
+                    ),
+                    onChanged: (RangeValues values) => c.onAgeChange(values))),
+              ],
             ),
-          ],
-        )
-      ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _whoWantBook() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 8),
+              TextCustom(
+                'who_wanna_book'.tr,
+                style: const TextStyle(color: Colors.grey),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppTheme.colorBackgroundCard,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(border: AppTheme.borderBottomLine),
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextCustom(
+                          'ok_with_everyone'.tr,
+                          style: AppTheme.textStyle16,
+                        ),
+                      ),
+                      InkWell(
+                        child: Obx(() => MyToggle(
+                              selectedColor: AppTheme.colorPrimary,
+                              size: 30,
+                              isOn: c.checkToggle.value,
+                            )),
+                        onTap: () => c.onChangeToggle(),
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  child: Container(
+                    decoration:
+                        BoxDecoration(border: AppTheme.borderBottomLine),
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextCustom(
+                            'man'.tr,
+                            style: AppTheme.textStyle16,
+                          ),
+                        ),
+                        Obx(() => MyCheckbox(
+                              selectedColor: AppTheme.colorPrimary,
+                              isChecked: c.checkMan.value,
+                              circle: false,
+                            ))
+                      ],
+                    ),
+                  ),
+                  onTap: () => c.onCheckMan(),
+                ),
+                InkWell(
+                  child: Container(
+                    decoration:
+                        BoxDecoration(border: AppTheme.borderBottomLine),
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextCustom(
+                            'women'.tr,
+                            style: AppTheme.textStyle16,
+                          ),
+                        ),
+                        Obx(() => MyCheckbox(
+                              selectedColor: AppTheme.colorPrimary,
+                              isChecked: c.checkWoman.value,
+                              circle: false,
+                            ))
+                      ],
+                    ),
+                  ),
+                  onTap: () => c.onCheckWoman(),
+                ),
+                InkWell(
+                  child: Container(
+                    decoration:
+                        BoxDecoration(border: AppTheme.borderBottomLine),
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextCustom(
+                            'nonbinary'.tr,
+                            style: AppTheme.textStyle16,
+                          ),
+                        ),
+                        Obx(() => MyCheckbox(
+                              selectedColor: AppTheme.colorPrimary,
+                              isChecked: c.checkOther.value,
+                              circle: false,
+                            ))
+                      ],
+                    ),
+                  ),
+                  onTap: () => c.onCheckNonbinary(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

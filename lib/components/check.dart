@@ -43,7 +43,9 @@ class MyCheckbox extends StatelessWidget {
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(circle ? size / 2 : size / 5),
           ),
-          child: SvgPicture.asset('assets/svgs/check.svg'),
+          child: isChecked
+              ? SvgPicture.asset('assets/svgs/check.svg')
+              : const SizedBox(),
         ),
       ),
     );
