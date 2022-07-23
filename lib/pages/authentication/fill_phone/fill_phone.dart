@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:appchat/main.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,8 +27,6 @@ class FillPhoneController extends GetxController {
   RxString countryCode = 'VN'.obs;
   RxString phoneCode = '+84'.obs;
 
-  final bool _pass = true;
-
   @override
   onInit() async {
     super.onInit();
@@ -48,7 +47,7 @@ class FillPhoneController extends GetxController {
     FocusManager.instance.primaryFocus?.unfocus();
 
     // pass otp
-    if (_pass) {
+    if (mode == 'test') {
       _loginController.username =
           (phoneCode.value + phone.text).replaceAll('+', '');
       Map _body = {

@@ -78,7 +78,7 @@ class MatchesView extends GetView<MatchesController> {
   }
 
   Widget _matchItem({required Map item}) {
-    double height = Get.height - Get.statusBarHeight - Get.bottomBarHeight + 8;
+    double height = Get.height - Get.statusBarHeight - Get.bottomBarHeight - 64;
     double width = Get.width - 16;
     return SizedBox(
       height: height,
@@ -515,12 +515,12 @@ class MatchesView extends GetView<MatchesController> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(
-                  item['images'].length,
+                  item['images'].length - 1,
                   (index) => Container(
                     height: Get.width - 52,
                     width: Get.width - 52,
                     decoration: BoxDecoration(
-                      image: myImageDecoration(item['images'][index]),
+                      image: myImageDecoration(item['images'][index + 1]),
                     ),
                   ),
                 ),
@@ -540,7 +540,7 @@ class MatchesView extends GetView<MatchesController> {
               child: Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      item['images'].length,
+                      item['images'].length - 1,
                       (index) => InkWell(
                         child: Container(
                           height: 10,

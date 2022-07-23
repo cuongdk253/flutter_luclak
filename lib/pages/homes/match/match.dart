@@ -336,7 +336,7 @@ class MatchesController extends GetxController
       _imageIndex--;
       onSlideToIndexImage(_imageIndex);
     } else if (detail.primaryVelocity! < 0) {
-      if (imageSlideIndex.value < item['images'].length - 1) {
+      if (imageSlideIndex.value < item['images'].length - 2) {
         _imageIndex++;
       }
       onSlideToIndexImage(_imageIndex);

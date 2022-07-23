@@ -25,18 +25,15 @@ class MyTabView extends GetView<MyTabController> {
   Widget mBody(context) {
     return SizedBox(
       child: Obx(() {
-        Widget _bodyContent = Container();
-        if (c.tabIndex.value == 0) {
-          _bodyContent = MatchesView();
-        } else if (c.tabIndex.value == 1) {
-          _bodyContent = LikedYouView();
-        } else if (c.tabIndex.value == 2) {
-          _bodyContent = ListChatView();
-        } else if (c.tabIndex.value == 3) {
-          _bodyContent = PersonalView();
-        }
-
-        return _bodyContent;
+        return IndexedStack(
+          index: c.tabIndex.value,
+          children: [
+            MatchesView(),
+            LikedYouView(),
+            ListChatView(),
+            PersonalView(),
+          ],
+        );
       }),
     );
   }

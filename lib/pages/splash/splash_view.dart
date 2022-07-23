@@ -1,47 +1,46 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_svg/svg.dart';
+// import 'package:get/get.dart';
 
-import '../../services/themes/app_theme.dart';
-import 'splash.dart';
+// import '../../services/themes/app_theme.dart';
+// import 'splash.dart';
 
-class SplashView extends GetView<SplashController> {
-  final SplashController c = Get.put(SplashController());
+// class SplashView extends GetView<SplashController> {
+//   final SplashController c = Get.put(SplashController());
 
-  SplashView({Key? key}) : super(key: key);
+//   SplashView({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.colorBackground1,
-      body: mBody(),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: AppTheme.colorBackground1,
+//       body: mBody(),
+//     );
+//   }
 
-  Widget mBody() {
-    return Stack(
-      children: [
-        Container(
-          width: Get.width,
-          height: Get.height,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/imgs/splash.png'),
-            ),
-          ),
-        ),
-        Container(
-          width: Get.width,
-          height: Get.height,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(gradient: AppTheme.gradient),
-          child: SvgPicture.asset(
-            'assets/svgs/logo_doc.svg',
-            color: AppTheme.colorWhite,
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   Widget mBody() {
+//     return Stack(
+//       children: [
+//         Container(
+//           width: Get.width,
+//           height: Get.height,
+//           decoration: const BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage('assets/imgs/splash.png'),
+//               fit: BoxFit.fill,
+//             ),
+//           ),
+//         ),
+//         Container(
+//           width: Get.width,
+//           height: Get.height,
+//           alignment: Alignment.center,
+//           child: SvgPicture.asset(
+//             'assets/svgs/logo_doc.svg',
+//             color: AppTheme.colorWhite,
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

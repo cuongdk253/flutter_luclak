@@ -8,6 +8,7 @@ class MyCheckbox extends StatelessWidget {
   final Color? unSelectedColor;
   final Color? selectedColor;
   final double size;
+  final bool circle;
 
   const MyCheckbox({
     Key? key,
@@ -15,6 +16,7 @@ class MyCheckbox extends StatelessWidget {
     this.unSelectedColor,
     this.selectedColor,
     this.size = 20,
+    this.circle = true,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,8 @@ class MyCheckbox extends StatelessWidget {
         curve: Curves.fastOutSlowIn,
         decoration: !isChecked
             ? BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius:
+                    BorderRadius.circular(circle ? size / 2 : size / 5),
                 border: Border.all(
                   color: unSelectedColor ?? Colors.grey,
                   width: 2.0,
@@ -38,7 +41,7 @@ class MyCheckbox extends StatelessWidget {
             color: isChecked
                 ? selectedColor ?? AppTheme.colorSecondary
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(circle ? size / 2 : size / 5),
           ),
           child: SvgPicture.asset('assets/svgs/check.svg'),
         ),

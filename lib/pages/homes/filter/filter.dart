@@ -72,10 +72,10 @@ class FilterController extends GetxController {
     onCreatePamrams();
   }
 
-  @override
-  onReady() {
-    super.onReady();
-  }
+  // @override
+  // onReady() {
+  //   super.onReady();
+  // }
 
   onCreatePamrams() {
     labels = RangeLabels(minRangeAge.toString(), maxRangeAge.toString()).obs;

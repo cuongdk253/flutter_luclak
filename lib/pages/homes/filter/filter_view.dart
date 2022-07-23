@@ -113,7 +113,7 @@ class FilterView extends GetView<FilterController> {
                               isOn: c.checkToggle.value,
                             ),
                             onTap: c.onChangeToggle(),
-                          ), 
+                          ),
                         ],
                       ),
                     ),
