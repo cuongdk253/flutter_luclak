@@ -27,16 +27,24 @@ class HeaderBarView extends GetView<HeaderBarController>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
+            splashFactory: NoSplash.splashFactory,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: Container(
               width: 60,
               alignment: Alignment.centerLeft,
-              child: InkWell(
-                child: SvgPicture.asset('assets/svgs/flash.svg'),
-              ),
+              child: SvgPicture.asset('assets/svgs/flash.svg'),
             ),
             onTap: () => c.onClickLogoFlash(),
           ),
           InkWell(
+            splashFactory: NoSplash.splashFactory,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: ShaderMask(
               shaderCallback: (bounds) {
                 return AppTheme.gradient.createShader(bounds);
