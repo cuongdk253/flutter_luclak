@@ -166,30 +166,51 @@ class ListChatView extends GetView<ListChatController> {
                 height: 70,
                 width: 60,
               ),
-              Positioned(
-                left: 10,
-                bottom: 6,
-                child: RotationTransition(
-                  turns: const AlwaysStoppedAnimation(9 / 360),
-                  child: _blurImage(
-                    height: 60,
-                    width: 45,
-                    imageDecoration: c.listLikeYou[0].profileImageDecoration,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 10,
-                bottom: 6,
-                child: RotationTransition(
-                  turns: const AlwaysStoppedAnimation(-3 / 360),
-                  child: _blurImage(
-                    height: 60,
-                    width: 45,
-                    imageDecoration: c.listLikeYou[1].profileImageDecoration,
-                  ),
-                ),
-              ),
+              c.listLikeYou.length == 1
+                  ? Positioned(
+                      left: 8,
+                      bottom: 6,
+                      child: RotationTransition(
+                        turns: const AlwaysStoppedAnimation(0),
+                        child: _blurImage(
+                          height: 60,
+                          width: 45,
+                          imageDecoration:
+                              c.listLikeYou[0].profileImageDecoration,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+              c.listLikeYou.length != 1
+                  ? Positioned(
+                      left: 10,
+                      bottom: 6,
+                      child: RotationTransition(
+                        turns: const AlwaysStoppedAnimation(9 / 360),
+                        child: _blurImage(
+                          height: 60,
+                          width: 45,
+                          imageDecoration:
+                              c.listLikeYou[0].profileImageDecoration,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+              c.listLikeYou.length != 1
+                  ? Positioned(
+                      right: 10,
+                      bottom: 6,
+                      child: RotationTransition(
+                        turns: const AlwaysStoppedAnimation(-3 / 360),
+                        child: _blurImage(
+                          height: 60,
+                          width: 45,
+                          imageDecoration:
+                              c.listLikeYou[1].profileImageDecoration,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
               Positioned(
                 bottom: 0,
                 child: Container(

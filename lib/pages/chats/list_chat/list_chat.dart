@@ -54,9 +54,9 @@ class ListChatController extends GetxController {
         }
       }
 
-      if (_listLikeYou.length == 1) {
-        _listLikeYou.add(_listLikeYou[0]);
-      }
+      // if (_listLikeYou.length == 1) {
+      //   _listLikeYou.add(_listLikeYou[0]);
+      // }
 
       listLikeYou.value = _listLikeYou;
       listData.value = _listMatch;
@@ -106,16 +106,18 @@ class ListChatController extends GetxController {
     });
   }
 
-  onClickItem(item) {
-    myChatWith = item;
+  onClickItem(ChatUserModel item) {
+    if (item.chatType != ChatModelType.expire) {
+      myChatWith = item;
 
-    _socket.socket.emit('read_message',
-        {'user_id': user.userID, 'chat_with': myChatWith.userID});
+      _socket.socket.emit('read_message',
+          {'user_id': user.userID, 'chat_with': myChatWith.userID});
 
-    myChatWith.lastMessage.read = true;
+      myChatWith.lastMessage.read = true;
 
-    update();
+      update();
 
-    Get.to(() => ChatsView());
+      Get.to(() => ChatsView());
+    }
   }
 }

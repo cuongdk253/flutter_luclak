@@ -125,7 +125,7 @@ class PersonalView extends GetView<PersonalController> {
                             ],
                             color: AppTheme.colorBackgroundCard,
                           ),
-                          child: SvgPicture.asset('assets/svgs/shield.svg'),
+                          child: SvgPicture.asset('assets/svgs/shield2.svg'),
                         ),
                         const SizedBox(height: 8),
                         TextCustom(

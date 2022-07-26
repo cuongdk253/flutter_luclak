@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../services/constant.dart';
@@ -57,7 +58,7 @@ class ChatUserModel {
     if (data['profile_image'] != null) {
       _obj.profileImage = data['profile_image'];
       _obj.profileImageDecoration = DecorationImage(
-        image: NetworkImage(baseUrl + data['profile_image']),
+        image: CachedNetworkImageProvider(baseUrl + data['profile_image']),
         fit: BoxFit.cover,
       );
     }
@@ -74,7 +75,11 @@ class ChatUserModel {
         if (_obj.lastMessage.youFirst) {
           _obj.chatType = ChatModelType.expireWithYourMove;
         } else {
-          _obj.chatType = ChatModelType.incomingExpire;
+          if (_obj.time > DateTime.now().millisecondsSinceEpoch - 86400000) {
+            _obj.chatType = ChatModelType.incomingExpire;
+          } else {
+            _obj.chatType = ChatModelType.expire;
+          }
         }
       } else {
         _obj.chatType = ChatModelType.normal;

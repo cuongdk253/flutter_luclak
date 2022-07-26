@@ -1,3 +1,4 @@
+import 'package:appchat/components/loading.dart';
 import 'package:appchat/pages/authentication/step_create_profile/step_create_profile_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -48,5 +49,12 @@ class LoginController extends GetxController {
 
   onClickLoginByPhone() async {
     Get.to(() => FillPhoneView());
+  }
+
+  onClickLoginByGoogle() async {
+    MyLoad().showLoading(context: Get.context!);
+
+    await Future.delayed(const Duration(seconds: 5));
+    MyLoad().hideLoading();
   }
 }

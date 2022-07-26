@@ -219,50 +219,54 @@ class MatchesView extends GetView<MatchesController> {
             children: [
               InkWell(
                 child: Obx(
-                  () => !c.menuClose.value
-                      ? Stack(children: [
-                          Container(
-                            height: 42,
-                            width: 42,
-                            padding: const EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: AppTheme.colorWhite,
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                image: myImageDecoration(item['avatar']),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              height: 15,
-                              width: 15,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppTheme.colorWhite,
-                              ),
-                              child: SvgPicture.asset('assets/svgs/down.svg'),
-                            ),
-                          )
-                        ])
-                      : Container(
-                          height: 36,
-                          width: 36,
-                          padding: const EdgeInsets.all(6),
+                  () => IndexedStack(
+                    index: !c.menuClose.value ? 0 : 1,
+                    children: [
+                      Stack(children: [
+                        Container(
+                          height: 42,
+                          width: 42,
+                          padding: const EdgeInsets.all(1),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: AppTheme.colorTextDark,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/svgs/close.svg',
                             color: AppTheme.colorWhite,
                           ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              image: myImageDecoration(item['avatar']),
+                            ),
+                          ),
                         ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppTheme.colorWhite,
+                            ),
+                            child: SvgPicture.asset('assets/svgs/down.svg'),
+                          ),
+                        )
+                      ]),
+                      Container(
+                        height: 36,
+                        width: 36,
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: AppTheme.colorTextDark,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/svgs/close.svg',
+                          color: AppTheme.colorWhite,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 onTap: () => c.onClickCloseMenu(),
               ),

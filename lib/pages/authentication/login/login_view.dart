@@ -62,7 +62,7 @@ class LoginView extends GetView<LoginController> {
                             borderRadius: BorderRadius.circular(22))),
                     backgroundColor: MaterialStateProperty.all(Colors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () => c.onClickLoginByGoogle(),
                   child: TextCustom(
                     'login_by_google'.tr,
                     style: AppTheme.textStyle18.bold().blue(),

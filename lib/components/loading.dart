@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class MyLoad {
-  
   bool isLoading = false;
   BuildContext? loadContext;
 
